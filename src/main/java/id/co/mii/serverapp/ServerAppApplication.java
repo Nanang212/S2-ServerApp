@@ -10,6 +10,8 @@ public class ServerAppApplication {
 		SpringApplication.run(ServerAppApplication.class, args);
 
 		System.out.println("\nServer App is running ...\n");
+
+		
 	}
 
 }
