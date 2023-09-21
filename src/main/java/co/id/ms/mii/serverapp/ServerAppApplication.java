@@ -15,5 +15,4 @@ public class ServerAppApplication {
 		System.out.println("Kucing Mesir");
 		System.out.println("Kucing Oyen");
 	}
-
 }
