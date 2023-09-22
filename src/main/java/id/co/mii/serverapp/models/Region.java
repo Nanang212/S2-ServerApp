@@ -1,47 +1,46 @@
 package id.co.mii.serverapp.models;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-// Untuk meidentifikasikan class person sebagai entity (bisa berelasi dengan entity lain)
 @Entity
-// Mendefinisikan class Person sebagai tabel di db dengan nama persons
-@Table(name = "persons")
-public class Person {
-    // Memberitahu spring bahwa prperti id adalah sebuah primary key
+@Table(name = "tb_region")
+public class Region {
     @Id
-    // Memberitahu spring bahwa properti id 
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
     
+    @Column(name = "region_id")
+    private Integer id;
+    @Column(name = "region_name", nullable = false, length = 20)
     private String name;
-
-    public Person() {
+    
+    public Region() {
     }
-
-    public Person(Integer id, String name) {
+    public Region(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
-
     public Integer getId() {
         return id;
     }
-
     public void setId(Integer id) {
         this.id = id;
     }
-
     public String getName() {
         return name;
     }
-
     public void setName(String name) {
         this.name = name;
     }
+    @Override
+    public String toString() {
+        return "Region [id=" + id + ", name=" + name + "]";
+    }
+    
 
     
 }
