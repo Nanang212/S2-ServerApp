@@ -20,6 +20,12 @@ public class CountryController {
     
     private CountryService countryService;
 
+    
+
+    public CountryController(CountryService countryService) {
+        this.countryService = countryService;
+    }
+
     @GetMapping
     public List<Country> getAll(){
         return countryService.getAll();
