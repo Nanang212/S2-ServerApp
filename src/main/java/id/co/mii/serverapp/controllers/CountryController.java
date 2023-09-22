@@ -16,15 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.services.CountryService;
 
-@Controller
+
 @RestController
-@RequestMapping ("countries")
-
-
+@RequestMapping("country")
 public class CountryController {
     private final CountryService countryService;
 
-    
     public CountryController(CountryService countryService) {
         this.countryService = countryService;
     }
@@ -55,5 +52,3 @@ public class CountryController {
         countryService.deleteCountry(id);
     }
 }
-
-
