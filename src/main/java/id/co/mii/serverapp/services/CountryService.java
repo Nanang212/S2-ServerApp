@@ -2,9 +2,12 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.repositories.CountryRepository;
 
+@Service
 public class CountryService {
     
     private CountryRepository countryRepository;
