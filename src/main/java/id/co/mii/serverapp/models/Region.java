@@ -3,18 +3,19 @@ package id.co.mii.serverapp.models;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "persons")
-public class Person {
+@Table(name = "regions")
+public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false, length = 20)
     private String name;
 
-    public Person() {
+    public Region() {
     }
 
-    public Person(Integer id, String name) {
+    public Region(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
