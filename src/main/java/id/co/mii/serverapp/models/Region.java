@@ -24,7 +24,7 @@ public class Region {
     @Column(name = "region_name", nullable = false, length = 20)
     private String name;
 
-    @OneToMany(mappedBy = "country")
+    @OneToMany(mappedBy = "region")
     private List<Country> countries;
 
     public Region() {
