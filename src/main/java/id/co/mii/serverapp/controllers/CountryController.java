@@ -20,8 +20,6 @@ public class CountryController {
     
     private CountryService countryService;
 
-    
-
     public CountryController(CountryService countryService) {
         this.countryService = countryService;
     }
