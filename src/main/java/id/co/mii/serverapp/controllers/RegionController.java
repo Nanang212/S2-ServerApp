@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.controllers;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,7 @@ import id.co.mii.serverapp.services.RegionService;
 
 import java.util.List;
 
+@Controller
 @RestController
 @RequestMapping ("/region")
 public class RegionController {
