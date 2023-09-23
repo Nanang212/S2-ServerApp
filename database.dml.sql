@@ -1,1 +1,5 @@
-SELECT * FROM students;
+SELECT *
+FROM region;
+
+SELECT *
+FROM country;

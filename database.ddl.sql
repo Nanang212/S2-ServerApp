@@ -2,11 +2,19 @@ CREATE DATABASE serverapp;
 
 USE serverapp;
 
-DROP TABLE students;
-
-CREATE TABLE students
+CREATE TABLE region
 (
-    id    INTEGER PRIMARY KEY AUTO_INCREMENT,
-    name  VARCHAR(256) NOT NULL,
-    email VARCHAR(512) NOT NULL UNIQUE
+    id   INTEGER PRIMARY KEY AUTO_INCREMENT,
+    name VARCHAR(255) NOT NULL UNIQUE
 );
+
+CREATE TABLE country
+(
+    id        INTEGER PRIMARY KEY AUTO_INCREMENT,
+    region_id INTEGER      NOT NULL REFERENCES region (id) ON DELETE CASCADE,
+    code      VARCHAR(2)   NOT NULL,
+    name      VARCHAR(255) NOT NULL
+);
+
+DROP TABLE region;
+DROP TABLE country;
