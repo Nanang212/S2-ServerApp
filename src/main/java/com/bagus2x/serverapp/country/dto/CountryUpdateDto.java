@@ -1,16 +1,18 @@
 package com.bagus2x.serverapp.country.dto;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 
 public class CountryUpdateDto {
-    @Positive
     @NotNull
+    @Positive
     private Integer regionId;
-    @NotBlank
+    @NotNull
+    @Size(min = 2, max = 2)
     private String code;
-    @NotBlank
+    @NotNull
+    @Size(min = 1, max = 64)
     private String name;
 
     public CountryUpdateDto() {

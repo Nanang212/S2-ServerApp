@@ -1,9 +1,11 @@
 package com.bagus2x.serverapp.region.dto;
 
-import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 public class RegionCreationDto {
-    @NotBlank
+    @NotNull
+    @Size(min = 1, max = 64)
     private String name;
 
     public RegionCreationDto() {

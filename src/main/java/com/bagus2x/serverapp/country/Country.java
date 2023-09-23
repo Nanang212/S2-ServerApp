@@ -16,11 +16,11 @@ import javax.persistence.Table;
 public class Country {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", unique = true)
+    @Column(name = "id")
     private Integer id;
-    @Column(name = "code", unique = true)
+    @Column(name = "code", unique = true, length = 2)
     private String code;
-    @Column(name = "name", unique = true)
+    @Column(name = "name", unique = true, length = 64)
     private String name;
     @ManyToOne
     @JoinColumn(
