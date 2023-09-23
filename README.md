@@ -1,11 +1,6 @@
-# Server App
+# Server App Using Spring Boot☕ 🍃
 
-In this project, I'm trying to learn, explore, experiment, and follow references from official documents. Additionally,
-I'm
-also using the concept of Data Transfer Objects (DTOs). The reason for this is to make it easier to determine which
-attributes are needed for requests, responses, and to avoid stack overflow errors. You can refer to the links below for
-more
-details.
+Learning Java Spring Boot.
 
   ```
   com
@@ -223,20 +218,171 @@ Delete a region by sending a DELETE request.
 
 ## Create a Country
 
-*(TODO: Implement specification)*
+Create a new country by sending a POST request to /country.
+
+#### Request
+
+- URL: `/country`
+- Method: `POST`
+- Headers
+    - `Accept: application/json`
+- Request Body: JSON
+  ```json
+  {
+    "regionId": 1,
+    "code": "ID",
+    "name": "Indonesia"
+  }
+  ```
+
+#### Response
+
+- Status Code: 201 (Created)
+- Headers
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  {
+    "id": 1,
+    "region": {
+      "id": 1,
+      "name": "Asia"
+    },
+    "code": "ID",
+    "name": "Indonesia"
+  }
+    ```
 
 ## Get All Country
 
-*(TODO: Implement specification)*
+Retrieve a list of all regions by sending a GET request to /regions.
+
+#### Request
+
+- URL: `/countries`
+- Method: `GET`
+- Headers:
+    - `Accept: application/json`
+
+#### Response
+
+- Status Code: 200 (OK)
+- Body:
+  ```json
+  [
+    {
+      "id": 1,
+      "region": {
+        "id": 1,
+        "name": "Asia"
+      },
+      "code": "ID",
+      "name": "Indonesia"
+    }
+  ]
+  ```
 
 ## Get Country By ID
 
-*(TODO: Implement specification)*
+Retrieve a specific country by its ID.
+
+#### Request
+
+- URL: `/country/{countryId}`
+- Method: `GET`
+- Headers:
+    - `Accept: application/json`
+- Path Parameters:
+    - `countryId` (Integer): The ID of the country to retrieve.
+
+#### Response: JSON
+
+- Status Code: 200 (OK)
+- Headers:
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  [
+    {
+      "id": 1,
+      "region": {
+        "id": 1,
+        "name": "Asia"
+      },
+      "code": "ID",
+      "name": "Indonesia"
+    }
+  ]
+  ```
 
 ## Update Country
 
-*(TODO: Implement specification)*
+Update the details of a country by sending a PUT request.
+
+#### Request
+
+- URL: `/country/{countryId}`
+- Method: `PUT`
+- Headers
+    - `Accept: application/json`
+- Path Parameters:
+    - `countryId` (Integer): The ID of the country to update.
+- Request Body: JSON
+  ```json
+  {
+    "regionId": 1,
+    "code": "ID",
+    "name": "Indonesia"
+  }
+  ```
+
+#### Response
+
+- Status Code: 200 (OK)
+- Headers
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  [
+    {
+      "id": 1,
+      "region": {
+        "id": 1,
+        "name": "Asia"
+      },
+      "code": "ID",
+      "name": "Indonesia"
+    }
+  ]
+  ```
 
 ## Delete Country
 
-*(TODO: Implement specification)*
+Delete a country by sending a DELETE request.
+
+#### Request
+
+- URL: `/country/{countryId}`
+- Method: `DELETE`
+- Headers
+    - `Accept: application/json`
+- Path Parameters:
+    - `countryId (Integer)`: The ID of the region to delete.
+
+#### Response: JSON
+
+- Status Code: 200 (OK)
+- Body:
+  ```json
+  [
+    {
+      "id": 1,
+      "region": {
+        "id": 1,
+        "name": "Asia"
+      },
+      "code": "ID",
+      "name": "Indonesia"
+    }
+  ]
+  ```
