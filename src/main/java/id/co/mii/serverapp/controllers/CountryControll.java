@@ -32,26 +32,25 @@ public class CountryControll {
     }
 
     @GetMapping("/{countryId}")
-    public Country getBYId(@PathVariable Integer country_id) {
-        return countryService.getById(country_id);
+    public Country getBYId(@PathVariable Integer countryId) {
+        return countryService.getById(countryId);
     }
 
     @DeleteMapping("/{countryId}")
-    public boolean deleteCountry(@PathVariable Integer country_id) {
-        countryService.deleteCountry(country_id);
+    public boolean deleteCountry(@PathVariable Integer countryId) {
+        countryService.deleteCountry(countryId);
         return true;
     }
 
     @PutMapping("/{countryId}")
-    public Country updateCountry(@PathVariable Integer id, @RequestBody UpdateCountryDto dto) {
-        Country country = countryService.updateCountry(id, dto);
+    public Country updateCountry(@PathVariable Integer countryId, @RequestBody UpdateCountryDto dto) {
+        Country country = countryService.updateCountry(countryId, dto);
         return country;
     }
 
     @PostMapping
     public Country createCountry(@RequestBody CreateCountryDto dto) {
-        Country country = countryService.createCountry(dto);
-        return country;
+        return countryService.createCountry(dto);
     }
 
 }

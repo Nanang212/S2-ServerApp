@@ -41,11 +41,10 @@ public class CountryService {
         Country country = countryRepository.findById(id).orElse(null);
         if (country != null) {
             country.setName(dto.getName());
-            countryRepository.save(country);
+            return countryRepository.save(country);
         } else {
-            throw new IllegalArgumentException("Nama country tidak boleh kosong");
+            throw new IllegalArgumentException("Country dengan ID " + id + " tidak ditemukan");
         }
-        return country;
     }
 
     // metode ini mengirimkan permintaan ke countryRepository untuk melakukan
@@ -58,40 +57,39 @@ public class CountryService {
     }
 
     public Country createCountry(CreateCountryDto dto) {
+        String countryCode = dto.getCode();
         String countryName = dto.getName();
+        // Ubah tipe data String menjadi Integer
+        Integer regionId = Integer.parseInt(dto.getRegion());
+
+        // Dapatkan semua regions dari repository
         List<Region> regions = regionService.getAllRegions();
-        for (Region region : regions) {
-            int count = countryRepository.countRegionAndCountryName(region.getName(), countryName);
+
+        // Saring regions untuk mendapatkan region dengan id yang sesuai
+        Region region = regions.stream()
+                .filter(r -> r.getId().equals(regionId))
+                .findFirst()
+                .orElse(null);
+
+        if (region == null) {
+            throw new IllegalArgumentException("Region dengan ID tersebut tidak ditemukan");
+        }
+
+        for (Region region1 : regions) {
+            int count = countryRepository.countRegionAndCountryName(region1.getName(), countryName);
             if (count > 0) {
                 throw new IllegalArgumentException(
                         "Nama country tidak boleh sama dengan nama Region yang sudah ada sebelumnya");
             }
         }
+
         Country country = new Country();
+        country.setCode(countryCode);
         country.setName(countryName);
+        country.setRegion(region);
+
         Country saveCountry = countryRepository.save(country);
         return saveCountry;
-
-        // String regionName = dto2.getName();
-
-        // if (isRegionAndCountryHasUniqueName(regionName, countryName)) {
-        // Country country = new Country();
-        // country.setName(countryName);
-
-        // Region region = regionRepository.findByName(regionName);
-
-        // if (region == null) {
-        // throw new IllegalArgumentException("Region dengan nama " + regionName + "
-        // tidak ditemukan.");
-        // }
-
-        // country.setRegion(region);
-
-        // return countryRepository.save(country);
-        // } else {
-        // throw new IllegalArgumentException("Nama Region dan Country tidak boleh sama
-        // bro");
-        // }
     }
 
 }

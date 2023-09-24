@@ -52,8 +52,7 @@ public class RegionController {
         return region;
     }
 
-    // path
-    @PostMapping
+    @PostMapping("/region_name")
     public Region createRegion(@RequestBody CreateRegionDto dto) {
         Region region = regionService.createRegion(dto);
         return region;

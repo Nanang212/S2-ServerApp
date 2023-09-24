@@ -3,6 +3,9 @@ package id.co.mii.serverapp.dto;
 public class UpdateRegionDTO {
     private String name;
 
+    public UpdateRegionDTO() {
+    }
+
     public UpdateRegionDTO(String name) {
         this.name = name;
     }

@@ -3,6 +3,9 @@ package id.co.mii.serverapp.dto;
 public class CreateRegionDto {
     private String name;
 
+    public CreateRegionDto() {
+    }
+
     public CreateRegionDto(String name) {
         this.name = name;
     }
