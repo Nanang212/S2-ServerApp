@@ -1,5 +1,7 @@
 package co.id.ms.mii.serverapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity

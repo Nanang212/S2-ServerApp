@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -30,27 +31,23 @@ public class CountryService {
         );
     }
 
+    @Transactional
     public Country insert(Country country){
-
-        if(countryRepository.existsByCode(country.getCode())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Country code already exists!!!");
-        }
 
         if(countryRepository.existsByName(country.getName())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Country Name already exists!!!");
         }
 
-        Region region = regionRepository.getById(country.getRegion().getId());
+        List<Region> regions = regionRepository.findAll();
 
-        if(region.getName().equalsIgnoreCase(country.getName())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Country Name already exist in Region, use another one!!!");
+        for (Region region :
+                regions) {
+            if (region.getName().equalsIgnoreCase(country.getName())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Country Name already exist in Region, use another one!!!");
+            }
         }
 
-        Country country1 = new Country();
-        country1.setRegion(region);
-        country1.setCode(country.getCode().toUpperCase());
-        country1.setName(country.getName());
-        return countryRepository.save(country1);
+        return countryRepository.save(country);
     }
 
     public Country update(Country country,Integer id){

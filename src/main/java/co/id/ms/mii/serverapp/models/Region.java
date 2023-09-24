@@ -1,5 +1,7 @@
 package co.id.ms.mii.serverapp.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +26,8 @@ public class Region{
     @Column(name = "region_name",length = 50,columnDefinition = "varchar(50)")
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "region")
+            @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     List<Country> country;
 
     public Region() {
