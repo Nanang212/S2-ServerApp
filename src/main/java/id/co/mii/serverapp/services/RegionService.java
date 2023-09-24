@@ -32,7 +32,7 @@ public class RegionService {
         return regionsRepository.save(region);
     }
 
-    public Region update(Region region, Integer id){
+    public Region update(Integer id, Region region){
         // find id
         getById(id);
         // set data idnya

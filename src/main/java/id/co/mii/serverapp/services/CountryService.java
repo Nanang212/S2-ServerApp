@@ -2,10 +2,13 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.stereotype.Service;
 
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.repositories.CountryRepository;
+
 
 @Service
 public class CountryService {
@@ -24,10 +27,12 @@ public class CountryService {
         return countryRepository.findById(id).get();
     }
 
+    @Transactional
     public Country create(Country country){
         return countryRepository.save(country);
     }
 
+    @Transactional
     public Country update(Country country, Integer id){
         getById(id);
         country.setId(id);

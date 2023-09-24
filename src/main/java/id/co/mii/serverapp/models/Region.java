@@ -2,6 +2,7 @@ package id.co.mii.serverapp.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Region {
     @Column(name = "region_name", nullable = false, length = 20)
     private String name;
 
-    @OneToMany(mappedBy = "region")
+    @OneToMany(mappedBy = "region", cascade = CascadeType.REMOVE )
     private List<Country> countries;
 
     public Region() {

@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.models;
 
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Country {
     private String name;
 
     @ManyToOne
-    @JoinColumn(name = "region_id", nullable = false)
+    @JoinColumn(name = "region_id", referencedColumnName = "region_id")
     private Region region;
 
     public Country() {
