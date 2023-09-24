@@ -47,7 +47,7 @@ public class RegionController {
     }
 
     @DeleteMapping("/{id}")
-    public Region delete(Integer id){
+    public Region delete(@PathVariable Integer id){
         return regionService.delete(id);
     }
     
