@@ -38,12 +38,19 @@ public class CountryService {
     }
 
     public Country updateCountry(int id, UpdateCountryDto dto) {
+        // mencari negara berdasarkan id yang diberikan
         Country country = countryRepository.findById(id).orElse(null);
+        // memeriksa apakah country ditemukan atau tidak. apabila ditemukan maka :
         if (country != null) {
+            // akan melakukan perubahan nama sesuai yang diberikan dto
             country.setName(dto.getName());
+            country.setCode(dto.getCode());
+            // diguanakanan untuk mendapatkan informasi region berdasarkan id
+            Region region = regionService.getById(dto.getRegionId());
+            country.setRegion(region);
             return countryRepository.save(country);
         } else {
-            throw new IllegalArgumentException("Country dengan ID " + id + " tidak ditemukan");
+            throw new IllegalArgumentException("Country dengan ID : " + id + " tidak ditemukan");
         }
     }
 
