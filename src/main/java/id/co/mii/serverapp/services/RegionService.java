@@ -2,6 +2,7 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -12,10 +13,13 @@ import id.co.mii.serverapp.repositories.RegionRepository;
 @Service
 public class RegionService {
     
-    private RegionRepository regionRepository;
+    private final RegionRepository regionRepository;
+    // private CountryRepository countryRepository;
 
+    @Autowired
     public RegionService(RegionRepository regionRepository) {
         this.regionRepository = regionRepository;
+        // this.countryRepository = countryRepository;
     }
 
     // getAll
@@ -28,6 +32,18 @@ public class RegionService {
     }
 
     public Region create(Region region){
+
+        Region regionExist = regionRepository.findByName(region.getName());
+        // Country countryExist = countryRepository.findByName(region.getName());
+
+        if(regionExist != null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region with the same name already exists!");
+        }
+
+        // if(countryExist != null){
+        //     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name of the region is the same as the name of the country!");
+        // }
+        
         return regionRepository.save(region);
     }
     
