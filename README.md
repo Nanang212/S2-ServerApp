@@ -9,14 +9,14 @@ Learning Java Spring Boot.
            +- ServerAppAplication.java
            |
            +- country
-           |   +- dto // Data Transfer Object folders
+           |   +- dto // Data Transfer Objects folder
            |   +- Country.java // Entity
            |   +- CountryController.java
            |   +- CountryService.java
            |   +- CountryRepository.java
            |
            +- region
-           |   +- dto // Data Transfer Object folders
+           |   +- dto // Data Transfer Objects folder
            |   +- Region.java // Entity
            |   +- RegionController.java
            |   +- RegionService.java
@@ -36,6 +36,15 @@ Learning Java Spring Boot.
   structure [https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.structuring-your-code](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.structuring-your-code)
 - Reason for using DTO (Data Transfer
   Object) [https://stackoverflow.com/a/47715121/13973583](https://stackoverflow.com/a/47715121/13973583)
+
+# Running and Testing The Application Locally
+
+```bash
+#  Run all test cases
+mvn test
+# Run app locally
+mvn clean package && java -jar target/serverapp-0.0.1-SNAPSHOT.jar
+```
 
 # REST API Specification
 
@@ -367,7 +376,7 @@ Delete a country by sending a DELETE request.
 - Headers
     - `Accept: application/json`
 - Path Parameters:
-    - `countryId (Integer)`: The ID of the region to delete.
+    - `countryId (Integer)`: The ID of the country to delete.
 
 #### Response: JSON
 
