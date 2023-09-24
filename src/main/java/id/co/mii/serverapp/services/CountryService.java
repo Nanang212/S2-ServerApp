@@ -33,18 +33,44 @@ public class CountryService {
 
     public Country insert(Country country) {
         if (countryRepository.existsByName(country.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada di wilayah ");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada !!! ");
         }
 
         List<Region> regions = regionRepository.findAll();
 
         for (Region region : regions) {
             if (region.getName().equalsIgnoreCase(country.getName())) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada di wilayah");
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada di wilayah !!!");
             }
         }
         return countryRepository.save(country);
-
     }
 
+    public Country update(Integer id, Country country) {
+        Country existingCountry = GetById(id);
+
+        if (countryRepository.existsByName(country.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada !!! ");
+        }
+
+        List<Region> regions = regionRepository.findAll();
+
+        for (Region region : regions) {
+            if (region.getName().equalsIgnoreCase(existingCountry.getName())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada di wilayah !!!");
+            }
+        }
+
+        existingCountry.setCode(country.getCode());
+        existingCountry.setName(country.getName());
+        existingCountry.setRegion(country.getRegion());
+
+        return countryRepository.save(existingCountry);
+    }
+
+    public Country delete(Integer id) {
+        Country country = GetById(id);
+        countryRepository.delete(country);
+        return country;
+    }
 }
