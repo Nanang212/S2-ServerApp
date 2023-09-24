@@ -29,13 +29,13 @@ public RegionController(RegionService regionService) {
 
 @GetMapping
 public List<Region> getAll(){
-    return regionService.getdAll();
+    return regionService.getAll();
 }
 
 @GetMapping("/{Id}")
-public Region getByidRegion(@PathVariable Integer id){
-    return regionService.getById(id);
-}  
+    public Region findById(@PathVariable Integer Id){
+        return regionService.getById(Id);
+    } 
 
 @PostMapping
 public Region create(@RequestBody Region region){
