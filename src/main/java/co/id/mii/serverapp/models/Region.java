@@ -1,20 +1,28 @@
 package co.id.mii.serverapp.models;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 @Entity
-@Table(name = "persons")
-public class Person {
+@Table(name ="tb_region")
+
+public class Region {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column (name = "region_id")
     private Integer id;
 
+    @Column (name = "region_name",nullable = false, length = 30, columnDefinition = "varchar(50)")
     private String name;
-
-    public Person() {
+    
+    public Region() {
     }
 
-    public Person(Integer id, String name) {
+    public Region(Integer id, String name) {
         this.id = id;
         this.name = name;
     }
@@ -35,5 +43,6 @@ public class Person {
         this.name = name;
     }
 
+    
     
 }
