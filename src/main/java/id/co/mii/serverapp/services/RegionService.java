@@ -2,8 +2,6 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -38,7 +36,6 @@ public class RegionService {
 
 
     // create
-    @Transactional 
     public Region create(Region region){
 
         // checkName(region);
@@ -53,16 +50,27 @@ public class RegionService {
         
         return regionRepository.save(region);
     }
-    @Transactional
+
     public Region update(Integer id,Region region){
         // find id
         getById(id);
          // set data
         region.setId(id);
+        if (regionRepository.existsByName(region.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Region name already exists!");
+        }
+
         if (countryRepository.existsByName(region.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Region name cannot be the same as the country name");
             // throw new IllegalArgumentException("Region name cannot be the same as the country name");
         }
+        // Region updatedRegion = regionRepository.save(region);
+        // if (updatedRegion.getName() != region.getName()){
+        //     if (regionRepository.existsByName(region.getName())) {
+        //         throw new ResponseStatusException(HttpStatus.CONFLICT, "Region name already exists!");
+        //     }
+        // }
+
         return regionRepository.save(region);        
     }
 
