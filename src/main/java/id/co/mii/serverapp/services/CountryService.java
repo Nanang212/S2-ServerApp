@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.services;
 
+import java.math.BigInteger;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -32,7 +33,8 @@ public class CountryService {
     }
 
     public Country insert(Country country) {
-        if (countryRepository.existsByName(country.getName())) {
+        BigInteger count = countryRepository.countByName(country.getName());
+        if (count.intValue() > 0) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada !!! ");
         }
 
@@ -49,7 +51,8 @@ public class CountryService {
     public Country update(Integer id, Country country) {
         Country existingCountry = GetById(id);
 
-        if (countryRepository.existsByName(country.getName())) {
+        BigInteger count = countryRepository.countByName(country.getName());
+        if (count.intValue() > 0) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada !!! ");
         }
 

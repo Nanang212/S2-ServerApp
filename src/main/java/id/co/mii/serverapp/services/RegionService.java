@@ -27,8 +27,12 @@ public class RegionService {
     }
 
     public Region insertData(Region region) {
+         if (regionRepository.existsByName(region.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama wilayah sudah ada !!! ");
+        }
+
         if (region == null || region.getName() == null || region.getName().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama Region Harus Diisi");
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama wilayah Harus Diisi");
         }
 
         try {
@@ -39,6 +43,10 @@ public class RegionService {
     }
 
     public Region update(Integer id, Region region) {
+         if (regionRepository.existsByName(region.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama wilayah sudah ada !!! ");
+        }
+
         getById(id);
         region.setId(id);
         return regionRepository.save(region);
