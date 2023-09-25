@@ -5,8 +5,10 @@ import org.springframework.stereotype.Repository;
 
 import id.co.mii.serverapp.models.Country;
 
+
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Integer>{
     
     Country findByName(String name);
+    Country findByCode(String code);
 }

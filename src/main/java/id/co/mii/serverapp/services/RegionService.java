@@ -43,6 +43,10 @@ public class RegionService {
         if(countryExist != null){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name of the region is the same as the name of the country!");
         }
+
+        if(region.getName().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The Name field is required!");
+        }
         
         return regionRepository.save(region);
     }
@@ -51,7 +55,22 @@ public class RegionService {
        
         getById(id);
         region.setId(id);
-       
+        
+        Region regionExist = regionRepository.findByName(region.getName());
+        Country countryExist = countryRepository.findByName(region.getName());
+
+        if(regionExist != null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region with the same name already exists!");
+        }
+
+        if(countryExist != null){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name of the region is the same as the name of the country!");
+        }
+
+        if(region.getName().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The Name field is required!");
+        }
+        
         return regionRepository.save(region);
     }
 
