@@ -9,5 +9,4 @@ import id.co.mii.serverapp.models.Region;
 public interface RegionRepository extends JpaRepository<Region, Integer>{
     
     boolean existsByName(String name);
-    boolean existsByNameAndIdNot(String name, Integer id);
 }
