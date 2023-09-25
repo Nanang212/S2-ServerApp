@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.region;
 
+import id.co.mii.serverapp.country.CountryRepository;
 import id.co.mii.serverapp.region.dto.RegionCreationDto;
 import id.co.mii.serverapp.region.dto.RegionDto;
 import id.co.mii.serverapp.region.dto.RegionUpdateDto;
@@ -19,11 +20,13 @@ import java.util.stream.Collectors;
 @Service
 public class RegionService {
     private final RegionRepository regionRepository;
+    private final CountryRepository countryRepository;
     private final Validator validator;
     private final Mapper mapper;
 
-    public RegionService(RegionRepository regionRepository, Validator validator, Mapper mapper) {
+    public RegionService(RegionRepository regionRepository, CountryRepository countryRepository, Validator validator, Mapper mapper) {
         this.regionRepository = regionRepository;
+        this.countryRepository = countryRepository;
         this.validator = validator;
         this.mapper = mapper;
     }
@@ -37,6 +40,10 @@ public class RegionService {
 
         if (regionRepository.existsByNameIgnoreCase(regionCreationDto.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Region name already exists. Use another name");
+        }
+
+        if (countryRepository.existsByNameIgnoreCase(regionCreationDto.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The region name and the country name must not be the same");
         }
 
         Region region = new Region();
@@ -61,11 +68,15 @@ public class RegionService {
     }
 
     @Transactional
-    public RegionDto update(Integer regionId, RegionUpdateDto dto) {
+    public RegionDto update(Integer regionId, RegionUpdateDto regionUpdateDto) {
         Region region = regionRepository
             .findById(regionId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region is not found"));
-        region.setName(dto.getName());
+        region.setName(regionUpdateDto.getName());
+
+        if (countryRepository.existsByNameIgnoreCase(regionUpdateDto.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The region name and the country name must not be the same");
+        }
 
         region = regionRepository.save(region);
 

@@ -81,8 +81,8 @@ public class CountryService {
     }
 
     @Transactional
-    public CountryDto update(Integer countryId, CountryUpdateDto dto) {
-        Set<ConstraintViolation<CountryUpdateDto>> constraintViolations = validator.validate(dto);
+    public CountryDto update(Integer countryId, CountryUpdateDto countryUpdateDto) {
+        Set<ConstraintViolation<CountryUpdateDto>> constraintViolations = validator.validate(countryUpdateDto);
         if (!constraintViolations.isEmpty()) {
             throw new ConstraintViolationException(constraintViolations);
         }
@@ -91,16 +91,21 @@ public class CountryService {
             .findById(countryId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country not found"));
         Region region = regionRepository
-            .findById(dto.getRegionId())
+            .findById(countryUpdateDto.getRegionId())
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region not found"));
-        if (dto.getRegionId() != null) {
+
+        if (countryUpdateDto.getName().equalsIgnoreCase(region.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The region name and the country name must not be the same");
+        }
+
+        if (countryUpdateDto.getRegionId() != null) {
             country.setRegion(region);
         }
-        if (!dto.getCode().isEmpty()) {
-            country.setCode(dto.getCode());
+        if (!countryUpdateDto.getCode().isEmpty()) {
+            country.setCode(countryUpdateDto.getCode());
         }
-        if (!dto.getName().isEmpty()) {
-            country.setName(dto.getName());
+        if (!countryUpdateDto.getName().isEmpty()) {
+            country.setName(countryUpdateDto.getName());
         }
 
         country = countryRepository.save(country);
