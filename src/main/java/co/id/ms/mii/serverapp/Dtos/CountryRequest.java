@@ -1,17 +1,17 @@
 package co.id.ms.mii.serverapp.Dtos;
 
-public class CountryDto {
+public class CountryRequest {
     private String code;
     private String name;
     private Integer region_id;
 
-    public CountryDto(String code, String name, Integer region_id) {
+    public CountryRequest(String code, String name, Integer region_id) {
         this.code = code;
         this.name = name;
         this.region_id = region_id;
     }
 
-    public CountryDto() {
+    public CountryRequest() {
     }
 
     public String getCode() {

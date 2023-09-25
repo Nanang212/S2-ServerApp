@@ -1,5 +1,6 @@
 package co.id.ms.mii.serverapp.controllers;
 
+import co.id.ms.mii.serverapp.Dtos.CountryRequest;
 import co.id.ms.mii.serverapp.models.Country;
 import co.id.ms.mii.serverapp.services.CountryService;
 import org.springframework.stereotype.Controller;
@@ -28,13 +29,13 @@ public class CountryController {
     }
 
     @PostMapping
-    public Country create(@RequestBody Country country){
-        return countryService.insert(country);
+    public Country create(@RequestBody CountryRequest countrydto){
+        return countryService.insert(countrydto);
     }
 
     @PutMapping("/{id}")
-    public Country update(@PathVariable Integer id,@RequestBody Country country){
-        return countryService.update(country,id);
+    public Country update(@PathVariable Integer id,@RequestBody CountryRequest countrydto){
+        return countryService.update(countrydto,id);
     }
 
     @DeleteMapping("/{id}")

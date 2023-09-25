@@ -27,15 +27,16 @@ public class Region{
     private String name;
 
     @OneToMany(mappedBy = "region")
-            @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    List<Country> country;
+                @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<Country> country;
 
     public Region() {
     }
 
-    public Region(Integer id, String name) {
+    public Region(Integer id, String name, List<Country> country) {
         this.id = id;
         this.name = name;
+        this.country = country;
     }
 
     public Integer getId() {
@@ -54,4 +55,11 @@ public class Region{
         this.name = name;
     }
 
+    public List<Country> getCountry() {
+        return country;
+    }
+
+    public void setCountry(List<Country> country) {
+        this.country = country;
+    }
 }

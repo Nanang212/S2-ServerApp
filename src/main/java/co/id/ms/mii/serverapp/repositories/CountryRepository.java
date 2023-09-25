@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface CountryRepository extends JpaRepository<Country, Integer> {
 
     boolean existsByName(String name);
+    boolean existsByCodeAndName(String name,String code);
 }
