@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 
 
 @Entity
@@ -29,6 +32,7 @@ public class Region {
         mappedBy = "region",
         cascade = CascadeType.REMOVE,
         orphanRemoval = true)
+    @JsonProperty(access = Access.WRITE_ONLY)
     private List<Country> countries;
 
     public Region() {

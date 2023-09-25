@@ -30,7 +30,7 @@ public class CountryController {
     }
 
     @GetMapping("/{id}")
-    public Country getById(Integer id){
+    public Country getById(@PathVariable Integer id){
         return countryService.getById(id);
     }
 
