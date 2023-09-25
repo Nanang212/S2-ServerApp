@@ -2,7 +2,7 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,7 +15,6 @@ public class CountryService {
     
     private final CountryRepository countryRepository;
 
-    @Autowired
     public CountryService(CountryRepository countryRepository){
         this.countryRepository = countryRepository;
     }
