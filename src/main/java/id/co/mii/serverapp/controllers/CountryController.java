@@ -2,8 +2,12 @@ package id.co.mii.serverapp.controllers;
 
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -29,8 +33,20 @@ public class CountryController {
         return countryService.getByIdCountry(id);
     }
 
-    public Country inserCountry(Country country){
+    @PostMapping
+    public Country inserCountry(@RequestBody Country country){
         return countryService.insert(country);
     }
+
+    @PutMapping("/{id}")
+    public Country updateCountry(@PathVariable Integer id, @RequestBody Country country){
+        return countryService.update(id, country);
+    }
+
+    @DeleteMapping("/{id}")
+    public Country delete(@PathVariable Integer id){
+        return countryService.delete(id);
+    }
+
     
 }

@@ -38,8 +38,8 @@ public class RegionController {
         return regionService.insertRegion(region);
     }
 
-    @PutMapping()
-    public Region update(Integer id, Region region) {
+    @PutMapping("/{id}")
+    public Region update(@PathVariable Integer id, @RequestBody Region region) {
         return regionService.update(id, region);
     }
 
