@@ -2,9 +2,9 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.repositories.CountryRepository;
@@ -24,15 +24,14 @@ public class CountryService {
     }
 
     public Country getById(Integer id){
-        return countryRepository.findById(id).get();
+        return countryRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "tidak ada id :" + id));
     }
 
-    @Transactional
     public Country create(Country country){
         return countryRepository.save(country);
     }
 
-    @Transactional
+  
     public Country update(Country country, Integer id){
         getById(id);
         country.setId(id);
