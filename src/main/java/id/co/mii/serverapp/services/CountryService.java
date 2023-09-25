@@ -5,7 +5,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.repositories.CountryRepository;
-
 import java.util.List;
 
 @Service
@@ -26,14 +25,37 @@ public class CountryService {
     }
 
     public Country createCountry(Country country) {
-        validateCountryNameNotSameAsRegionName(country.getRegion().getName(), country.getName());
+        if(countryRepository.findByName(country.getName()) !=null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Country name already exists!");
+        }
+        if(countryRepository.isExistsByName(country.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "The Country name cannot be the same as the Region name!");
+        }
+        if(country.getCode().length()!= 2){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Country code must be 2 letters!");
+        }
+        if(countryRepository.findByCode(country.getCode()) != null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Country Code already exists!");
+        }
         return countryRepository.save(country);
     }
 
     public Country updateCountry(Integer id, Country updatedCountry) {
         getCountryById(id);
+        if(countryRepository.findByName(updatedCountry.getName()) !=null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Country name already exists!");
+        }
+        if(countryRepository.isExistsByName(updatedCountry.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "The Country name cannot be the same as the Region name!");
+        }
+        if(updatedCountry.getCode().length()!= 2){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Country code must be 2 letters!");
+        }
+        if(countryRepository.findByCode(updatedCountry.getCode()) != null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Country Code already exists!");
+        }
         updatedCountry.setId(id);
-        validateCountryNameNotSameAsRegionName(updatedCountry.getRegion().getName(), updatedCountry.getName());
+        
         return countryRepository.save(updatedCountry);
     }
 
@@ -41,11 +63,5 @@ public class CountryService {
         Country country = getCountryById(id);
         countryRepository.delete(country);
         return country;
-    }
-
-    private void validateCountryNameNotSameAsRegionName(String regionName, String countryName) {
-        if (regionName.equalsIgnoreCase(countryName)) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country name cannot be the same as the region.");
-        }
     }
 }

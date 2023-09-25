@@ -5,10 +5,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import id.co.mii.serverapp.models.Country;
+import id.co.mii.serverapp.models.Region;
 
 @Repository
 public interface CountryRepository extends JpaRepository<Country, Integer> {
 
-    @Query("SELECT COUNT(c) > 0 FROM Country c WHERE c.region.name = :regionName AND c.name = :countryName")
-    boolean existsByName(@Param("regionName") String regionName, @Param("countryName") String countryName);
+    @Query("SELECT COUNT(r) > 0 FROM Region r WHERE r.name = :countryName")
+    boolean isExistsByName(@Param("countryName") String countryName);
+
+    Country findByName(String name);
+    Country findByCode(String name);
 }
