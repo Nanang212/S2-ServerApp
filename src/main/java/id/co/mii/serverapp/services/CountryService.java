@@ -38,7 +38,6 @@ public class CountryService {
   
     public Country update(Country country, Integer id){
         getById(id);
-       
         return create(country);
     }
 
