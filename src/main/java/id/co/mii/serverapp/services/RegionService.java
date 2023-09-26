@@ -31,15 +31,11 @@ public class RegionService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama wilayah sudah ada !!! ");
         }
 
-        if (region == null || region.getName() == null || region.getName().isEmpty()) {
+        if (region.getName().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama wilayah Harus Diisi");
         }
 
-        try {
-            return regionRepository.save(region);
-        } catch (Exception e) {
-            throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Gagal menyimpan Region.");
-        }
+        return regionRepository.save(region);
     }
 
     public Region update(Integer id, Region region) {

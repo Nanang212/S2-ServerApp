@@ -2,8 +2,6 @@ package id.co.mii.serverapp.controllers;
 
 import java.util.List;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -36,14 +34,8 @@ public class RegionController {
     }
 
     @PostMapping("/insert")
-    public ResponseEntity<String> createRegion(@RequestBody Region regionName) {
-        try {
-            Region createdRegion = regionService.insertData(regionName);
-            return ResponseEntity.status(HttpStatus.CREATED)
-                    .body("Region berhasil disimpan dengan ID: " + createdRegion.getId());
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Gagal menyimpan Region.");
-        }
+    public Region create(@RequestBody Region region) {
+        return regionService.insertData(region);
     }
 
     @PutMapping("/{id}")
