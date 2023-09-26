@@ -49,7 +49,8 @@ public class CountryService {
     }
 
     public Country update(Integer id, Country country) {
-        Country existingCountry = GetById(id);
+        GetById(id);
+        country.setId(id);
 
         BigInteger count = countryRepository.countByName(country.getName());
         if (count.intValue() > 0) {
@@ -59,16 +60,12 @@ public class CountryService {
         List<Region> regions = regionRepository.findAll();
 
         for (Region region : regions) {
-            if (region.getName().equalsIgnoreCase(existingCountry.getName())) {
+            if (region.getName().equalsIgnoreCase(country.getName())) {
                 throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada di wilayah !!!");
             }
         }
 
-        existingCountry.setCode(country.getCode());
-        existingCountry.setName(country.getName());
-        existingCountry.setRegion(country.getRegion());
-
-        return countryRepository.save(existingCountry);
+        return countryRepository.save(country);
     }
 
     public Country delete(Integer id) {
