@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 
 
 
@@ -28,6 +31,7 @@ public class Region {
     private String name;
 
     @OneToMany(mappedBy = "region")
+    @JsonProperty(access = Access.WRITE_ONLY)
     private List<Country> countries;
 
     public Region() {

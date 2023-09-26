@@ -30,7 +30,7 @@ public class CountryService {
     public Country create(Country country){
         if(countryRepository.existsByName(country.getName())){
             throw  new ResponseStatusException(HttpStatus.CONFLICT,"name already exist");
-        }
+        } 
 
         return countryRepository.save(country);
     }
@@ -38,8 +38,8 @@ public class CountryService {
   
     public Country update(Country country, Integer id){
         getById(id);
-        country.setId(id);
-        return countryRepository.save(country);
+       
+        return create(country);
     }
 
     public Country delete(Integer id){

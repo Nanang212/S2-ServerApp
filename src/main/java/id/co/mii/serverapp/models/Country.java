@@ -10,8 +10,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
+
 
 @Entity
 @Table(name =  "tb_county")
@@ -29,7 +28,7 @@ public class Country {
 
     @ManyToOne
     @JoinColumn(name = "region_id", referencedColumnName = "region_id")
-    @JsonProperty(access = Access.WRITE_ONLY)
+     
     private Region region;
 
     public Country() {
