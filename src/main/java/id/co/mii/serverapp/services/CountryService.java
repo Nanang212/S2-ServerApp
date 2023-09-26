@@ -28,6 +28,10 @@ public class CountryService {
     }
 
     public Country create(Country country){
+        if(countryRepository.existsByName(country.getName())){
+            throw  new ResponseStatusException(HttpStatus.CONFLICT,"name already exist");
+        }
+
         return countryRepository.save(country);
     }
 

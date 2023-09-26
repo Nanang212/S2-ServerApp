@@ -40,7 +40,7 @@ public class CountryController {
     }
 
     @PutMapping("/{id}")
-    public Country update(@RequestBody @PathVariable Country country, Integer id){
+    public Country update(@RequestBody  Country country,@PathVariable Integer id){
         return countryService.update(country, id);
     }
 
