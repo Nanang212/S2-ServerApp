@@ -1,7 +1,7 @@
 package id.co.mii.serverapp.models;
 
 import java.util.List;
-
+ 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,7 +20,7 @@ public class Region {
 
     private Integer id;
 
-    @Column (name = "region_name", nullable = false, length = 20)
+    @Column (name = "region_name", nullable = true, length = 20)
     private String name;
 
     @OneToMany(mappedBy = "region")
