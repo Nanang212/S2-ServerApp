@@ -8,7 +8,6 @@ import id.co.mii.serverapp.region.RegionRepository;
 import id.co.mii.serverapp.util.Mapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolation;
@@ -32,7 +31,6 @@ public class CountryService {
         this.mapper = mapper;
     }
 
-    @Transactional
     public CountryDto create(CountryCreationDto countryCreationDto) {
         Set<ConstraintViolation<CountryCreationDto>> constraintViolations = validator.validate(countryCreationDto);
         if (!constraintViolations.isEmpty()) {
@@ -80,7 +78,6 @@ public class CountryService {
         return mapper.toDto(country);
     }
 
-    @Transactional
     public CountryDto update(Integer countryId, CountryUpdateDto countryUpdateDto) {
         Set<ConstraintViolation<CountryUpdateDto>> constraintViolations = validator.validate(countryUpdateDto);
         if (!constraintViolations.isEmpty()) {

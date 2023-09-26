@@ -7,7 +7,6 @@ import id.co.mii.serverapp.region.dto.RegionUpdateDto;
 import id.co.mii.serverapp.util.Mapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.ConstraintViolation;
@@ -31,7 +30,6 @@ public class RegionService {
         this.mapper = mapper;
     }
 
-    @Transactional
     public RegionDto create(RegionCreationDto regionCreationDto) {
         Set<ConstraintViolation<RegionCreationDto>> constraintViolations = validator.validate(regionCreationDto);
         if (!constraintViolations.isEmpty()) {
@@ -67,7 +65,6 @@ public class RegionService {
         return mapper.toDto(region);
     }
 
-    @Transactional
     public RegionDto update(Integer regionId, RegionUpdateDto regionUpdateDto) {
         Region region = regionRepository
             .findById(regionId)
@@ -83,7 +80,6 @@ public class RegionService {
         return mapper.toDto(region);
     }
 
-    @Transactional
     public RegionDto delete(Integer regionId) {
         Region region = regionRepository
             .findById(regionId)
