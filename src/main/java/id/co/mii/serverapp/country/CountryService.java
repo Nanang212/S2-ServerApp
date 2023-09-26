@@ -95,15 +95,9 @@ public class CountryService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The region name and the country name must not be the same");
         }
 
-        if (countryUpdateDto.getRegionId() != null) {
-            country.setRegion(region);
-        }
-        if (!countryUpdateDto.getCode().isEmpty()) {
-            country.setCode(countryUpdateDto.getCode());
-        }
-        if (!countryUpdateDto.getName().isEmpty()) {
-            country.setName(countryUpdateDto.getName());
-        }
+        country.setRegion(region);
+        country.setCode(countryUpdateDto.getCode());
+        country.setName(countryUpdateDto.getName());
 
         country = countryRepository.save(country);
 
