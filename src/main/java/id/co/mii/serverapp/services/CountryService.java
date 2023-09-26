@@ -10,6 +10,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.List;
+
 
 @Service
 public class CountryService extends BaseService<Country> {
@@ -30,5 +32,12 @@ public class CountryService extends BaseService<Country> {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Country code is already used");
         }
         return countryRepo.save(country);
+    }
+
+    public List<Country> getAll(String keyword) {
+        if (keyword != null) {
+            return countryRepo.findALlBy(keyword);
+        }
+        return countryRepo.findAll();
     }
 }

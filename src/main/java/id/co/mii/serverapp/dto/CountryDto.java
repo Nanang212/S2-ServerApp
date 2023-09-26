@@ -2,6 +2,8 @@ package id.co.mii.serverapp.dto;
 
 import id.co.mii.serverapp.dto.base.BaseDto;
 
+import java.util.List;
+
 public class CountryDto extends BaseDto {
     private String code;
     private String regionId;
