@@ -23,8 +23,8 @@ public class Country {
     @Column(nullable = false)
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "region_id")
+    @ManyToOne//banyak countriy dimiliki region 
+    @JoinColumn (name = "region_id")//membuat sebuah kolom dalam tabel region
     private Region region;
 
     public Country() {
@@ -60,10 +60,7 @@ public class Country {
         this.name = name;
     }
     
-
-   
-
-    }
+}
 
     
 

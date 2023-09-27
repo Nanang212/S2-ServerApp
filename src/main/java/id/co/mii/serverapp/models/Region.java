@@ -23,7 +23,7 @@ public class Region {
     @Column (name = "region_name", nullable = true, length = 20)
     private String name;
 
-    @OneToMany(mappedBy = "region")
+    @OneToMany(mappedBy = "region")  
     private List<Country>country;
     
 
@@ -51,6 +51,8 @@ public class Region {
     public void setName(String name) {
         this.name = name;
     }
+    //variable digunakan untuk penampung
+    //nilai 0
 
 }    
 

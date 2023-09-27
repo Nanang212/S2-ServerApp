@@ -1,5 +1,7 @@
 package id.co.mii.serverapp.services;
 
+import org.hibernate.mapping.Set;
+import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -14,8 +16,8 @@ import java.util.Optional;
 
 @Service
 public class CountryService {
-   
 
+  @Autowired
   private CountryRepository  countryRepo;
   private RegionRepository regionRepository;
     
@@ -23,6 +25,7 @@ public class CountryService {
     //     this.countryRepo = countryRepo;
     // }
 
+ 
     public CountryService(CountryRepository countryRepo, RegionRepository regionRepository) {
         this.countryRepo = countryRepo;
         this.regionRepository = regionRepository;
@@ -38,18 +41,17 @@ public class CountryService {
 
     public Country createCountry(Country country) {
         if (regionRepository.existsByName(country.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Failed not found");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Failed not found country ");
             //country tidak boleh sama dengan region      
         }
       if (countryRepo.existsByName(country.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Failed not found");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Failed not found ");
             //country tidak boleh sama dengan region      
         }
         return countryRepo.save(country);
 
-
-
     }
+
 
     public Country updateCountry(Integer id, Country updatedCountry) {
         Optional<Country> existingCountry = countryRepo.findById(id);
@@ -60,9 +62,11 @@ public class CountryService {
             return countryRepo.save(country);
         }
         return null;
+        //null  jika nilai atau data tidak boleh memiliki maka akan dinyatakan true 
      }
 
     public void deleteCountry(Integer id) {
         countryRepo.deleteById(id);
     }
 }
+
