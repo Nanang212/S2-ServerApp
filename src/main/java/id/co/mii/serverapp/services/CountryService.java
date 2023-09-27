@@ -1,6 +1,8 @@
 package id.co.mii.serverapp.services;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -78,6 +80,20 @@ public class CountryService {
     country.setRegion(regionService.getById(request.getRegionId()));
 
     return countryRepository.save(country);
+  }
+
+  public Map<String, Object> getByIdCustomUsingMap(Integer id){
+    Map<String, Object> result = new HashMap<>();
+
+    Country country = countryRepository.findById(id).get();
+
+    result.put("countryId", country.getId());
+    result.put("countryCode", country.getCode());
+    result.put("countryName", country.getName());
+    result.put("regionId", country.getRegion().getId());
+    result.put("regionName", country.getRegion().getName());
+
+    return result;
   }
 }
 

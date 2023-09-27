@@ -1,6 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -56,5 +57,10 @@ public class CountryController {
     @PostMapping("/model-mapper-dto")
     public Country createDTOWithModelMapper(@RequestBody CountryRequest request){
         return countryService.createDTOWithModelMapper(request);
+    }
+
+    @GetMapping("/id-using-map/{id}")
+    public Map<String, Object> getByIdCustomUsingMap(@PathVariable Integer id){
+        return countryService.getByIdCustomUsingMap(id);
     }
 }
