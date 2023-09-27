@@ -23,7 +23,7 @@ public class Country {
 
     @Column(length = 2)
     private String code;
-
+    @Column(name = "country_name", nullable = false, length = 30, unique = true)
     private String name;
 
     @ManyToOne
