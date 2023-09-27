@@ -63,4 +63,9 @@ public class CountryController {
     public Map<String, Object> getByIdCustomUsingMap(@PathVariable Integer id){
         return countryService.getByIdCustomUsingMap(id);
     }
+
+    @GetMapping("/getAll-using-ListOfMap")
+    public List<Map<String, Object>> getAllCustomUsingListOfMap(){
+        return countryService.getAllCustomUsingListOfMap();
+    }
 }

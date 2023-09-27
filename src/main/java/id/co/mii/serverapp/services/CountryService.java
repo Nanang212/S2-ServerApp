@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.services;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -94,6 +95,23 @@ public class CountryService {
     result.put("regionName", country.getRegion().getName());
 
     return result;
+  }
+
+  public List<Map<String, Object>> getAllCustomUsingListOfMap(){
+    List<Map<String,Object>> results = new ArrayList<>();
+    List<Country> countries = countryRepository.findAll();
+
+    for (Country country : countries) {
+         Map<String,Object> result = new HashMap<>();
+             result.put("countryId", country.getId());
+            result.put("countryCode", country.getCode());
+            result.put("countryName", country.getName());
+            result.put("regionId", country.getRegion().getId());
+            result.put("regionName", country.getRegion().getName());
+            results.add(result);
+    }
+
+    return results;
   }
 }
 
