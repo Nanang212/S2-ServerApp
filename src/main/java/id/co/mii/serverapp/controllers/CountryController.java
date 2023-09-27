@@ -4,6 +4,7 @@ import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.services.CountryService;
 import java.util.List;
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,5 +63,21 @@ public class CountryController {
   @DeleteMapping("/{id}")
   public Country delete(@PathVariable Integer id) {
     return countryService.delete(id);
+  }
+
+  // custom manual
+  @GetMapping("/custom/{id}")
+  public Map<String, Object> getByIdCustom(@PathVariable Integer id) {
+    return countryService.getByIdCustom(id);
+  }
+
+  @GetMapping("/all")
+  public List<Map<String, Object>> getAllCustom() {
+    return countryService.getAllCustom();
+  }
+
+  @GetMapping("/all/stream")
+  public List<Map<String, Object>> getAllCustomStream() {
+    return countryService.getAllCustomStream();
   }
 }

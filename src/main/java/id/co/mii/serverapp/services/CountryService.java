@@ -5,7 +5,11 @@ import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -84,5 +88,51 @@ public class CountryService {
     Country country = getById(id);
     countryRepository.delete(country);
     return country;
+  }
+
+  // custom manual
+  public Map<String, Object> getByIdCustom(Integer id) {
+    Map<String, Object> result = new HashMap<>();
+    Country country = countryRepository.findById(id).get();
+
+    result.put("countryId", country.getId());
+    result.put("countryCode", country.getCode());
+    result.put("countryName", country.getName());
+    result.put("regionId", country.getRegion().getId());
+    result.put("regionName", country.getRegion().getName());
+
+    return result;
+  }
+
+  public List<Map<String, Object>> getAllCustom() {
+    List<Map<String, Object>> results = new ArrayList<>();
+    List<Country> countries = countryRepository.findAll();
+
+    for (Country country : countries) {
+      Map<String, Object> result = new HashMap<>();
+      result.put("countryId", country.getId());
+      result.put("countryCode", country.getCode());
+      result.put("countryName", country.getName());
+      result.put("regionId", country.getRegion().getId());
+      result.put("regionName", country.getRegion().getName());
+      results.add(result);
+    }
+    return results;
+  }
+
+  public List<Map<String, Object>> getAllCustomStream() {
+    return countryRepository
+      .findAll()
+      .stream()
+      .map(country -> {
+        Map<String, Object> result = new HashMap<>();
+        result.put("countryId", country.getId());
+        result.put("countryCode", country.getCode());
+        result.put("countryName", country.getName());
+        result.put("regionId", country.getRegion().getId());
+        result.put("regionName", country.getRegion().getName());
+        return result;
+      })
+      .collect(Collectors.toList());
   }
 }
