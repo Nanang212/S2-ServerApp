@@ -9,6 +9,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data // data ini digunakan untuk apa?
+@NoArgsConstructor  //permasalahannya jika ada noargsconstructor si duplicate method country bermasalah, masih bingung ???
+@AllArgsConstructor
 @Entity
 @Table(name ="country")
 public class Country {
@@ -27,8 +34,8 @@ public class Country {
     @JoinColumn (name = "region_id")//membuat sebuah kolom dalam tabel region
     private Region region;
 
-    public Country() {
-    }
+    // public Country() { ini berarti tidak boleh ada method yang kosong dikarenakan sudah memakai noargsconstructor
+    // }
 
     public Country(Integer id, String code, String name) {
         this.id = id;

@@ -9,8 +9,10 @@ import org.springframework.web.server.ResponseStatusException;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class RegionService {
     private RegionRepository regionRepository;
     private CountryRepository countryRepository;
@@ -19,10 +21,11 @@ public class RegionService {
     // public RegionService(RegionRepository regionRepository) {
     //     this.regionRepository = regionRepository;
     // }
-    public RegionService(RegionRepository regionRepository, CountryRepository countryRepository) {
-        this.regionRepository = regionRepository;
-        this.countryRepository = countryRepository;
-    }
+
+    // public RegionService(RegionRepository regionRepository, CountryRepository countryRepository) {
+    //     this.regionRepository = regionRepository;
+    //     this.countryRepository = countryRepository;
+    // }
      public List <Region> getAll(){
         return regionRepository.findAll();
     }

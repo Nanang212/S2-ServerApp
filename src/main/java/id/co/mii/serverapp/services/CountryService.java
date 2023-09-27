@@ -10,11 +10,13 @@ import org.springframework.web.server.ResponseStatusException;
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 import java.util.Optional;
 
 @Service
+@AllArgsConstructor
 public class CountryService {
 
   @Autowired
@@ -26,10 +28,10 @@ public class CountryService {
     // }
 
  
-    public CountryService(CountryRepository countryRepo, RegionRepository regionRepository) {
-        this.countryRepo = countryRepo;
-        this.regionRepository = regionRepository;
-    }
+    // public CountryService(CountryRepository countryRepo, RegionRepository regionRepository) {
+    //     this.countryRepo = countryRepo;
+    //     this.regionRepository = regionRepository;
+    // }
 
      public List<Country> getAllCountries() {
         return countryRepo.findAll();

@@ -11,18 +11,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.services.RegionService;
+import lombok.AllArgsConstructor;
 
 import java.util.List;
 
 @Controller
 @RestController
+@AllArgsConstructor
 @RequestMapping ("/region")
 public class RegionController {
     private RegionService regionService;
 
-    public RegionController(RegionService regionService) {
-        this.regionService = regionService;
-    }
+    // public RegionController(RegionService regionService) {
+    //     this.regionService = regionService;
+    // }
 
     @GetMapping
     public List<Region> getAll(){

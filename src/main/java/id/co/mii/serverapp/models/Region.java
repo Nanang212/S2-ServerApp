@@ -10,6 +10,13 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data //apa yang membedakan data dari country ke region , apakah sama untuk pemanggiilan lombok?
+@AllArgsConstructor
+@NoArgsConstructor //pokoknya tidak boleh ada yang duplicate methodnya 
 @Entity
 @Table(name = "regions")
 
@@ -28,8 +35,8 @@ public class Region {
     
 
 
-    public Region() {
-    }
+    // public Region() {
+    // }
 
     public Region(Integer id, String name) {
         this.id = id;
