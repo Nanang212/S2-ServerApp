@@ -31,7 +31,7 @@ public class Country {
     private String name;
 
     @ManyToOne//banyak countriy dimiliki region 
-    @JoinColumn (name = "region_id")//membuat sebuah kolom dalam tabel region
+    @JoinColumn (name = "region_id",nullable = false)//membuat sebuah kolom dalam tabel region
     private Region region;
 
     // public Country() { ini berarti tidak boleh ada method yang kosong dikarenakan sudah memakai noargsconstructor

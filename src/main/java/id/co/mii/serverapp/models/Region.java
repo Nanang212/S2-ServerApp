@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,6 +33,7 @@ public class Region {
     private String name;
 
     @OneToMany(mappedBy = "region")  
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) //untuk apa didalm region ini perlu menggunakan jsonProperty?apakah harus diakses
     private List<Country>country;
     
 
