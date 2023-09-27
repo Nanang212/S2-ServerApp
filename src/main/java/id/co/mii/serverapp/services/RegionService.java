@@ -11,8 +11,8 @@ import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.repositories.RegionsRepository;
 import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
 @Service
+@AllArgsConstructor
 public class RegionService {
     
     private RegionsRepository regionsRepository;
@@ -45,6 +45,12 @@ public class RegionService {
         regionsRepository.delete(region);
         return region;
     }
-    
+ 
+    public List<String> getAllRegion(){
+        return regionsRepository.getAllRegionName();
+    }
 
+    public List<Region> searchByName(String name){
+        return regionsRepository.searchByName("%" + name + "%");
+    }
 }
