@@ -2,6 +2,7 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -11,6 +12,7 @@ import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionsRepository;
+
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -22,6 +24,8 @@ public class CountryService {
     private RegionsRepository regionsRepository;
 
     private RegionService regionService;
+
+    private ModelMapper modelMapper;
 
     public List<Country> getAll(){
         return countryRepository.findAll();
@@ -68,6 +72,14 @@ public class CountryService {
         return countryRepository.save(country);
     }
 
+  public Country createDTOWithModelMapper(CountryRequest request){
+    Country country = modelMapper.map(request, Country.class);
 
+    country.setRegion(regionService.getById(request.getRegionId()));
+
+    return countryRepository.save(country);
+  }
 }
+
+
 

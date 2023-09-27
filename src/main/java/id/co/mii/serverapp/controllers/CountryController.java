@@ -53,4 +53,8 @@ public class CountryController {
         return countryService.createWithManualDTO(request);
     }
 
+    @PostMapping("/model-mapper-dto")
+    public Country createDTOWithModelMapper(@RequestBody CountryRequest request){
+        return countryService.createDTOWithModelMapper(request);
+    }
 }
