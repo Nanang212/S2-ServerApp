@@ -68,4 +68,9 @@ public class CountryController {
     public List<Map<String, Object>> getAllCustomUsingListOfMap(){
         return countryService.getAllCustomUsingListOfMap();
     }
+
+    @GetMapping("/getAll-stream")
+    public List<Map<String, Object>> getAllCustomStream (){
+        return countryService.getAllCustomStream();
+    }
 }

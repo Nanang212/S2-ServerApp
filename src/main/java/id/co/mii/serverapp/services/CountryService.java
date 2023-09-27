@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
@@ -112,6 +113,21 @@ public class CountryService {
     }
 
     return results;
+  }
+
+  public List<Map<String, Object>> getAllCustomStream(){
+    return countryRepository.findAll()
+                        .stream()
+                        .map( country -> {
+                            Map<String, Object> result = new HashMap<>();
+                            result.put("countryId", country.getId());
+                            result.put("countryCode", country.getCode());
+                            result.put("countryName", country.getName());
+                            result.put("regionId", country.getRegion().getId());
+                            result.put("regionName", country.getRegion().getName());
+                            return result;
+                        })
+                        .collect(Collectors.toList());
   }
 }
 
