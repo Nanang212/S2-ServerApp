@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Country;
+import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.services.CountryService;
 import lombok.AllArgsConstructor;
 
@@ -45,6 +46,11 @@ public class CountryController {
     @DeleteMapping("/{id}")
     public Country delete(@PathVariable Integer id){
         return countryService.delete(id);
+    }
+
+    @PostMapping("/manual-dto")
+    public Country createWithManualDTO(@RequestBody CountryRequest request){
+        return countryService.createWithManualDTO(request);
     }
 
 }

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Country;
+import id.co.mii.serverapp.models.Region;
+import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionsRepository;
 import lombok.AllArgsConstructor;
@@ -18,6 +20,8 @@ public class CountryService {
     private CountryRepository countryRepository;
 
     private RegionsRepository regionsRepository;
+
+    private RegionService regionService;
 
     public List<Country> getAll(){
         return countryRepository.findAll();
@@ -52,7 +56,17 @@ public class CountryService {
         return country;
     }
 
-    
+    public Country createWithManualDTO(CountryRequest request){
+        Country country = new Country();
+        country.setCode(request.getCode());
+        country.setName(request.getName());
+        
+        Region region = regionService.getById(request.getRegionId());
+           
+        country.setRegion(region);
+
+        return countryRepository.save(country);
+    }
 
 
 }
