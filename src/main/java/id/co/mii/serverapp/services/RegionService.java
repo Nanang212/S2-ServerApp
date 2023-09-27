@@ -9,15 +9,13 @@ import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.repositories.RegionsRepository;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @Service
 public class RegionService {
     
     private RegionsRepository regionsRepository;
-
-    public RegionService(RegionsRepository regionsRepository) {
-        this.regionsRepository = regionsRepository;
-    }
 
     public List<Region> getAll(){
         return regionsRepository.findAll();

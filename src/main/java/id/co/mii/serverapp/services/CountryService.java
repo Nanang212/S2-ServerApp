@@ -9,21 +9,15 @@ import org.springframework.web.server.ResponseStatusException;
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionsRepository;
+import lombok.AllArgsConstructor;
 
-
+@AllArgsConstructor
 @Service
 public class CountryService {
     
     private CountryRepository countryRepository;
 
     private RegionsRepository regionsRepository;
-
-    
-
-    public CountryService(CountryRepository countryRepository, RegionsRepository regionsRepository) {
-        this.countryRepository = countryRepository;
-        this.regionsRepository = regionsRepository;
-    }
 
     public List<Country> getAll(){
         return countryRepository.findAll();

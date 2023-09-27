@@ -13,16 +13,14 @@ import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.services.CountryService;
+import lombok.AllArgsConstructor;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/country")
 public class CountryController {
     
     private CountryService countryService;
-
-    public CountryController(CountryService countryService) {
-        this.countryService = countryService;
-    }
 
     @GetMapping
     public List<Country> getAll(){
