@@ -27,6 +27,13 @@ public class RegionService {
   }
 
   public Region create(Region region) {
+    if (regionRepository.findByName(region.getName()).isPresent()) {
+      throw new ResponseStatusException(
+        HttpStatus.CONFLICT,
+        "Name is already exists!!!"
+      );
+    }
+
     return regionRepository.save(region);
   }
 
@@ -40,5 +47,19 @@ public class RegionService {
     Region region = getById(id);
     regionRepository.delete(region);
     return region;
+  }
+
+  // Native
+  public List<Region> searchAllNameNative(String name) {
+    return regionRepository.searchAllNameNative("%" + name + "%");
+  }
+
+  // JPQL
+  public List<Region> searchAllNameJPQL(String name) {
+    return regionRepository.searchAllNameJPQL("%" + name + "%");
+  }
+
+  public List<String> getAllName() {
+    return regionRepository.getAllName();
   }
 }

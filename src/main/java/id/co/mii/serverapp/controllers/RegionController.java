@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController // json
@@ -46,5 +47,26 @@ public class RegionController {
   @DeleteMapping("/{id}")
   public Region delete(@PathVariable Integer id) {
     return regionService.delete(id);
+  }
+
+  // Native
+  @GetMapping("/native")
+  public List<Region> searchAllNameNative(
+    @RequestParam(name = "name") String name
+  ) {
+    return regionService.searchAllNameNative(name);
+  }
+
+  // JPQL
+  @GetMapping("/jpql")
+  public List<Region> searchAllNameJPQL(
+    @RequestParam(name = "name") String name
+  ) {
+    return regionService.searchAllNameJPQL(name);
+  }
+
+  @GetMapping("/jpql-all")
+  public List<String> getAllName() {
+    return regionService.getAllName();
   }
 }
