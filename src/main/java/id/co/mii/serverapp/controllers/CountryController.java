@@ -1,6 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.Country;
+import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.services.CountryService;
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -30,9 +31,24 @@ public class CountryController {
     return countryService.getById(id);
   }
 
+  // without dto
   @PostMapping
   public Country create(@RequestBody Country country) {
     return countryService.create(country);
+  }
+
+  // with dto
+  @PostMapping("/dto")
+  public Country createDTO(@RequestBody CountryRequest countryRequest) {
+    return countryService.createDTO(countryRequest);
+  }
+
+  // with dto by model mapper
+  @PostMapping("/dto-m")
+  public Country createDTOByModelMapper(
+    @RequestBody CountryRequest countryRequest
+  ) {
+    return countryService.createDTOByModelMapper(countryRequest);
   }
 
   @PutMapping("/{id}")
