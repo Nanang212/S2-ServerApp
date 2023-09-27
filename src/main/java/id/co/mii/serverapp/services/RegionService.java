@@ -3,18 +3,16 @@ package id.co.mii.serverapp.services;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.repositories.RegionRepository;
 import java.util.List;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 @Service
+@AllArgsConstructor
 public class RegionService {
 
   private RegionRepository regionRepository;
-
-  public RegionService(RegionRepository regionRepository) {
-    this.regionRepository = regionRepository;
-  }
 
   public List<Region> getAll() {
     return regionRepository.findAll();
