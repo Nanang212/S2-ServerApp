@@ -1,10 +1,7 @@
 package id.co.mii.serverapp.services.base;
 
-import id.co.mii.serverapp.dto.base.BaseDto;
-import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.models.base.BaseEntity;
 import id.co.mii.serverapp.repositories.base.BaseRepository;
-import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
@@ -18,8 +15,6 @@ import java.util.List;
 public class BaseService<E extends BaseEntity> {
     @Autowired
     private BaseRepository<E> repository;
-    @Autowired
-    private ModelMapper mapper;
 
     public List<E> getAll() {
         return repository.findAll();

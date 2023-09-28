@@ -20,4 +20,5 @@ public interface CountryRepo extends BaseRepository<Country> {
             "OR LOWER(c.region.name) LIKE %:keyword% " +
             "ORDER BY c.name")
     List<Country> findALlBy(@Param("keyword") String keyword);
+    public List<Country> findByNameOrRegionName(String name, String regionName);
 }
