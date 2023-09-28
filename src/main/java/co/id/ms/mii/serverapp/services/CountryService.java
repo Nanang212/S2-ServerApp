@@ -1,6 +1,6 @@
 package co.id.ms.mii.serverapp.services;
 
-import co.id.ms.mii.serverapp.Dtos.CountryRequest;
+import co.id.ms.mii.serverapp.dto.CountryRequest;
 import co.id.ms.mii.serverapp.models.Country;
 import co.id.ms.mii.serverapp.models.Region;
 import co.id.ms.mii.serverapp.repositories.CountryRepository;

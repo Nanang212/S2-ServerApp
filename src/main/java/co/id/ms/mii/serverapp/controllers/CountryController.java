@@ -1,6 +1,6 @@
 package co.id.ms.mii.serverapp.controllers;
 
-import co.id.ms.mii.serverapp.Dtos.CountryRequest;
+import co.id.ms.mii.serverapp.dto.CountryRequest;
 import co.id.ms.mii.serverapp.models.Country;
 import co.id.ms.mii.serverapp.services.CountryService;
 import lombok.AllArgsConstructor;

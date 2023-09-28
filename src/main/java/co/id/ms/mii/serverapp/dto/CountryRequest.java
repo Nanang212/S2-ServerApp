@@ -1,4 +1,4 @@
-package co.id.ms.mii.serverapp.Dtos;
+package co.id.ms.mii.serverapp.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

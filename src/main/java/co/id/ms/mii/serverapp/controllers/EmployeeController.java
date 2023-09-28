@@ -13,7 +13,7 @@ import java.util.List;
 @Controller
 @RestController
 @AllArgsConstructor
-@RequestMapping(name = "employee")
+@RequestMapping("/employee")
 public class EmployeeController {
     private EmployeeService employeeService;
 
@@ -32,12 +32,12 @@ public class EmployeeController {
         return employeeService.create(employee);
     }
 
-    @PutMapping
+    @PutMapping("/{id}")
     public Employee update(@RequestBody Employee employee, @PathVariable Integer id){
         return employeeService.update(employee,id);
     }
 
-    @DeleteMapping
+    @DeleteMapping("/{id}")
     public Employee delete(@PathVariable Integer id){
         return employeeService.delete(id);
     }
