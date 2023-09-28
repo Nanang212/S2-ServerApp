@@ -2,6 +2,7 @@ package co.id.ms.mii.serverapp.services;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -10,12 +11,9 @@ import co.id.ms.mii.serverapp.models.Region;
 import co.id.ms.mii.serverapp.repositories.RegionRepository;
 
 @Service
+@AllArgsConstructor
 public class RegionServices {
     private RegionRepository regionRepository;
-
-    public RegionServices(RegionRepository regionRepository) {
-        this.regionRepository = regionRepository;
-    }
 
     public List<Region> getAll(){
         return regionRepository.findAll();

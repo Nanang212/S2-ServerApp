@@ -5,28 +5,30 @@ import co.id.ms.mii.serverapp.models.Country;
 import co.id.ms.mii.serverapp.models.Region;
 import co.id.ms.mii.serverapp.repositories.CountryRepository;
 import co.id.ms.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class CountryService {
-    private CountryRepository countryRepository;
-    private RegionRepository regionRepository;
+    private final CountryRepository countryRepository;
+    private final RegionRepository regionRepository;
 
-    public CountryService(CountryRepository countryRepository, RegionRepository regionRepository) {
-        this.countryRepository = countryRepository;
-        this.regionRepository = regionRepository;
-    }
+    /*
+     * 1. Autowired on properties
+     * 2. Autowired on setter
+     * 3. Autowired on constructor
+     */
 
     public List<Country> getAll() {
         return countryRepository.findAll();
     }
 
-    public Country GetAllById(Integer id) {
+    public Country GetById(Integer id) {
         return countryRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Data Country " + id + " Not Found")
         );
@@ -35,12 +37,19 @@ public class CountryService {
 
     public Country insert(CountryRequest countryDto) {
 
+        if (!countryRepository.findByNameOrRegionName(countryDto.getName(), countryDto.getName()).isEmpty())
+        {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Name is already exists!!!");
+        }
+
         if (countryRepository.existsByName(countryDto.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Country Name already exists!!!");
         }
 
+        //get all region
         List<Region> regions = regionRepository.findAll();
 
+        //check jika country name ada yang sama, dengan semua data region name
         for (Region region :
                 regions) {
             if (region.getName().equalsIgnoreCase(countryDto.getName())) {
@@ -48,6 +57,7 @@ public class CountryService {
             }
         }
 
+        // checking jika ada region yang ada dengan parameter region_id di countrydto
         Region setregion = regionRepository.findById(countryDto.getRegion_id()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region ID is not Found")
         );
@@ -73,7 +83,7 @@ public class CountryService {
 
         //find id
         Country country = countryRepository.findById(id).orElseThrow(
-                () -> new ResponseStatusException(HttpStatus.NOT_FOUND,"Country ID Not Found!!!")
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country ID Not Found!!!")
         );
 
         Region setregion = regionRepository.findById(countrydto.getRegion_id()).orElseThrow(
@@ -85,7 +95,6 @@ public class CountryService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Country Name already exists!!!");
         }
 
-
         country.setCode(countrydto.getCode());
         country.setName(countrydto.getName());
         country.setRegion(setregion);
@@ -93,7 +102,7 @@ public class CountryService {
     }
 
     public Country delete(Integer id) {
-        Country country = GetAllById(id);
+        Country country = GetById(id);
         countryRepository.delete(country);
         return country;
     }

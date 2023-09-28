@@ -2,6 +2,7 @@ package co.id.ms.mii.serverapp.controllers;
 
 import java.util.List;
 
+import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,13 +18,11 @@ import co.id.ms.mii.serverapp.services.RegionServices;
 
 @Controller // view => html
 @RestController // json
+@AllArgsConstructor
 @RequestMapping("/regions")
 public class RegionController {
     private RegionServices regionServices;
 
-    public RegionController(RegionServices regionServices) {
-        this.regionServices = regionServices;
-    }
 
     @GetMapping
     public List<Region> findAll() {

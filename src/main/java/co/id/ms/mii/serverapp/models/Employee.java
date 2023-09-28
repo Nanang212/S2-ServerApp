@@ -1,6 +1,5 @@
 package co.id.ms.mii.serverapp.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,20 +7,19 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Entity
+@Table(name = "employee")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "country")
-public class Country {
-    
+public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employee_id")
     private Integer id;
-    @Column(length = 2)
-    private String code;
     private String name;
+    private String email;
+    private Integer phone;
 
-    @ManyToOne
-            @JoinColumn(name = "region_id")
-    private Region region;
+    @OneToOne(mappedBy = "employee")
+    private User user;
 }
