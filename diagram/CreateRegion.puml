@@ -1,0 +1,15 @@
+@startuml
+'https://plantuml.com/sequence-diagram
+
+autonumber
+
+CountryController -> CountryService: send dto
+CountryService -> CountryService: validation
+CountryService -> CountryService: map DTO (request) to entity
+CountryService -> CountryRepository: send entity
+CountryRepository -> Database: send query and entity
+Database --> CountryRepository: receive entity (response)
+CountryRepository --> CountryService: receive entity (response)
+CountryService --> CountryController: receive entity (response)
+
+@enduml
