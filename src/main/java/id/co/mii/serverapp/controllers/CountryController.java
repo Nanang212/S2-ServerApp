@@ -13,40 +13,37 @@ import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.services.CountryService;
+import lombok.AllArgsConstructor;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/country")
 public class CountryController {
     private CountryService countryService;
 
-    public CountryController(CountryService countryService) {
-        this.countryService = countryService;
-    }
-
     @GetMapping
-    public List<Country> getAll(){
+    public List<Country> getAll() {
         return countryService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Country findByIdCountry(@PathVariable Integer id){
+    public Country findByIdCountry(@PathVariable Integer id) {
         return countryService.getByIdCountry(id);
     }
 
     @PostMapping
     public Country inserCountry(@RequestBody Country country){
-        return countryService.insert(country);
+    return countryService.insert(country);
     }
 
     @PutMapping("/{id}")
-    public Country updateCountry(@PathVariable Integer id, @RequestBody Country country){
+    public Country updateCountry(@PathVariable Integer id, @RequestBody Country country) {
         return countryService.update(id, country);
     }
 
     @DeleteMapping("/{id}")
-    public Country delete(@PathVariable Integer id){
+    public Country delete(@PathVariable Integer id) {
         return countryService.delete(id);
     }
 
-    
 }

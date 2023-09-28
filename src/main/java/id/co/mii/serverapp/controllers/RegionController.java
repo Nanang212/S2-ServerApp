@@ -13,15 +13,13 @@ import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.services.RegionService;
+import lombok.AllArgsConstructor;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/region")
 public class RegionController {
     private RegionService regionService;
-
-    public RegionController(RegionService regionService) {
-        this.regionService = regionService;
-    }
 
     @GetMapping
     public List<Region> getAll() {
@@ -47,5 +45,6 @@ public class RegionController {
     public Region delete(@PathVariable Integer id) {
         return regionService.delete(id);
     }
+    
 
 }
