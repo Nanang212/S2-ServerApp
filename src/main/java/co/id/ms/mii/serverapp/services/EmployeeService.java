@@ -43,8 +43,8 @@ public class EmployeeService {
     }
 
     public Employee delete(Integer id) {
-        Employee country = getById(id);
-        employeeRepository.delete(country);
-        return country;
+        Employee user = getById(id);
+        employeeRepository.delete(user);
+        return user;
     }
 }

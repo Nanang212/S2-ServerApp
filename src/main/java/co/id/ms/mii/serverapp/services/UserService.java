@@ -2,6 +2,7 @@ package co.id.ms.mii.serverapp.services;
 
 import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.models.User;
+import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,5 +32,19 @@ public class UserService {
         }
 
         return userRepository.save(user);
+    }
+
+    public User update(User user, Integer id){
+        if(userRepository.existsByUsername(user.getUsername())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Name User already exists!!!");
+        }
+        getById(id);
+        user.setId(id);
+        return userRepository.save(user);
+    }
+    public User delete(Integer id) {
+        User user = getById(id);
+        userRepository.delete(user);
+        return user;
     }
 }

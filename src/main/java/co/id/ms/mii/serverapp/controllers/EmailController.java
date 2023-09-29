@@ -1,6 +1,6 @@
 package co.id.ms.mii.serverapp.controllers;
 
-import co.id.ms.mii.serverapp.dto.EmailRequest;
+import co.id.ms.mii.serverapp.dto.request.EmailRequest;
 import co.id.ms.mii.serverapp.services.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -28,5 +28,12 @@ public class EmailController {
             @RequestBody EmailRequest emailRequest
     ) {
         return emailService.sendMessageWithAttachment(emailRequest);
+    }
+
+    @PostMapping("/htmlmessage")
+    public EmailRequest sendHtmlMessage(
+            @RequestBody EmailRequest emailRequest
+    ) {
+        return emailService.sendHtmlMessage(emailRequest);
     }
 }

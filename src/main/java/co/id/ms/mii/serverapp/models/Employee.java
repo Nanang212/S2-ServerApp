@@ -13,13 +13,14 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Employee {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
+    @Column(name = "user_id")
     private Integer id;
     private String name;
     private String email;
     private Integer phone;
 
-    @OneToOne(mappedBy = "employee")
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "user_id")
     private User user;
 }
