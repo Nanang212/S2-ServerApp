@@ -1,6 +1,7 @@
 package id.co.mii.serverapp.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,6 @@ public class RegionService {
         this.countryRepository = countryRepository;
     }
 
-    // getAll
     public List<Region> getAll(){
         return regionRepository.findAll();
     }
@@ -33,10 +33,10 @@ public class RegionService {
 
     public Region create(Region region){
 
-        Region regionExist = regionRepository.findByName(region.getName());
+        Optional<Region> regionExist = regionRepository.findByName(region.getName());
         Country countryExist = countryRepository.findByName(region.getName());
 
-        if(regionExist != null){
+        if(regionExist.isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region with the same name already exists!");
         }
 
@@ -47,7 +47,7 @@ public class RegionService {
         if(region.getName().isEmpty()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The Name field is required!");
         }
-        
+
         return regionRepository.save(region);
     }
     
@@ -56,10 +56,10 @@ public class RegionService {
         getById(id);
         region.setId(id);
         
-        Region regionExist = regionRepository.findByName(region.getName());
+        Optional<Region> regionExist = regionRepository.findByName(region.getName());
         Country countryExist = countryRepository.findByName(region.getName());
 
-        if(regionExist != null){
+        if(regionExist.isPresent()){
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region with the same name already exists!");
         }
 
@@ -78,5 +78,19 @@ public class RegionService {
         Region region = getById(id);
         regionRepository.delete(region);
         return region;
+    }
+
+    // Native
+    public List<Region> searchAllNameNative(String name) {
+        return regionRepository.searchAllNameNative("%" + name + "%");
+    }
+
+    // JPQL
+    public List<Region> searchAllNameJPQL(String name) {
+        return regionRepository.searchAllNameJPQL("%" + name + "%");
+    }
+
+    public List<String> getAllName() {
+        return regionRepository.getAllName();
     }
 }
