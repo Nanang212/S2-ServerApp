@@ -7,14 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class RegionService {
-    private RegionRepository regionRepository;
 
-    public RegionService(RegionRepository regionRepository) {
-        this.regionRepository = regionRepository;
-    }
+    private RegionRepository regionRepository;
 
     public List<Region> getAll() {
         return regionRepository.findAll();
@@ -27,19 +26,15 @@ public class RegionService {
     }
 
     public Region insertData(Region region) {
-         if (regionRepository.existsByName(region.getName())) {
+         if (regionRepository.findByName(region.getName()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama wilayah sudah ada !!! ");
-        }
-
-        if (region.getName().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama wilayah Harus Diisi");
         }
 
         return regionRepository.save(region);
     }
 
     public Region update(Integer id, Region region) {
-         if (regionRepository.existsByName(region.getName())) {
+         if (regionRepository.findByName(region.getName()).isPresent()) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama wilayah sudah ada !!! ");
         }
 
@@ -53,4 +48,18 @@ public class RegionService {
         regionRepository.delete(region);
         return region;
     }
+
+    // native
+    public List<Region> searchAllNameNative(String name){
+        return regionRepository.searchAllNameNative("%" + name + "%");
+    }
+
+    // JPQL
+    public List<Region> searchAllNameJPQL(String name){
+        return regionRepository.searchAllNameJPQL("%" + name + "%");
+    }
+
+    public List<String> getAllName() {
+        return regionRepository.getAllName();
+      }
 }
