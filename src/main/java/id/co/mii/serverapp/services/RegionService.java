@@ -7,57 +7,54 @@ import org.springframework.web.server.ResponseStatusException;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class RegionService {
     private RegionRepository regionRepository;
-    private CountryRepository countryRepository;
-    public RegionService(RegionRepository regionRepository, CountryRepository countryRepository) {
-        this.regionRepository = regionRepository;
-        this.countryRepository = countryRepository;
-    }
-
-    // getAll
-    public List<Region> getAll(){
+    public List<Region> getAll() {
         return regionRepository.findAll();
     }
 
-    public Region getById(Integer id){
-        return regionRepository.findById(id).orElseThrow(() -> new ResponseStatusException
-        (HttpStatus.NOT_FOUND, "Region not found!"));
+    public Region getById(Integer id) {
+        return regionRepository.findById(id).orElseThrow(() ->
+        new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!"));
     }
 
-    public Region create(Region region){
-        if(regionRepository.findByName(region.getName()) != null){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Region names already exist!");
-        }
-        if(countryRepository.findByName(region.getName()) != null){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "The Region name cannot be the same as the Country name!");
-        }
-        if(region.getName().isEmpty()){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Region name cannot be empty!");
+    public Region create(Region region) {
+        if (regionRepository.findByName(region.getName()).isPresent()) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Name is already exists!"
+            );
         }
         return regionRepository.save(region);
     }
 
-    public Region update(Integer id, Region region){
-        getById(id); // findId
-        region.setId(id); // set data
-        if(regionRepository.findByName(region.getName()) != null){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Region names already exist!");
-        }
-        if(countryRepository.findByName(region.getName()) != null){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "The Region name cannot be the same as the Country name!");
-        }
-        if(region.getName().isEmpty()){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Region name cannot be empty!");
-        }
-        return regionRepository.save(region); // save
+    public Region update(Integer id, Region region) {
+        getById(id);
+        region.setId(id);
+    
+        return regionRepository.save(region);
     }
 
-    public Region delete(Integer id){
+    public Region delete(Integer id) {
         Region region = getById(id);
         regionRepository.delete(region);
+            
         return region;
+    }
+
+    // Native Query
+    public List<Region> searchAllNameNative(String name) {
+        return regionRepository.searchAllNameNative("%" + name + "%");
+    }
+
+    // JPQL Query
+    public List<Region> searchAllNameJPQL(String name) {
+        return regionRepository.searchAllNameJPQL("%" + name + "%");
+    }
+
+    public List<String> getAllName() {
+        return regionRepository.getAllName();
     }
 }

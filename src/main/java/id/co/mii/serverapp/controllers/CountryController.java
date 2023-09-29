@@ -1,48 +1,78 @@
 package id.co.mii.serverapp.controllers;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
 import id.co.mii.serverapp.models.Country;
+import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.services.CountryService;
-
 import java.util.List;
+import java.util.Map;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/country")
 public class CountryController {
-    private final CountryService countryService;
 
-    public CountryController(CountryService countryService) {
-        this.countryService = countryService;
-    }
+    private CountryService countryService;
 
     @GetMapping
-    public List<Country> getAllCountries() {
-        return countryService.getAllCountries();
+    public List<Country> getAll() {
+        return countryService.getAll();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Country> getCountryById(@PathVariable Integer id) {
-        Country country = countryService.getCountryById(id);
-        return ResponseEntity.ok(country);
+    public Country getById(@PathVariable Integer id) {
+        return countryService.getById(id);
     }
 
+    // without dto
     @PostMapping
-    public ResponseEntity<Country> createCountry(@RequestBody Country country) {
-        Country createdCountry = countryService.createCountry(country);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCountry);
+    public Country create(@RequestBody Country country) {
+        return countryService.create(country);
+    }
+
+    // with dto
+    @PostMapping("/dto")
+    public Country createDTO(@RequestBody CountryRequest countryRequest) {
+        return countryService.createDTO(countryRequest);
+    }
+
+    // with dto by model mapper
+    @PostMapping("/dto-m")
+    public Country createDTOByModelMapper(@RequestBody CountryRequest countryRequest) {
+        return countryService.createDTOByModelMapper(countryRequest);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Country> updateCountry(@PathVariable Integer id, @RequestBody Country country) {
-        Country updatedCountry = countryService.updateCountry(id, country);
-        return ResponseEntity.ok(updatedCountry);
+    public Country update(@PathVariable Integer id, @RequestBody Country country) {
+        return countryService.update(id, country);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Country> deleteCountry(@PathVariable Integer id) {
-        Country deletedCountry = countryService.deleteCountry(id);
-        return ResponseEntity.ok(deletedCountry);
+    public Country delete(@PathVariable Integer id) {
+        return countryService.delete(id);
+    }
+
+    // custom manual
+    @GetMapping("/custom/{id}")
+    public Map<String, Object> getByIdCustom(@PathVariable Integer id) {
+        return countryService.getByIdCustom(id);
+    }
+
+    @GetMapping("/all")
+    public List<Map<String, Object>> getAllCustom() {
+        return countryService.getAllCustom();
+    }
+
+    @GetMapping("/all/stream")
+    public List<Map<String, Object>> getAllCustomStream() {
+        return countryService.getAllCustomStream();
     }
 }
