@@ -5,6 +5,7 @@ import java.io.File;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.core.io.FileSystemResource;
+
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -39,11 +40,11 @@ public class EmailService {
            helper.setTo(request.getTo());
            helper.setSubject(request.getSubject());
            helper.setText(request.getText());
-
-           FileSystemResource file  = new FileSystemResource(new File(request.getAttachment()));
-
-        //    FileSystemResource file = new FileSystemResource(new File(request.getAttachment()));
-           helper.addAttachment("Atteachment",file);
+           
+           FileSystemResource file = new FileSystemResource(
+            new File(request.getAttachment())
+          );
+           helper.addAttachment(file.getFilename(),file);
            
            javaMailSender.send(message);
       } catch (Exception e) {
