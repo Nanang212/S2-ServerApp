@@ -1,7 +1,6 @@
 package id.co.mii.serverapp.services;
 
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -9,9 +8,7 @@ import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
-import id.co.mii.serverapp.repositories.RegionRepository;
 import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -27,7 +24,6 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class CountryService {
     private CountryRepository countryRepository;
-    private RegionRepository regionRepository;
     private RegionService regionService;
     private ModelMapper modelMapper;
 
