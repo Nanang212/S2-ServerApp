@@ -5,6 +5,7 @@ import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.models.dto.request.CountryRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -16,16 +17,11 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class CountryService {
     private final CountryRepository countryRepository;
     private final RegionRepository regionRepository;
     private final Validator validator;
-
-    public CountryService(CountryRepository countryRepository, RegionRepository regionRepository, Validator validator) {
-        this.countryRepository = countryRepository;
-        this.regionRepository = regionRepository;
-        this.validator = validator;
-    }
 
     public Country create(CountryRequest request) {
         Set<ConstraintViolation<CountryRequest>> constraintViolations = validator.validate(request);

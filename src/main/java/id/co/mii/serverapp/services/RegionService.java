@@ -4,6 +4,7 @@ import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.models.dto.request.RegionRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -15,16 +16,11 @@ import java.util.List;
 import java.util.Set;
 
 @Service
+@AllArgsConstructor
 public class RegionService {
     private final RegionRepository regionRepository;
     private final CountryRepository countryRepository;
     private final Validator validator;
-
-    public RegionService(RegionRepository regionRepository, CountryRepository countryRepository, Validator validator) {
-        this.regionRepository = regionRepository;
-        this.countryRepository = countryRepository;
-        this.validator = validator;
-    }
 
     public Region create(RegionRequest request) {
         Set<ConstraintViolation<RegionRequest>> constraintViolations = validator.validate(request);
