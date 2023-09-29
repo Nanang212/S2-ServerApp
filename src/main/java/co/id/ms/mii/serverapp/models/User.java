@@ -1,6 +1,5 @@
 package co.id.ms.mii.serverapp.models;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,15 +20,14 @@ public class User {
     private String username;
     private String password;
 
-    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "user")
     private Employee employee;
 
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "user_role",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-    private List<Role> roles;
+//    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(
+//            name = "user_role",
+//            joinColumns = @JoinColumn(name = "user_id"),
+//            inverseJoinColumns = @JoinColumn(name = "role_id")
+//    )
+//    private List<Role> roles;
 }

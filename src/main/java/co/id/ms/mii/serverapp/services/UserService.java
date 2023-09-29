@@ -1,8 +1,10 @@
 package co.id.ms.mii.serverapp.services;
 
+import co.id.ms.mii.serverapp.models.Employee;
 import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.models.User;
+import co.id.ms.mii.serverapp.repositories.EmployeeRepository;
 import co.id.ms.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -15,6 +17,7 @@ import java.util.List;
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
+    private EmployeeRepository employeeRepository;
 
     public List<User> getall(){
         return userRepository.findAll();

@@ -1,5 +1,6 @@
 package co.id.ms.mii.serverapp.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,14 +14,15 @@ import javax.persistence.*;
 @AllArgsConstructor
 public class Employee {
     @Id
-    @Column(name = "user_id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "employee_id")
     private Integer id;
     private String name;
     private String email;
     private Integer phone;
 
-    @OneToOne
-    @MapsId
+    @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "user_id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 }

@@ -1,5 +1,6 @@
 package co.id.ms.mii.serverapp.controllers;
 
+import co.id.ms.mii.serverapp.dto.request.EmployeeRequest;
 import co.id.ms.mii.serverapp.models.Country;
 import co.id.ms.mii.serverapp.models.Employee;
 import co.id.ms.mii.serverapp.services.EmployeeService;
@@ -28,13 +29,13 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee create(@RequestBody Employee employee){
-        return employeeService.create(employee);
+    public Employee create(@RequestBody EmployeeRequest employeeRequest){
+        return employeeService.create(employeeRequest);
     }
 
     @PutMapping("/{id}")
-    public Employee update(@RequestBody Employee employee, @PathVariable Integer id){
-        return employeeService.update(employee,id);
+    public Employee update(@RequestBody EmployeeRequest employeeRequest, @PathVariable Integer id){
+        return employeeService.update(employeeRequest,id);
     }
 
     @DeleteMapping("/{id}")
