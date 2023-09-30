@@ -66,4 +66,9 @@ public class RoleController {
     public List<Role> getAllRolesByUserId(@PathVariable Integer id){
         return roleService.getAllRolesByUserId(id);
     }
+
+    @PutMapping("/users/{id}/roles")
+    public User updateRoleOfUser(@RequestBody Role role, @PathVariable Integer id){
+        return roleService.updateRoleOfUser(role, id);
+    }
 }

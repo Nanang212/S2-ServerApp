@@ -81,5 +81,23 @@ public class RoleService {
         getById(id);
         return roleRepository.findRolesByUsersId(id);
     }
+
+    public User updateRoleOfUser(Role role ,Integer id){
+        User user = userService.getById(id);
+
+        List<Role> userHasRoles = user.getRoles();
+      
+        for (Role updateRole : userHasRoles) {
+
+            if(updateRole.getId().equals(role.getId())){
+                updateRole.setId(role.getId());
+                updateRole.setName(role.getName());
+            }
+        }
+
+        user.setRoles(userHasRoles);
+
+        return userRepository.save(user);
+    }
  
 }
