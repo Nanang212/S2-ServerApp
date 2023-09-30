@@ -7,14 +7,20 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
+import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Service
 @AllArgsConstructor
+@Data
 public class EmployeeService {
     
     private EmployeeRepository employeeRepository;
+
+    private UserRepository userRepository;
 
     public List<Employee> getAll(){
         return employeeRepository.findAll();
@@ -41,5 +47,18 @@ public class EmployeeService {
         Employee employee = getById(id);
         employeeRepository.delete(employee);
         return employee;
+    }
+
+    public Employee createEmployeByExistingUser(Employee employee, Integer id){
+       User user = userRepository.findById(id).orElse(null);
+
+       if (employeeRepository.existsByUserId(id)){
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "user id is already exist");
+       }
+       
+        // user.setEmployee(employee);
+        employee.setUser(user);
+      return   employeeRepository.save(employee);
+    
     }
 }
