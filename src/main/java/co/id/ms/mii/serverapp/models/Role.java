@@ -1,5 +1,6 @@
 package co.id.ms.mii.serverapp.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,4 +20,7 @@ public class Role {
     private Integer id;
     private String name;
 
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<User> users;
 }
