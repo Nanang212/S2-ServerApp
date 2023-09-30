@@ -11,18 +11,15 @@ import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class RegionService {
     
     private final RegionRepository regionRepository;
     private final CountryRepository countryRepository;
-
-    public RegionService(RegionRepository regionRepository, CountryRepository countryRepository) {
-        this.regionRepository = regionRepository;
-        this.countryRepository = countryRepository;
-    }
-
+    
     public List<Region> getAll(){
         return regionRepository.findAll();
     }
