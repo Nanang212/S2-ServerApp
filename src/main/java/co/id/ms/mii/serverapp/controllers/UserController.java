@@ -1,5 +1,6 @@
 package co.id.ms.mii.serverapp.controllers;
 
+import co.id.ms.mii.serverapp.dto.request.UserRequest;
 import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.services.EmployeeService;
@@ -30,13 +31,13 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody User region){
-        return userService.create(region);
+    public User create(@RequestBody UserRequest userRequest){
+        return userService.create(userRequest);
     }
 
     @PutMapping("/{id}")
-    public User update(@RequestBody User user, @PathVariable Integer id){
-        return userService.update(user,id);
+    public User update(@RequestBody UserRequest userRequest, @PathVariable Integer id){
+        return userService.update(userRequest,id);
     }
 
     @DeleteMapping("/{id}")

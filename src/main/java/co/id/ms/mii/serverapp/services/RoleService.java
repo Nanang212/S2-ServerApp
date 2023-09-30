@@ -25,24 +25,24 @@ public class RoleService {
         );
     }
 
-    public Role create (Role user){
-        if(roleRepository.existsByName(user.getName())){
+    public Role create (Role role){
+        if(roleRepository.existsByName(role.getName())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Role name already exists!!!");
         }
 
-        return roleRepository.save(user);
+        return roleRepository.save(role);
     }
-    public Role update(Role user, Integer id){
-        if(roleRepository.existsByName(user.getName())){
+    public Role update(Role role, Integer id){
+        if(roleRepository.existsByName(role.getName())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Name Role already exists!!!");
         }
         getById(id);
-        user.setId(id);
-        return roleRepository.save(user);
+        role.setId(id);
+        return roleRepository.save(role);
     }
     public Role delete(Integer id) {
-        Role user = getById(id);
-        roleRepository.delete(user);
-        return user;
+        Role role = getById(id);
+        roleRepository.delete(role);
+        return role;
     }
 }

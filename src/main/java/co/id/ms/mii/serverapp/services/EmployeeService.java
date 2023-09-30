@@ -77,8 +77,8 @@ public class EmployeeService {
     }
 
     public Employee delete(Integer id) {
-        Employee user = getById(id);
-        employeeRepository.delete(user);
-        return user;
+        Employee employee = getById(id);
+        employeeRepository.delete(employee);
+        return employee;
     }
 }

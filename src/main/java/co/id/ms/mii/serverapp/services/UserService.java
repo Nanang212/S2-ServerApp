@@ -2,6 +2,7 @@ package co.id.ms.mii.serverapp.services;
 
 import co.id.ms.mii.serverapp.controllers.EmployeeController;
 import co.id.ms.mii.serverapp.dto.request.EmployeeRequest;
+import co.id.ms.mii.serverapp.dto.request.UserRequest;
 import co.id.ms.mii.serverapp.models.*;
 import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.models.User;
@@ -33,43 +34,74 @@ public class UserService {
         );
     }
 
-    public User create (User user){
-        if(userRepository.existsByUsername(user.getUsername())){
+    public User create (UserRequest userRequest){
+        if(userRepository.existsByUsername(userRequest.getUsername())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Username already exists!!!");
         }
-        try {
 
-            List<Role> defaultRole = new ArrayList<Role>();
+            User user = new User();
+            user.setUsername(userRequest.getUsername());
+            user.setPassword(userRequest.getPassword());
+
+            List<Role> userRolesList = new ArrayList<Role>();
+
             //save role
-            for (Role rolelist :
-                    user.getRoles()) {
-                if(roleRepository.existsByName(rolelist.getName())){
-                    Role findRolename = roleRepository.findByNameContainingIgnoreCase(rolelist.getName());
-
-                    defaultRole.add(findRolename);
+            for (String roleName :
+                    userRequest.getRolesName()) {
+                if(roleRepository.existsByName(roleName)){
+                    //find name in role table
+                    Role findRolename = roleRepository.findByNameContainingIgnoreCase(roleName);
+                    userRolesList.add(findRolename);
                 } else{
-                    roleRepository.save(rolelist);
-                    defaultRole.add(rolelist);
+                    // save new name in role table
+                    Role userRole = new Role();
+
+                    userRole.setName(roleName);
+
+                    roleRepository.save(userRole);
+                    userRolesList.add(userRole);
                 }
             }
-            user.setRoles(defaultRole);
+            user.setRoles(userRolesList);
 
             //save user
             userRepository.save(user);
-        }catch (Exception e){
-            System.out.println(e);
-        }
 
         return user;
     }
 
-    public User update(User user, Integer id){
-        if(userRepository.existsByUsername(user.getUsername())){
+    public User update(UserRequest userRequest, Integer id){
+        if(userRepository.existsByUsername(userRequest.getUsername())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Name User already exists!!!");
         }
-        getById(id);
-        user.setId(id);
-        return userRepository.save(user);
+        // get user that want to update by id
+        User getuser = getById(id);
+
+        getuser.setUsername(userRequest.getUsername());
+        getuser.setPassword(userRequest.getPassword());
+
+        List<Role> userRolesList = new ArrayList<Role>();
+
+        //save role
+        for (String roleName :
+                userRequest.getRolesName()) {
+            if(roleRepository.existsByName(roleName)){
+                //find name in role table
+                Role findRolename = roleRepository.findByNameContainingIgnoreCase(roleName);
+                userRolesList.add(findRolename);
+            } else{
+                // save new name in role table
+                Role userRole = new Role();
+
+                userRole.setName(roleName);
+
+                roleRepository.save(userRole);
+                userRolesList.add(userRole);
+            }
+        }
+        getuser.setRoles(userRolesList);
+
+        return userRepository.save(getuser);
     }
     public User delete(Integer id) {
         User user = getById(id);
