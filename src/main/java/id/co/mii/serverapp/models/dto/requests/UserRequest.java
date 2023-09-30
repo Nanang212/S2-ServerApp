@@ -9,11 +9,8 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEmployeeRequest {
+public class UserRequest {
     private String username;
     private String password;
-    private String name;
-    private String email;
-    private String phone;
     private List<Integer> roleIds;
 }

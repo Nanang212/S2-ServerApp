@@ -1,6 +1,8 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.dto.requests.EmailRequest;
+import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
 import id.co.mii.serverapp.models.dto.requests.UserEmployeeRequest;
 import id.co.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -17,10 +19,10 @@ public class EmployeeController {
     private EmployeeService employeeService;
 
     @PostMapping
-    public ResponseEntity<Employee> create(@RequestBody UserEmployeeRequest userEmployeeRequest) {
+    public ResponseEntity<Employee> create(@RequestBody EmployeeRequest employeeRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(employeeService.create(userEmployeeRequest));
+                .body(employeeService.create(employeeRequest));
     }
 
     @GetMapping
@@ -38,10 +40,10 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Employee> update(@PathVariable Integer id, @RequestBody UserEmployeeRequest userEmployeeRequest) {
+    public ResponseEntity<Employee> update(@PathVariable Integer id, @RequestBody EmployeeRequest employeeRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(employeeService.update(id, userEmployeeRequest));
+                .body(employeeService.update(id, employeeRequest));
     }
 
     @DeleteMapping("/{id}")

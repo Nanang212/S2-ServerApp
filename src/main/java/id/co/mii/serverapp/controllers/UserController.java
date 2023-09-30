@@ -1,7 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.models.dto.requests.UserEmployeeRequest;
+import id.co.mii.serverapp.models.dto.requests.UserRequest;
 import id.co.mii.serverapp.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,10 +17,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody UserEmployeeRequest userEmployeeRequest) {
+    public ResponseEntity<User> create(@RequestBody UserRequest userRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(userService.create(userEmployeeRequest));
+                .body(userService.create(userRequest));
     }
 
     @GetMapping
@@ -38,10 +38,10 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody UserEmployeeRequest userEmployeeRequest) {
+    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody UserRequest userRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(userService.update(id, userEmployeeRequest));
+                .body(userService.update(id, userRequest));
     }
 
     @DeleteMapping("/{id}")

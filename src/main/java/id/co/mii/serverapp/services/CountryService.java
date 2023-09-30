@@ -12,7 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -79,5 +83,50 @@ public class CountryService extends BaseService<Country> {
             return countryRepo.findALlBy(keyword);
         }
         return countryRepo.findAll();
+    }
+
+    public Map<String, Object> getByIdCustom(Integer id) {
+        Map<String, Object> result = new HashMap<>();
+        Country country = countryRepo.findById(id).get();
+
+        result.put("countryId", country.getId());
+        result.put("countryCode", country.getCode());
+        result.put("countryName", country.getName());
+        result.put("regionId", country.getRegion().getId());
+        result.put("regionName", country.getRegion().getName());
+
+        return result;
+    }
+
+    public List<Map<String, Object>> getAllCustom() {
+        List<Map<String, Object>> results = new ArrayList<>();
+        List<Country> countries = countryRepo.findAll();
+
+        for (Country country : countries) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("countryId", country.getId());
+            result.put("countryCode", country.getCode());
+            result.put("countryName", country.getName());
+            result.put("regionId", country.getRegion().getId());
+            result.put("regionName", country.getRegion().getName());
+            results.add(result);
+        }
+        return results;
+    }
+
+    public List<Map<String, Object>> getAllCustomStream() {
+        return countryRepo
+                .findAll()
+                .stream()
+                .map(country -> {
+                    Map<String, Object> result = new HashMap<>();
+                    result.put("countryId", country.getId());
+                    result.put("countryCode", country.getCode());
+                    result.put("countryName", country.getName());
+                    result.put("regionId", country.getRegion().getId());
+                    result.put("regionName", country.getRegion().getName());
+                    return result;
+                })
+                .collect(Collectors.toList());
     }
 }

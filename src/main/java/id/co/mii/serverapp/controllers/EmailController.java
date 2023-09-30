@@ -24,4 +24,9 @@ public class EmailController {
     public EmailRequest htmlSend(@RequestBody EmailRequest emailRequest) {
         return emailService.sendHtmlMessage(emailRequest);
     }
+
+    @PostMapping("/attach")
+    public EmailRequest sendMessageWithAttachment(@RequestBody EmailRequest emailRequest) {
+        return emailService.sendMessageWithAttachment(emailRequest);
+    }
 }

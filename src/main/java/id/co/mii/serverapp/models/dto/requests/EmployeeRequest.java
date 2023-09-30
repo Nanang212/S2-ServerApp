@@ -4,16 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEmployeeRequest {
-    private String username;
-    private String password;
+public class EmployeeRequest {
     private String name;
     private String email;
     private String phone;
-    private List<Integer> roleIds;
+    private Integer userId;
 }

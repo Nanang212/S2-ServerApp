@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/countries")
@@ -49,5 +50,20 @@ public class CountryController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(countryService.delete(id));
+    }
+
+    @GetMapping("/custom/{id}")
+    public Map<String, Object> getByIdCustom(@PathVariable Integer id) {
+        return countryService.getByIdCustom(id);
+    }
+
+    @GetMapping("/all")
+    public List<Map<String, Object>> getAllCustom() {
+        return countryService.getAllCustom();
+    }
+
+    @GetMapping("/all/stream")
+    public List<Map<String, Object>> getAllCustomStream() {
+        return countryService.getAllCustomStream();
     }
 }
