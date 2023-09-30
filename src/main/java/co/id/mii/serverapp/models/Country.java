@@ -9,60 +9,27 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
+@Data
 @Entity
+@NoArgsConstructor
+@AllArgsConstructor
 @Table (name = "tb_country")
 public class Country {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    //untuk auto increment @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
-    @Column (length = 2)
+    @Column (length = 2, nullable = false, unique = true)
     private String code;
+    @Column(nullable = false, length = 20)
     private String name;
 
     @ManyToOne
     @JoinColumn(name = "region_id")
-    Region region;
-
-    public Country() {
-    }
-
-    
-
-    public Country(Integer id, String code, String name, Region region) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
-        this.region = region;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Country(Region region) {
-        this.region = region;
-    }    
+    Region region;  
 
 }

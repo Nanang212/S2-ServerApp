@@ -17,27 +17,42 @@ public class RegionServices {
         this.regionRepository = regionRepository;
     }
 
-    public List<Region> getAll(){
+    public List<Region> getAll() {
         return regionRepository.findAll();
-        }
-
-    public Region getById(Integer Id){
-        return regionRepository.findById(Id).orElseThrow(
-            () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Data pada- " + Id + " heng ono")
-        );
     }
-    public Region create (Region region) {
+
+    public Region getById(Integer Id) {
+        return regionRepository.findById(Id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Data pada- " + Id + " heng ono"));
+    }
+
+    public Region create(Region region) {
         return regionRepository.save(region);
     }
 
-    public Region update (Integer id,Region region){
+    public Region update(Integer id, Region region) {
         getById(id);
         region.setId(id);
         return regionRepository.save(region);
     }
-    public Region delete(Integer id){
+
+    public Region delete(Integer id) {
         Region region = getById(id);
         regionRepository.delete(region);
         return region;
+    }
+
+    // Native
+    public List<Region> searchAllNameNative(String name) {
+        return regionRepository.searchAllNameNative("%" + name + "%");
+    }
+
+    // JPQL
+    public List<Region> searchAllNameJPQL(String name) {
+        return regionRepository.searchAllNameJPQL("%" + name + "%");
+    }
+
+    public List<String> getAllName() {
+        return regionRepository.getAllName();
     }
 }
