@@ -11,7 +11,6 @@ public class ServerAppApplication {
 
 		System.out.println("\nServer App is running ...\n");
 
-		
 	}
 
 }
