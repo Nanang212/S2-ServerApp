@@ -11,16 +11,18 @@ import org.springframework.web.server.ResponseStatusException;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class RegionService {
     private RegionRepository regionRepository;
     private CountryRepository countryRepository;
 
-    public RegionService(RegionRepository regionRepository, CountryRepository countryRepository) {
-        this.regionRepository = regionRepository;
-        this.countryRepository = countryRepository;
-    }
+    // public RegionService(RegionRepository regionRepository, CountryRepository countryRepository) {
+    //     this.regionRepository = regionRepository;
+    //     this.countryRepository = countryRepository;
+    // }
     public List<Region> getAll(){
         return regionRepository.findAll();
     }
@@ -35,6 +37,9 @@ public class RegionService {
         if (regionRepository.existsByName(region.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Region name is already used!");
         }
+        // if(regionRepository.findByName(region.getName()).isPresent()){
+        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "Name is already exists");
+        // }
         return regionRepository.save(region);
     }
     public Region update(Integer id, Region region){
@@ -52,6 +57,20 @@ public class RegionService {
         Region region = getById(id);
         regionRepository.delete(region);
         return region;
+    }
+
+    //native
+    public List<Region> searchAllNameNative(String name){
+        return regionRepository.searchAllNameNative("%" + name + "%");
+    }
+
+    //jpql
+    public List<Region> searchAllNameJPQL(String name){
+        return regionRepository.searchAllNameJPQL("%" + name + "%");
+    }
+
+    public List<String> getAllName(){
+        return regionRepository.getAllName();
     }
 }
     
