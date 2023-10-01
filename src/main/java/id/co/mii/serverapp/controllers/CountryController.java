@@ -2,8 +2,9 @@ package id.co.mii.serverapp.controllers;
 
 
 import java.util.List;
+import java.util.Map;
 
-import org.springframework.stereotype.Controller;
+// import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,11 +15,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Country;
+import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.services.CountryService;
+import lombok.AllArgsConstructor;
 
 
-@Controller // output view => html
+// @Controller // output view => html
 @RestController // output json
+@AllArgsConstructor
 @RequestMapping("/country")
 public class CountryController {
      // meng assign
@@ -26,9 +30,9 @@ public class CountryController {
 
     
 
-    public CountryController(CountryService countryService) {
-        this.countryService = countryService;
-    }
+    // public CountryController(CountryService countryService) {
+    //     this.countryService = countryService;
+    // }
 
     @GetMapping
     public List<Country> getAll(){
@@ -40,10 +44,28 @@ public class CountryController {
         return countryService.getById(id);
     }
 
+    // without dto
     @PostMapping
     public Country create(@RequestBody Country country){
         return countryService.create(country);
     }
+
+
+    // with dto
+    @PostMapping("/dto")
+    public Country createDTO(@RequestBody CountryRequest countryRequest){
+        return countryService.createdDTO(countryRequest);
+    }
+
+
+    // with dto model mapper
+    @PostMapping("/dto-m")
+    public Country createDTOByModelMapper(
+        @RequestBody CountryRequest countryRequest
+    ) {
+        return countryService.createDTOByModelMapper(countryRequest);
+    }
+
 
     @PutMapping("/{id}")
     public Country update(@PathVariable Integer id, @RequestBody Country country){
@@ -54,5 +76,22 @@ public class CountryController {
     public Country delete(@PathVariable Integer id){
         return countryService.delete(id);
     }
+
+    // custom manual
+    @GetMapping("/custom/{id}")
+    public Map<String, Object> getByIdCustom(@PathVariable Integer id){
+        return countryService.getByIdCustom(id);
+    }
+
+    @GetMapping("/all")
+    public List<Map<String, Object>> getAllCustom(){
+        return countryService.getAllCustom();
+    }
+
+    @GetMapping("/all/stream")
+    public List<Map<String, Object>> getAllCustomSteam(){
+        return countryService.getAllCustomStream();
+    }
+
     
 }

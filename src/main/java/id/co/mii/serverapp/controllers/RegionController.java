@@ -2,7 +2,7 @@ package id.co.mii.serverapp.controllers;
 
 import java.util.List;
 
-import org.springframework.stereotype.Controller;
+// import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -10,21 +10,27 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.services.RegionService;
+import lombok.AllArgsConstructor;
 
-@Controller // output view => html
+// @Controller // output view => html
 @RestController // output json
+@AllArgsConstructor
 @RequestMapping("/region")
 public class RegionController {
     // meng assign
     private RegionService regionService;
 
-    public RegionController(RegionService regionService) {
-        this.regionService = regionService;
-    }
+    // public RegionController(RegionService regionService) {
+    //     this.regionService = regionService;
+    // }
+
+    // http://localhost:777/region/1    = path variable
+    // http://localhost:777/region?id=1 = path param
 
     @GetMapping
     public List<Region> getAll(){
@@ -49,6 +55,27 @@ public class RegionController {
     @DeleteMapping("/{id}")
     public Region delete(@PathVariable Integer id){
         return regionService.delete(id);
+    }
+
+    //Native
+    @GetMapping("/native")
+    public List<Region> searchAllNameNative(
+        @RequestParam(name = "name") String name
+    ) {
+        return regionService.searchAllNameNative(name);
+    }
+
+    // JPQL
+    @GetMapping("/jpql")
+    public List<Region> searchAllNameJPQL(
+        @RequestParam(name = "name") String name
+    ){
+        return regionService.searchAllNameJPQL(name);
+    }
+
+    @GetMapping("/jpql-all")
+    public List<String> getAllName(){
+        return regionService.getAllName();
     }
     
 }
