@@ -105,6 +105,7 @@ public class UserService {
     }
     public User delete(Integer id) {
         User user = getById(id);
+        user.getRoles().forEach(role -> role.getUsers().remove(user));
         userRepository.delete(user);
         return user;
     }

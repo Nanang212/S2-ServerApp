@@ -29,12 +29,28 @@ public class EmployeeService {
     }
 
     public Employee create (EmployeeRequest employeeRequest){
-        if(employeeRepository.existsByName(employeeRequest.getName())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Name Employee already exists!!!");
+        if(employeeRequest.getName().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Name Empty!!!");
+        }
+
+        if(employeeRepository.existsByNameIgnoreCase(employeeRequest.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Name already exists!!!");
+        }
+
+        if(employeeRequest.getEmail().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Email Empty!!!");
         }
 
         if (employeeRepository.existsByEmail(employeeRequest.getEmail())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Email Employee already exists!!!");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Email already exists!!!");
+        }
+
+        if(employeeRequest.getPhone() == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Phone is Empty!!!");
+        }
+
+        if (employeeRepository.existsByPhone(employeeRequest.getPhone())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Phone already exists!!!");
         }
 
         User findUserId = userService.getById(employeeRequest.getUserid());
@@ -53,12 +69,28 @@ public class EmployeeService {
     }
 
     public Employee update(EmployeeRequest employeeRequest,Integer id){
-        if(employeeRepository.existsByName(employeeRequest.getName())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Name Employee already exists!!!");
+        if(employeeRequest.getName().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Name Empty!!!");
+        }
+
+        if(employeeRepository.existsByNameIgnoreCase(employeeRequest.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Name already exists!!!");
+        }
+
+        if(employeeRequest.getEmail().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Email Empty!!!");
         }
 
         if (employeeRepository.existsByEmail(employeeRequest.getEmail())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Email Employee already exists!!!");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Email already exists!!!");
+        }
+
+        if(employeeRequest.getPhone() == null){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Phone is Empty!!!");
+        }
+
+        if (employeeRepository.existsByPhone(employeeRequest.getPhone())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Phone already exists!!!");
         }
 
         User findUserId = userService.getById(employeeRequest.getUserid());

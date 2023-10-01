@@ -26,6 +26,10 @@ public class RoleService {
     }
 
     public Role create (Role role){
+        if(role.getName().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Role name is Empty!!!");
+        }
+
         if(roleRepository.existsByName(role.getName())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Role name already exists!!!");
         }
@@ -33,9 +37,14 @@ public class RoleService {
         return roleRepository.save(role);
     }
     public Role update(Role role, Integer id){
-        if(roleRepository.existsByName(role.getName())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Name Role already exists!!!");
+        if(role.getName().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Role name is Empty!!!");
         }
+
+        if(roleRepository.existsByName(role.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Role name already exists!!!");
+        }
+
         getById(id);
         role.setId(id);
         return roleRepository.save(role);
