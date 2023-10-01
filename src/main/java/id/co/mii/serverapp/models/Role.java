@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,7 +11,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.PreRemove;
 import javax.persistence.Table;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
@@ -22,7 +26,15 @@ public class Role {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    Integer id;
+    private Integer id;
     @Column(name = "name", nullable = false, unique = true)
-    String name;
+    private String name;
+    @ManyToMany(mappedBy = "roles")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private Set<User> users;
+
+    @PreRemove
+    private void removeUsers() {
+        users.forEach(user -> user.getRoles().remove(this));
+    }
 }
