@@ -35,15 +35,20 @@ public class UserService {
     }
 
     public User create (UserRequest userRequest){
+        if(userRequest.getUsername().isEmpty() || userRequest.getPassword().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"UserName or Password is Empty!!!");
+        }
+
         if(userRepository.existsByUsername(userRequest.getUsername())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Username already exists!!!");
         }
-
+            //make new user obj
             User user = new User();
             user.setUsername(userRequest.getUsername());
             user.setPassword(userRequest.getPassword());
 
-            List<Role> userRolesList = new ArrayList<Role>();
+            //inisialisasi roletemp untuk menampung data role nanti
+            List<Role> RolesTemp = new ArrayList<Role>();
 
             //save role
             for (String roleName :
@@ -51,7 +56,8 @@ public class UserService {
                 if(roleRepository.existsByName(roleName)){
                     //find name in role table
                     Role findRolename = roleRepository.findByNameContainingIgnoreCase(roleName);
-                    userRolesList.add(findRolename);
+                    //add to rolesTemp
+                    RolesTemp.add(findRolename);
                 } else{
                     // save new name in role table
                     Role userRole = new Role();
@@ -59,10 +65,10 @@ public class UserService {
                     userRole.setName(roleName);
 
                     roleRepository.save(userRole);
-                    userRolesList.add(userRole);
+                    RolesTemp.add(userRole);
                 }
             }
-            user.setRoles(userRolesList);
+            user.setRoles(RolesTemp);
 
             //save user
             userRepository.save(user);
@@ -71,6 +77,10 @@ public class UserService {
     }
 
     public User update(UserRequest userRequest, Integer id){
+        if(userRequest.getUsername().isEmpty() || userRequest.getPassword().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"UserName or Password is Empty!!!");
+        }
+
         if(userRepository.existsByUsername(userRequest.getUsername())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Name User already exists!!!");
         }
@@ -80,7 +90,8 @@ public class UserService {
         getuser.setUsername(userRequest.getUsername());
         getuser.setPassword(userRequest.getPassword());
 
-        List<Role> userRolesList = new ArrayList<Role>();
+        //inisialisasi roletemp untuk menampung data role nanti
+        List<Role> RolesTemp = new ArrayList<>();
 
         //save role
         for (String roleName :
@@ -88,7 +99,9 @@ public class UserService {
             if(roleRepository.existsByName(roleName)){
                 //find name in role table
                 Role findRolename = roleRepository.findByNameContainingIgnoreCase(roleName);
-                userRolesList.add(findRolename);
+
+                //add to rolesTemp
+                RolesTemp.add(findRolename);
             } else{
                 // save new name in role table
                 Role userRole = new Role();
@@ -96,10 +109,10 @@ public class UserService {
                 userRole.setName(roleName);
 
                 roleRepository.save(userRole);
-                userRolesList.add(userRole);
+                RolesTemp.add(userRole);
             }
         }
-        getuser.setRoles(userRolesList);
+        getuser.setRoles(RolesTemp);
 
         return userRepository.save(getuser);
     }
