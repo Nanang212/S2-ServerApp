@@ -22,7 +22,7 @@ public class Country {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "country_id")
+    @Column(name ="country_id")
     private Integer id;
 
     @Column(length = 2, nullable = false, name = "country_code", unique = true)
