@@ -15,6 +15,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RegionService {
     private RegionRepository regionRepository;
+    
     private CountryRepository countryRepository;
     // private Region reg;
 
@@ -39,8 +40,10 @@ public class RegionService {
     public Region create(Region region){
         if (countryRepository.existsByName(region.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Failed not found");
+
             //region ga boleh sama dengan country
         }
+
          if (regionRepository.existsByName(region.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Failed not found");
             //region ga boleh sama dengan country
@@ -64,6 +67,19 @@ public class RegionService {
         regionRepository.delete(region);
         return region;
     }
+    //native 
+    public List<Region>searchAllNameNative(String nama){
+        return regionRepository.searchAllNameNative("%"+nama+"%");
+
+    }
+    //jpql
+    public List<Region>searchAllNameJPQL(String nama){
+        return regionRepository.searchAllNameJPQL("%" + nama+ "%");
+    }
+    public List<String>getAllName(){
+        return regionRepository.getAllName();
+    }
+}
 
     //getById
     //create
@@ -72,4 +88,4 @@ public class RegionService {
     //delete
 
     
-}
+

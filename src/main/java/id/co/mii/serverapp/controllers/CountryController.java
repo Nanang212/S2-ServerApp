@@ -1,7 +1,9 @@
 package id.co.mii.serverapp.controllers;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 // import org.springframework.stereotype.Controller;
@@ -12,9 +14,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Country;
+import id.co.mii.serverapp.models.dto.CountryRequest;
 import id.co.mii.serverapp.services.CountryService;
 import lombok.AllArgsConstructor;
 
@@ -45,13 +49,25 @@ public class CountryController {
         return countryService.getCountryById(id);
     }
 
+    //withdto
     @PostMapping
     public Country createCountry(@RequestBody Country country) { //menerima struktur data dari country 
         return countryService.createCountry(country);
 
     }
-    
+    //with dto 
+     @PostMapping("/dto")
+    public Country createDTO(@RequestBody CountryRequest countryRequest) { //menerima struktur data dari country 
+        return countryService.createDTO(countryRequest);
 
+    }
+    //with dto by model mapper 
+     @PostMapping("/dto-m")
+    public Country createDTOByModelMapper(@RequestBody CountryRequest countryRequest) { //menerima struktur data dari country 
+        return countryService.createDTOByModelMapper(countryRequest);
+
+    }
+    
     @PutMapping("/{id}")
     public Country updateCountry(@PathVariable Integer id, @RequestBody Country updatedCountry) {
         return countryService.updateCountry(id, updatedCountry);
@@ -60,5 +76,21 @@ public class CountryController {
     @DeleteMapping("/{id}")
     public void deleteCountry(@PathVariable Integer id) {
         countryService.deleteCountry(id);
+    }
+
+    //custom manual
+    @GetMapping("/custom/{id}")
+    public Map<String, Object> getByIdCustom(@PathVariable Integer id) {
+      return countryService.getByIdCustom(id);
+    }
+  
+    @GetMapping("/all")
+    public List<Map<String, Object>> getAllCustom() {
+      return countryService.getAllCustom();
+    }
+  
+    @GetMapping("/all/stream")
+    public List<Map<String, Object>> getAllCustomStream() {
+      return countryService.getAllCustomStream();
     }
 }
