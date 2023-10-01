@@ -15,6 +15,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -59,7 +60,10 @@ public class UserService {
     }
 
     private User save(UserRequest request, User user) {
-        Set<Role> roles = roleRepository.findAllByNameIgnoreCaseIn(request.getRoles());
+        Set<Role> roles = request.getRoleIds().stream().map(roleId -> roleRepository
+            .findById(roleId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role with id " + roleId + " is not found"))
+        ).collect(Collectors.toSet());
 
         user.setUsername(request.getUsername());
         user.setPassword(request.getPassword());

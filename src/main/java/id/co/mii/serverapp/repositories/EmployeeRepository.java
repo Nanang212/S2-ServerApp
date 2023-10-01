@@ -8,4 +8,6 @@ import org.springframework.stereotype.Repository;
 public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     boolean existsByEmailIgnoreCase(String email);
+
+    boolean existsByUserId(Integer userId);
 }

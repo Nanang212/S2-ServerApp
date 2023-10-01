@@ -33,6 +33,11 @@ public class EmployeeService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already exists");
         }
 
+        if (employeeRepository.existsByUserId(request.getUserId())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User with id " + request.getUserId() + " already associate with an employee");
+        }
+
+
         Employee employee = new Employee();
 
         return save(request, employee);
