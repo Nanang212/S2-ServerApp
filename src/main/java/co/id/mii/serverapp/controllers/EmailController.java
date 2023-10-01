@@ -1,5 +1,7 @@
 package co.id.mii.serverapp.controllers;
 
+import javax.mail.MessagingException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +27,12 @@ public class EmailController {
     public EmailRequest sendMessageWithAttachment(
             @RequestBody EmailRequest emailRequest) {
         return emailServices.sendMessageWithAttachment(emailRequest);
+    }
+
+    @PostMapping("/html")
+    public EmailRequest sendHtmlMessage(
+            @RequestBody EmailRequest emailRequest) {
+        return emailServices.sendHtmlMessage(emailRequest);
     }
 
 }

@@ -1,7 +1,9 @@
 package co.id.mii.serverapp.services;
 
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
+import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.core.io.FileSystemResource;
@@ -9,6 +11,9 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import co.id.mii.serverapp.models.dto.request.EmailRequest;
 import lombok.AllArgsConstructor;
@@ -17,6 +22,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmailServices {
     private JavaMailSender javaMailSender;
+    private TemplateEngine templateEngine;
 
     public EmailRequest sendSimpleMessage(EmailRequest emailRequest){
         SimpleMailMessage message = new SimpleMailMessage();
@@ -44,6 +50,23 @@ public class EmailServices {
 
         } catch (Exception e) {
             System.out.println("error =" + e.getMessage());
+        }
+        return emailRequest;
+    }
+    public EmailRequest sendHtmlMessage(EmailRequest emailRequest) {
+        System.out.printf("%s", "A");
+        Context context = new Context();
+        context.setVariable("name", emailRequest.getTo().split("@")[0]);
+        String htmlContent = templateEngine.process("kirimTugas.html", context);
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            helper.setTo(emailRequest.getTo());
+            helper.setSubject(emailRequest.getSubject());
+            helper.setText(htmlContent, true);
+            javaMailSender.send(message);
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
         return emailRequest;
     }
