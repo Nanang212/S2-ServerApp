@@ -2,11 +2,13 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.dto.request.EmployeeRequest;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import lombok.AllArgsConstructor;
 
@@ -14,7 +16,8 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeeService {
     private EmployeeRepository employeeRepository;
-
+    private UserService userService;
+    private ModelMapper modelMapper;
 
     public List<Employee> getAll(){
         return employeeRepository.findAll();
@@ -23,25 +26,32 @@ public class EmployeeService {
         return employeeRepository.findById(id).orElseThrow(() -> new ResponseStatusException
             (HttpStatus.NOT_FOUND, "Employee not found!"));
     }
-    public Employee create(Employee employee){
-        if (employeeRepository.existsByEmail(employee.getEmail())) {
+    public Employee create(EmployeeRequest employeeRequest){
+        if (employeeRepository.existsByName(employeeRequest.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Name is already exist");
+        }
+        if (employeeRepository.existsByEmail(employeeRequest.getEmail())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already used");
         }
-        if (employeeRepository.existsByPhone(employee.getPhone())) {
+        if (employeeRepository.existsByPhone(employeeRequest.getPhone())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number is already used");
         }
- 
+        Employee employee = modelMapper.map(employeeRequest, Employee.class);
+        employee.setUser(userService.getById(employeeRequest.getUserId()));
         return employeeRepository.save(employee);
     }
+    
+    // gimana biar bisa update salah satunya tanpa terdeteksi telah digunakan oleh dirinya sendiri
+    // gimana biar ngecek udah dipake karyawan lain, bukan udah dipake dia sendiri
     public Employee update(Integer id, Employee employee){
         getById(id);
         employee.setId(id);
-        if (employeeRepository.existsByEmail(employee.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already used");
-        }
-        if (employeeRepository.existsByPhone(employee.getPhone())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number is already used");
-        }
+        // if (employeeRepository.existsByEmail(employee.getEmail())) {
+        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already used");
+        // }
+        // if (employeeRepository.existsByPhone(employee.getPhone())) {
+        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number is already used");
+        // }
  
         return employeeRepository.save(employee);
     }

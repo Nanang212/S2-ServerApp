@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.dto.request.EmployeeRequest;
 import id.co.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
 
@@ -30,8 +31,8 @@ public class EmployeeController {
         return employeeService.getById(id);
     }
     @PostMapping
-    public Employee create(@RequestBody Employee employee){
-        return employeeService.create(employee);
+    public Employee create(@RequestBody EmployeeRequest employeeRequest){
+        return employeeService.create(employeeRequest);
     }
     @PutMapping("/{id}")
     public Employee update(@PathVariable Integer id, @RequestBody Employee employee){

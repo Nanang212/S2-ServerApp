@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.request.UserRequest;
 import id.co.mii.serverapp.services.UserService;
 import lombok.AllArgsConstructor;
 
@@ -30,8 +31,8 @@ public class UserController {
         return userService.getById(id);
     }
     @PostMapping
-    public User create(@RequestBody User user){
-        return userService.create(user);
+    public User create(@RequestBody UserRequest userRequest){
+        return userService.create(userRequest);
     }
     @PutMapping("/{id}")
     public User update(@PathVariable Integer id, @RequestBody User user){
