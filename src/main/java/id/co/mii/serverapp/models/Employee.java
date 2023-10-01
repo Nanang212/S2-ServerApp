@@ -17,6 +17,7 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    //Long yang digunakan untuk menyimpan dan mendukung angka bilangan bulat yang besar
     private String name;
     private String email;
     private String phone;
