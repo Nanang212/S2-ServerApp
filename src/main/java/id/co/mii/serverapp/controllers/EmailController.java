@@ -3,6 +3,8 @@ package id.co.mii.serverapp.controllers;
 import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import id.co.mii.serverapp.services.EmailService;
 
+import javax.mail.MessagingException;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +31,13 @@ public class EmailController {
     @RequestBody EmailRequest emailRequest
   ) {
     return emailService.sendMessageWithAttachment(emailRequest);
+  }
+
+  @PostMapping("/html")
+  public EmailRequest sendHtmlMessage(
+    @RequestBody EmailRequest emailRequest
+  ) throws MessagingException {
+    return emailService.sendHtmlMessage(emailRequest);
   }
 }
     
