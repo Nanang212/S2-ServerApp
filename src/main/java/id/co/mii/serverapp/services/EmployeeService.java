@@ -37,8 +37,15 @@ public class EmployeeService {
     }
 
     public Employee create(EmployeeRequest employeeRequest){
+        
         if(employeeRepository.existsByName(employeeRequest.getName())){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Name Employee already exists!!!");
+        }
+        if (employeeRepository.existsByEmail(employeeRequest.getEmail())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Email already exists!!!");
+        }
+        if (employeeRepository.existsByPhone(employeeRequest.getPhone())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Phone already exists!!!");
         }
 
         Employee employee = modelMapper.map(employeeRequest, Employee.class);
@@ -51,6 +58,17 @@ public class EmployeeService {
     }
 
     public Employee update(Integer id, EmployeeRequest employeeRequest){
+
+        if(employeeRepository.existsByName(employeeRequest.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Name Employee already exists!!!");
+        }
+        if (employeeRepository.existsByEmail(employeeRequest.getEmail())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Email already exists!!!");
+        }
+        if (employeeRepository.existsByPhone(employeeRequest.getPhone())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Phone already exists!!!");
+        }
+        
         Employee updateEmployee = getById(id);
         updateEmployee.setName(employeeRequest.getName());
         updateEmployee.setEmail(employeeRequest.getEmail());

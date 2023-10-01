@@ -37,6 +37,14 @@ public class UserService {
     }
 
     public User create(UserRequest userRequest){
+
+        if(userRequest.getUsername().isEmpty() 
+            || userRequest.getPassword().isEmpty()){
+            throw new ResponseStatusException(
+                HttpStatus.NOT_FOUND,
+                "UserName or Password is Empty!!!");
+        }
+
         if(userRepository.existsByUsername(userRequest.getUsername())){
             throw new ResponseStatusException(
                 HttpStatus.CONFLICT,
@@ -51,9 +59,18 @@ public class UserService {
     }
 
     public User update(Integer id, UserRequest userRequest){
+
+        if(userRequest.getUsername().isEmpty() || userRequest.getPassword().isEmpty()){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"UserName or Password is Empty!!!");
+        }
+        if(userRepository.existsByUsername(userRequest.getUsername())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Name User already exists!!!");
+        }
+        
         User updatedUser = getById(id);
         updatedUser.setUsername(userRequest.getUsername());
         updatedUser.setPassword(userRequest.getPassword());
+        updatedUser.setRoles(mapToRoles(userRequest.getRoleIds()));
         return userRepository.save(updatedUser);
     }
 

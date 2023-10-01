@@ -28,10 +28,20 @@ public class RoleService {
     }
 
     public Role create(Role role) {
+
+        if(roleRepository.existsByName(role.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Role name already exists!!!");
+        }
+
         return roleRepository.save(role);
     }
 
     public Role update(Integer id, Role role) {
+
+        if(roleRepository.existsByName(role.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT,"Role name already exists!!!");
+        }
+
         getById(id);
         role.setId(id);
         return roleRepository.save(role);
