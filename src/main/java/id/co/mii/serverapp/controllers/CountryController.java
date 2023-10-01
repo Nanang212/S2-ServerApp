@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController
 public class CountryController {
@@ -68,5 +69,30 @@ public class CountryController {
     )
     public Country delete(@PathVariable Integer countryId) {
         return countryService.delete(countryId);
+    }
+
+    // custom manual
+    @GetMapping(
+        value = "/country/custom/{countryId}",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Map<String, Object> getByIdCustom(@PathVariable Integer countryId) {
+        return countryService.getByIdCustom(countryId);
+    }
+
+    @GetMapping(
+        value = "/countries/all",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Map<String, Object>> getAllCustom() {
+        return countryService.getAllCustom();
+    }
+
+    @GetMapping(
+        value = "/countries/all/stream",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Map<String, Object>> getAllCustomStream() {
+        return countryService.getAllCustomStream();
     }
 }

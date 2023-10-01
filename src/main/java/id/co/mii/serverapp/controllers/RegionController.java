@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -69,5 +70,36 @@ public class RegionController {
     )
     public Region delete(@PathVariable Integer regionId) {
         return regionService.delete(regionId);
+    }
+
+
+    // Native
+    @GetMapping(
+        value = "/regions/native",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Region> searchAllNameNative(
+        @RequestParam(name = "name") String name
+    ) {
+        return regionService.searchAllNameNative(name);
+    }
+
+    // JPQL
+    @GetMapping(
+        value = "/regions/jpql",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<Region> searchAllNameJPQL(
+        @RequestParam(name = "name") String name
+    ) {
+        return regionService.searchAllNameJPQL(name);
+    }
+
+    @GetMapping(
+        value = "/regions/jpql-all",
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public List<String> getAllName() {
+        return regionService.getAllName();
     }
 }

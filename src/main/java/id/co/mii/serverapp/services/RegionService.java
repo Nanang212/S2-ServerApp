@@ -74,4 +74,18 @@ public class RegionService {
 
         return region;
     }
+
+    // Native
+    public List<Region> searchAllNameNative(String name) {
+        return regionRepository.searchAllNameNative("%" + name + "%");
+    }
+
+    // JPQL
+    public List<Region> searchAllNameJPQL(String name) {
+        return regionRepository.searchAllNameJPQL("%" + name + "%");
+    }
+
+    public List<String> getAllName() {
+        return regionRepository.getAllName();
+    }
 }
