@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Welcome</title>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/src/main/resources/static/css/style.css" />
+  </head>
+  <body>
+    <div class="max-w-2xl mx-auto p-4">
+      <!-- Header Email -->
+      <header
+        class="bg-gradient-to-r from-[#1565C0] to-[#b92b27] text-white p-4 flex justify-between items-center"
+      >
+        <img
+          src="/src/main/resources/static/img/serverapp.png"
+          alt="Logo Perusahaan"
+          class="w-22 h-20"
+        />
+        <button class="text-white">
+          <div class="rounded-full overflow-hidden">
+            <img
+              src="https://via.placeholder.com/640x480.png/ffffff?text=account"
+              alt="Profil"
+              class="w-10 h-10"
+            />
+          </div>
+        </button>
+      </header>
+
+      <!-- Konten Email -->
+      <main class="bg-white p-4">
+        <h1 class="text-3xl font-bold mb-4">
+          Selamat Datang di
+          <span class="bg-[#f7934c] bg-clip-text text-transparent"
+            >ServerApp!</span
+          >
+        </h1>
+        <p class="mb-4">Halo, <span th:text="${name}">Hanif</span></p>
+        <p class="mb-4">Terima kasih telah bergabung dengan kami.</p>
+        <p class="mb-4">
+          Kami sangat senang bisa memiliki Anda sebagai bagian dari komunitas
+          kami. Dengan bergabung, Anda akan memiliki akses ke berbagai layanan
+          dan fitur yang kami tawarkan.
+        </p>
+        <button
+          class="bg-blue-500 hover:bg-[#1565C0] text-white font-bold py-2 px-4 rounded-lg"
+        >
+          <a href="#" class="text-white">Aktivasi Akun</a>
+        </button>
+      </main>
+
+      <!-- Footer Email -->
+      <footer
+        class="bg-gradient-to-r from-[#b92b27] to-[#1565C0] text-white p-4 text-center"
+      >
+        &copy; 2023 ServerApp. Copyright.
+
+        <div class="flex justify-center space-x-4">
+          <a
+            href="https://www.facebook.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-facebook text-blue-500 text-2xl"></i>
+          </a>
+          <a
+            href="https://www.twitter.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-twitter text-blue-500 text-2xl"></i>
+          </a>
+          <a
+            href="https://www.instagram.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-instagram text-pink-500 text-2xl"></i>
+          </a>
+          <a
+            href="https://www.linkedin.com"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <i class="fab fa-linkedin text-blue-800 text-2xl"></i>
+          </a>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>
