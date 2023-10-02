@@ -2,7 +2,10 @@
 package id.co.mii.serverapp.services;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.User;
@@ -39,7 +42,7 @@ public class EmployeeService {
 
     }
     public Employee deleteEmployee(Long id){
-         Employee  employee = getEmployeeById (id);
+        Employee  employee = getEmployeeById (id);
         employeeRepository.delete(employee);
         return employee;
     }
@@ -49,7 +52,15 @@ public class EmployeeService {
     public Employee createUserEmployee (Employee employee,Long id){
         User user = userRepository.findById(id).orElse(null);
         employee.setUser(user);
-        return employeeRepository.save(employee);
+
+        // if(user.getEmployee().getId().equals(employeeRepository.existsById(employee.getId()))){
+        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "user employee already exists!");
+        // }
+       
+        employeeRepository.save(employee);
+        
+        return employee;
+     
     } 
        
     }

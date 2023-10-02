@@ -8,6 +8,8 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -23,6 +25,7 @@ public class Employee {
     private String phone;
 
     @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
     //onetoone memiliki entitias dalam satu hubungan memiliki hubungan dengan saru 

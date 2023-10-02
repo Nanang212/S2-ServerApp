@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.NoArgsConstructor;
 
 @Entity
@@ -37,6 +39,7 @@ public class User {
         joinColumns = {@JoinColumn(name="user_id")},
         inverseJoinColumns = {@JoinColumn(name ="role_id")}
     )
+    
     private Set<Role> roles = new HashSet();
 
     //kenapa harus dibuat Manytomany didalm user dan role?
