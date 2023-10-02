@@ -54,6 +54,7 @@ public class EmailService {
         System.out.printf("%s", "A");
         Context context = new Context();
         context.setVariable("name", emailRequest.getTo().split("@")[0]);
+        context.setVariable("nameSended", emailRequest.getNameSended());
         String htmlContent = templateEngine.process("email.html", context);
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
