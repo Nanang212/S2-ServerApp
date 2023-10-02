@@ -2,7 +2,6 @@ package id.co.mii.serverapp.models;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-// import javax.annotation.Generated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -14,58 +13,66 @@ import javax.persistence.Table;
 @Table(name = "tb_country")
 public class Country {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
-    private Integer id;
-    @Column(name = "code", unique = true, length = 3)
-    private String code;
-    @Column(name = "name", unique = true, length = 36)
-    private String name;
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "country_id")
+  private Integer id;
 
-    @ManyToOne
-    @JoinColumn(name = "region_id", referencedColumnName = "region_id")
-    private Region region;
+  @Column(name = "country_code", length = 2, nullable = false, unique = true)
+  private String code;
 
-    public Country() {
-    }
+  @Column(name = "country_name", nullable = false, length = 20)
+  private String name;
 
-    public Country(Integer id, String code, String name, Region region) {
-        this.id = id;
-        this.code = code;
-        this.name = name;
-        this.region = region;
-    }
+  @ManyToOne
+  @JoinColumn(name = "region_id", nullable = false)
+  private Region region;
 
-    public Integer getId() {
-        return id;
-    }
+public Country() {
+}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+public Country(Integer id, String code, String name, Region region) {
+    this.id = id;
+    this.code = code;
+    this.name = name;
+    this.region = region;
+}
 
-    public String getCode() {
-        return code;
-    }
+public Integer getId() {
+    return id;
+}
 
-    public void setCode(String code) {
-        this.code = code;
-    }
+public void setId(Integer id) {
+    this.id = id;
+}
 
-    public String getName() {
-        return name;
-    }
+public String getCode() {
+    return code;
+}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+public void setCode(String code) {
+    this.code = code;
+}
 
-    public Region getRegion() {
-        return region;
-    }
+public String getName() {
+    return name;
+}
 
-    public void setRegion(Region region) {
-        this.region = region;
-    }
+public void setName(String name) {
+    this.name = name;
+}
 
+public Region getRegion() {
+    return region;
+}
+
+public void setRegion(Region region) {
+    this.region = region;
+}
+
+@Override
+public String toString() {
+    return "Country [id=" + id + ", code=" + code + ", name=" + name + ", region=" + region + "]";
+}
+
+  
 }
