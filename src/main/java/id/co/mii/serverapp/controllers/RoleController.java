@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping("/role")
 public class RoleController {
 
     private final RoleService roleService;
@@ -38,8 +38,8 @@ public class RoleController {
     }
 
     @PutMapping("/{id}")
-    public Role updateRole(@PathVariable Long id, @RequestBody Role role) {
-        return roleService.updateRole(role);
+    public Role updateRole(@PathVariable Integer id, @RequestBody Role role) {
+        return roleService.updateRole(id, role);
     }
 
     @DeleteMapping("/{id}")

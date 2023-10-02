@@ -45,7 +45,6 @@ public class User {
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id")
     )
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     List<Role> roles;
 
     public void addRole(Role role){

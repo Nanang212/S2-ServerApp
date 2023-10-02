@@ -1,6 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.UserRequest;
 import id.co.mii.serverapp.services.UserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +34,12 @@ public class UserController {
     }
 
     @PostMapping
-    public User create(@RequestBody User user) {
-        return userService.create(user);
+    public User create(@RequestBody UserRequest userRequest) {
+        return userService.create(userRequest);
     }
 
     @PutMapping("/{id}")
-    public User update(@PathVariable Integer id, @RequestBody User user) {
+    public User update(@PathVariable Integer id, @RequestBody UserRequest user) {
         return userService.update(id, user);
     }
 
