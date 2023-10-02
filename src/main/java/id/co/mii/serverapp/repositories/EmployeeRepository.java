@@ -8,7 +8,7 @@ import id.co.mii.serverapp.models.Employee;
 @Repository
 public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 
-       Boolean existsByName(String name);
+       Boolean existsByName(String name);//query method
 
     
 }

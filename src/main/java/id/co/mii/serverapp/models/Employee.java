@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -14,6 +15,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @NoArgsConstructor
+//untuk membuat kerangka dari constructor yang secara otomatis 
 @Table(name="employees")
 public class Employee {
     @Id
@@ -24,7 +26,8 @@ public class Employee {
     private String email;
     private String phone;
 
-    @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
+    @OneToOne
+    @JoinColumn(name = "user_id" , unique = true)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 

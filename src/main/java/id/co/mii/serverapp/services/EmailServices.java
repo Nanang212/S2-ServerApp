@@ -57,7 +57,7 @@ public class EmailServices {
         System.out.printf("%s", "A");
         Context context = new Context();
         context.setVariable("name", emailRequest.getTo().split("@")[0]);
-        String htmlContent = templateEngine.process("belajar.html", context);
+        String htmlContent = templateEngine.process("email.html", context);
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);

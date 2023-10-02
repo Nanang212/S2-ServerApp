@@ -7,7 +7,7 @@ import id.co.mii.serverapp.models.User;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
 
-       // Boolean existsByName(String name);
-
+Boolean existsByEmployeeId(Long id);
+//untuk memeriksa data
     
 }

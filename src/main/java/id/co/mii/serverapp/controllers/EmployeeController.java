@@ -49,8 +49,7 @@ public class EmployeeController {
     @PostMapping("/users/{id}/employees")
     public Employee createUserEmployee( @RequestBody Employee employee , @PathVariable Long id){
         return employeeService.createUserEmployee(employee, id);
-        //apa hibungan user dengan employee?
-        //kenapa ketika mencreate employe data nya bisa,  cuman diuser didalam employee null?
+      
     }
 
 

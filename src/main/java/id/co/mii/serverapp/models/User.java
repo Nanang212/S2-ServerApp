@@ -29,23 +29,18 @@ public class User {
     private String username;
     private String password;
 
-    @OneToOne
-    @JoinColumn(name = "employee_id")
+    
+    @OneToOne(mappedBy = "user",cascade = CascadeType.ALL)
     private Employee employee;
 
     @ManyToMany (cascade = {CascadeType.ALL})
     @JoinTable(
-        name ="user_roles",
-        joinColumns = {@JoinColumn(name="user_id")},
+        name ="user_roles",//yg menampung 
+        joinColumns = {@JoinColumn(name="user_id")},//dinamakan user id
         inverseJoinColumns = {@JoinColumn(name ="role_id")}
     )
-    
     private Set<Role> roles = new HashSet();
-
-    //kenapa harus dibuat Manytomany didalm user dan role?
-    //user_role mempunyai primary key dan foregin key yang digunakan untuk?
-    
-
+    // digunakan untuk membuat objek untuk menyimpan yang unik
     public User(Long id, String username, String password, Employee employee) {
         Id = id;
         this.username = username;

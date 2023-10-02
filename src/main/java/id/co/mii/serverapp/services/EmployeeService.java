@@ -50,13 +50,13 @@ public class EmployeeService {
 
     
     public Employee createUserEmployee (Employee employee,Long id){
-        User user = userRepository.findById(id).orElse(null);
-        employee.setUser(user);
+        User user = userRepository.findById(id).orElseThrow(() ->  new ResponseStatusException(HttpStatus.CONFLICT, "user employee already esist"));
+  
+        if(user.getEmployee() != null){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "user employee already esist");
+        }
 
-        // if(user.getEmployee().getId().equals(employeeRepository.existsById(employee.getId()))){
-        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "user employee already exists!");
-        // }
-       
+        employee.setUser(user);
         employeeRepository.save(employee);
         
         return employee;
