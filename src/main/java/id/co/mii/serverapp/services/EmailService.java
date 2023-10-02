@@ -13,8 +13,6 @@ import org.thymeleaf.context.Context;
 import javax.mail.internet.MimeMessage;
 import java.io.File;
 import java.time.LocalDate;
-import java.util.Arrays;
-import java.util.Date;
 
 @Service
 @AllArgsConstructor
