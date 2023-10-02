@@ -11,6 +11,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
@@ -35,7 +36,7 @@ public class User {
     private String password;
 
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @JoinColumn(name = "employee_id")
+    @PrimaryKeyJoinColumn
     private Employee employee;
 
     @ManyToMany

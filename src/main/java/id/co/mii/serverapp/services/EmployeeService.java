@@ -1,9 +1,13 @@
 package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
+import id.co.mii.serverapp.utils.ModelMapperUtil;
 import lombok.AllArgsConstructor;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +18,8 @@ import java.util.Optional;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    // private UserService userService;
+    private ModelMapper modelMapper;
+    private UserService userService;
 
     public List<Employee> getAll() {
         return employeeRepository.findAll();
@@ -24,12 +29,16 @@ public class EmployeeService {
         return employeeRepository.findById(id);
     }
 
-    public Employee create(Employee employee) {
-        if (employee.getName() == null || employee.getName().isEmpty() ||
-            employee.getEmail() == null || employee.getEmail().isEmpty() ||
-            employee.getPhone() == null || employee.getPhone().isEmpty()) {
+    public Employee create(EmployeeRequest employeeRequest) {
+        Employee employee = modelMapper.map(employeeRequest, Employee.class);
+        if (employeeRequest.getName() == null || employeeRequest.getName().isEmpty() ||
+            employeeRequest.getEmail() == null || employeeRequest.getEmail().isEmpty() ||
+            employeeRequest.getPhone() == null || employeeRequest.getPhone().isEmpty()) {
             throw new IllegalArgumentException("Name, email, and phone are required fields.");
         }
+        User user = userService.getById(employeeRequest.getUserId())
+            .orElseThrow(() -> new IllegalArgumentException("User with the provided ID not found."));
+        employee.setUser(user);
         return employeeRepository.save(employee);
     }
 
@@ -46,7 +55,9 @@ public class EmployeeService {
         }
     }
 
-    public void delete(Integer id) {
-        employeeRepository.deleteById(id);
+    public Optional<Employee> delete(Integer id) {
+        Optional<Employee> employee = getById(id);
+        employeeRepository.delete(employee.get());
+        return employee;
     }
 }

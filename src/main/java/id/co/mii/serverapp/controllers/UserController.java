@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("/user")
 public class UserController {
 
     private final UserService userService;
@@ -18,13 +18,13 @@ public class UserController {
     }
 
     @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<User> getAll() {
+        return userService.getAll();
     }
 
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Integer id) {
-        Optional<User> user = userService.getUserById(id);
+    public User getById(@PathVariable Integer id) {
+        Optional<User> user = userService.getById(id);
         if (user.isPresent()) {
             return user.get();
         } else {
@@ -33,17 +33,17 @@ public class UserController {
     }
 
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public User create(@RequestBody User user) {
+        return userService.create(user);
     }
 
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Integer id, @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public User update(@PathVariable Integer id, @RequestBody User user) {
+        return userService.update(id, user);
     }
 
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Integer id) {
-        userService.deleteUser(id);
+    public Optional<User> delete(@PathVariable Integer id) {
+        return userService.delete(id);
     }
 }

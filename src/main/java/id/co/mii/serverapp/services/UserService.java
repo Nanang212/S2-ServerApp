@@ -2,7 +2,10 @@ package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.repositories.UserRepository;
+
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,33 +19,33 @@ public class UserService {
         this.userRepository = userRepository;
     }
 
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         return userRepository.findAll();
     }
 
-    public Optional<User> getUserById(Integer id) {
+    public Optional<User> getById(Integer id) {
         return userRepository.findById(id);
     }
 
-    public User createUser(User user) {
-        // You can add validation or other logic here
+    public User create(User user) {
         return userRepository.save(user);
     }
 
-    public User updateUser(Integer id, User updatedUser) {
+    public User update(Integer id, User updatedUser) {
         Optional<User> optionalUser = userRepository.findById(id);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             user.setUsername(updatedUser.getUsername());
             user.setPassword(updatedUser.getPassword());
-            // Update other user properties as needed
             return userRepository.save(user);
         } else {
             throw new RuntimeException("User not found");
         }
     }
 
-    public void deleteUser(Integer id) {
+    public Optional<User> delete(Integer id) {
+        Optional<User> user = getById(id);
         userRepository.deleteById(id);
+        return user;
     }
 }

@@ -1,6 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
 import id.co.mii.serverapp.services.EmployeeService;
 import org.springframework.web.bind.annotation.*;
 
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/employees")
+@RequestMapping("/employee")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -33,8 +34,8 @@ public class EmployeeController {
     }
 
     @PostMapping
-    public Employee create(@RequestBody Employee employee) {
-        return employeeService.create(employee);
+    public Employee create(@RequestBody EmployeeRequest employeeRequest) {
+        return employeeService.create(employeeRequest);
     }
 
     @PutMapping("/{id}")
@@ -43,7 +44,7 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id) {
-        employeeService.delete(id);
+    public Optional<Employee> delete(@PathVariable Integer id) {
+        return employeeService.delete(id);
     }
 }
