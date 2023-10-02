@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.request.EmployeeRequest;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import lombok.AllArgsConstructor;
@@ -36,7 +37,11 @@ public class EmployeeService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number is already used");
         }
         Employee employee = modelMapper.map(employeeRequest, Employee.class);
-        employee.setUser(userService.getById(employeeRequest.getUserId()));
+        User user = userService.getById(employeeRequest.getUserId());
+        if (user.getEmployee() != null) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "User id is already exits");
+        }
+        employee.setUser(user);
         return employeeRepository.save(employee);
     }
 
