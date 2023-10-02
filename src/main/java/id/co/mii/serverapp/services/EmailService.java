@@ -12,6 +12,7 @@ import org.thymeleaf.context.Context;
 
 import javax.mail.internet.MimeMessage;
 import java.io.File;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.Date;
 
@@ -25,16 +26,16 @@ public class EmailService {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setTo(emailRequest.getTo());
         message.setSubject(emailRequest.getSubject());
-        message.setText(emailRequest.getText());
+        message.setText(emailRequest.getBody());
         sender.send(message);
         return emailRequest;
     }
 
     public EmailRequest sendHtmlMessage(EmailRequest emailRequest) {
-        System.out.printf("%s", "A");
         Context context = new Context();
-        context.setVariable("name", emailRequest.getTo().split("@")[0]);
-        String htmlContent = templateEngine.process("quiz.html", context);
+        context.setVariable("name", emailRequest.getNameSender());
+        context.setVariable("date", LocalDate.now().toString());
+        String htmlContent = templateEngine.process(emailRequest.getBody(), context);
         try {
             MimeMessage message = sender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
@@ -55,7 +56,7 @@ public class EmailService {
 
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());
-            helper.setText(emailRequest.getText());
+            helper.setText(emailRequest.getBody());
 
             FileSystemResource file = new FileSystemResource(
                     new File(emailRequest.getAttachment())
