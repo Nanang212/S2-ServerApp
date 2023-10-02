@@ -19,17 +19,16 @@ public class EmployeeService {
     private UserService userService;
     private ModelMapper modelMapper;
 
-    public List<Employee> getAll(){
+    public List<Employee> getAll() {
         return employeeRepository.findAll();
     }
-    public Employee getById(Integer id){
-        return employeeRepository.findById(id).orElseThrow(() -> new ResponseStatusException
-            (HttpStatus.NOT_FOUND, "Employee not found!"));
+
+    public Employee getById(Integer id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found!"));
     }
-    public Employee create(EmployeeRequest employeeRequest){
-        if (employeeRepository.existsByName(employeeRequest.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Name is already exist");
-        }
+
+    public Employee create(EmployeeRequest employeeRequest) {
         if (employeeRepository.existsByEmail(employeeRequest.getEmail())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already used");
         }
@@ -40,22 +39,25 @@ public class EmployeeService {
         employee.setUser(userService.getById(employeeRequest.getUserId()));
         return employeeRepository.save(employee);
     }
-    
-    // gimana biar bisa update salah satunya tanpa terdeteksi telah digunakan oleh dirinya sendiri
-    // gimana biar ngecek udah dipake karyawan lain, bukan udah dipake dia sendiri
-    public Employee update(Integer id, Employee employee){
-        getById(id);
+
+    public Employee update(Integer id, Employee employee) {
+        Employee employeedb = getById(id);
+        if (!employeedb.getEmail().equalsIgnoreCase(employee.getEmail())) {
+            if (employeeRepository.existsByEmail(employee.getEmail())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already used");
+            }
+        }
+        if (!employeedb.getPhone().equalsIgnoreCase(employee.getPhone())) {
+            if (employeeRepository.existsByPhone(employee.getPhone())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already used");
+            }
+        }
         employee.setId(id);
-        // if (employeeRepository.existsByEmail(employee.getEmail())) {
-        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "Email is already used");
-        // }
-        // if (employeeRepository.existsByPhone(employee.getPhone())) {
-        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number is already used");
-        // }
- 
+        
         return employeeRepository.save(employee);
     }
-    public Employee delete(Integer id){
+
+    public Employee delete(Integer id) {
         Employee employee = getById(id);
         employeeRepository.delete(employee);
         return employee;

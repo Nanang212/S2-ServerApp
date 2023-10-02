@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class EmailRequest {
+    private String nameSender;
     private String to;
     private String subject;
     private String text;

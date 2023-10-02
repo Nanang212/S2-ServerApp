@@ -36,24 +36,30 @@ public class UserService {
         }
         User user = modelMapper.map(userRequest, User.class);
         List<Role> roles = userRequest.getRoleIds().stream()
-            .map(roleId -> roleService.getById(roleId))
-            .collect(Collectors.toList());
-            user.setRoles(roles);
+                .map(roleId -> {
+                    // roleService.getById(roleId)
+                    Role role = roleService.getById(roleId);
+                    return role;
+                })
+                .collect(Collectors.toList());
+        user.setRoles(roles);
         return userRepository.save(user);
     }
-// bagaimana agar pengecekan hanya terhadap username karyawan lain
-    public User update(Integer id, User user) {
-        getById(id);
-        user.setId(id);
-        if (userRepository.existsByUsername(user.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already used");
-        }
 
+    public User update(Integer id, User user) {
+        User userdb = getById(id);
+        user.setId(id);
+        if (!userdb.getUsername().equalsIgnoreCase(user.getUsername())) {
+            if (userRepository.existsByUsername(user.getUsername())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Username is already used");
+            }
+        }
         return userRepository.save(user);
     }
 
     public User delete(Integer id) {
         User user = getById(id);
+        user.getRoles().forEach(role -> role.getUsers().remove(user));
         userRepository.delete(user);
         return user;
     }
