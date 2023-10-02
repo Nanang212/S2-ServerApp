@@ -60,8 +60,8 @@ public class EmailService {
           StandardCharsets.UTF_8.name());
 
       Context context = new Context();
-      context.setVariable("message", emailRequest.getText());
-      String htmlContent = springTemplateEngine.process("Tugas4.html", context);
+      context.setVariable("emailRequest", emailRequest);
+      String htmlContent = springTemplateEngine.process("Tugas4", context);
 
       helper.setTo(emailRequest.getTo());
       helper.setSubject(emailRequest.getSubject());

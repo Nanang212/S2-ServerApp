@@ -436,8 +436,14 @@ a {text-decoration: none;}
                                                                     style="padding:0;Margin:0">
                                                                     <h2
                                                                         style="Margin:0;font-family:'Delicious Handrawn', Arial, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:48px;font-style:normal;font-weight:normal;line-height:58px;color:#29424D">
-                                                                        Happy</h2>
-                                                                    <h1
+                                                                        <p>
+                                                                            Hello, <span th:text="${emailRequest.name}">
+                                                                            </span>!
+                                                                            <!-- [[${emailRequest.text}]] -->
+                                                                        </p>
+
+                                                                    </h2>
+                                                                    <h11
                                                                         style="Margin:0;font-family:'Delicious Handrawn', Arial, sans-serif;mso-line-height-rule:exactly;letter-spacing:0;font-size:72px;font-style:normal;font-weight:normal;line-height:86px;color:#29424D">
                                                                         WeekEnd Day</h1>
                                                                 </td>
@@ -504,12 +510,7 @@ a {text-decoration: none;}
                                                                     style="Margin:0;padding-right:40px;padding-left:40px;padding-top:35px;padding-bottom:35px">
                                                                     <p
                                                                         style="Margin:0;mso-line-height-rule:exactly;font-family:'Delicious Handrawn', Arial, sans-serif;line-height:30px;letter-spacing:0;color:#29424D;font-size:20px">
-                                                                        The long awaited holiday has finally arrived,
-                                                                        although this weekend is a little longer, the
-                                                                        tasks given are still the same. This assignment
-                                                                        is the 4th assignment from session 2, where we
-                                                                        are asked to create an HTML-based email template
-                                                                        which is then sent via Spring using Thymeleaf.
+                                                                        [[${emailRequest.text}]]
                                                                     </p>
                                                                 </td>
                                                             </tr>
@@ -574,7 +575,8 @@ style="height:39px; v-text-anchor:middle; width:114px" arcsize="50%" stroke="f" 
                                                                             src="https://eccnldl.stripocdn.email/content/guids/CABINET_2e16aeb4701f85c7e690d0aa6c3c3cf0b8623abe84d8055dc8ea1be774288dc9/images/group.png"
                                                                             alt="Logo"
                                                                             style="display:block;font-size:20px;border:0;outline:none;text-decoration:none"
-                                                                            width="50" title="Logo"></a></td>
+                                                                            width="50" title="Logo"></a>
+                                                                </td>
                                                             </tr>
                                                             <tr>
                                                                 <td align="center" class="es-m-txt-c"
@@ -634,7 +636,8 @@ style="height:39px; v-text-anchor:middle; width:114px" arcsize="50%" stroke="f" 
                                                                         style="Margin:0;mso-line-height-rule:exactly;font-family:'Delicious Handrawn', Arial, sans-serif;line-height:21px;letter-spacing:0;color:#29424D;font-size:13px">
                                                                         <a target="_blank"
                                                                             style="mso-line-height-rule:exactly;text-decoration:none;color:#29424D;font-size:14px"
-                                                                            href="Th">Thymeleaf</a></p>
+                                                                            href="Th">Thymeleaf</a>
+                                                                    </p>
                                                                 </td>
                                                             </tr>
                                                             <tr>
