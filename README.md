@@ -2,38 +2,8 @@
 
 Learning Java Spring Boot.
 
-  ```
-  com
-   +- bagus2x
-       +- serverapp
-           +- ServerAppAplication.java
-           |
-           +- country
-           |   +- dto // Data Transfer Objects folder
-           |   +- Country.java // Entity
-           |   +- CountryController.java
-           |   +- CountryService.java
-           |   +- CountryRepository.java
-           |
-           +- region
-           |   +- dto // Data Transfer Objects folder
-           |   +- Region.java // Entity
-           |   +- RegionController.java
-           |   +- RegionService.java
-           |   +- RegionRepository.java
-           |
-           +- utils
-           |   +- ErrorController.java // Handle error response
-           |   +- ErrorDto.java // Object for error response
-           |   +- Mapper.java // Map entity object to its DTO
-           |
-           
-  ```
-
 **References:**
 
-- Reason for using this code
-  structure [https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.structuring-your-code](https://docs.spring.io/spring-boot/docs/current/reference/html/using.html#using.structuring-your-code)
 - Reason for using DTO (Data Transfer
   Object) [https://stackoverflow.com/a/47715121/13973583](https://stackoverflow.com/a/47715121/13973583)
 
@@ -62,7 +32,7 @@ Create a new region by sending a POST request to /region.
 - URL: `/region`
 - Method: `POST`
 - Headers
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 - Request Body: JSON
   ```json
   {
@@ -99,7 +69,7 @@ Retrieve a list of all regions by sending a GET request to /regions.
 - URL: `/regions`
 - Method: `GET`
 - Headers:
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 
 #### Response
 
@@ -129,7 +99,7 @@ Retrieve a specific region by its ID.
 - URL: `/region/{regionId}`
 - Method: `GET`
 - Headers:
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 - Path Parameters:
     - `regionId` (Integer): The ID of the region to retrieve.
 
@@ -162,7 +132,7 @@ Update the details of a region by sending a PUT request.
 - URL: `/region/{regionId}`
 - Method: `PUT`
 - Headers
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 - Path Parameters:
     - `regionId` (Integer): The ID of the region to update.
 - Request Body: JSON
@@ -201,7 +171,7 @@ Delete a region by sending a DELETE request.
 - URL: `/region/{regionId}`
 - Method: `DELETE`
 - Headers
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 - Path Parameters:
     - `regionId (Integer)`: The ID of the region to delete.
 
@@ -225,7 +195,7 @@ Delete a region by sending a DELETE request.
 
 ## Country
 
-## Create a Country
+### Create a Country
 
 Create a new country by sending a POST request to /country.
 
@@ -234,7 +204,7 @@ Create a new country by sending a POST request to /country.
 - URL: `/country`
 - Method: `POST`
 - Headers
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 - Request Body: JSON
   ```json
   {
@@ -262,7 +232,7 @@ Create a new country by sending a POST request to /country.
   }
     ```
 
-## Get All Country
+### Get All Country
 
 Retrieve a list of all regions by sending a GET request to /regions.
 
@@ -271,7 +241,7 @@ Retrieve a list of all regions by sending a GET request to /regions.
 - URL: `/countries`
 - Method: `GET`
 - Headers:
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 
 #### Response
 
@@ -291,7 +261,7 @@ Retrieve a list of all regions by sending a GET request to /regions.
   ]
   ```
 
-## Get Country By ID
+### Get Country By ID
 
 Retrieve a specific country by its ID.
 
@@ -300,7 +270,7 @@ Retrieve a specific country by its ID.
 - URL: `/country/{countryId}`
 - Method: `GET`
 - Headers:
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 - Path Parameters:
     - `countryId` (Integer): The ID of the country to retrieve.
 
@@ -311,20 +281,18 @@ Retrieve a specific country by its ID.
     - `Content-Type: application/json`
 - Body:
   ```json
-  [
-    {
+  {
+    "id": 1,
+    "region": {
       "id": 1,
-      "region": {
-        "id": 1,
-        "name": "Asia"
-      },
-      "code": "ID",
-      "name": "Indonesia"
-    }
-  ]
+      "name": "Asia"
+    },
+    "code": "ID",
+    "name": "Indonesia"
+  }
   ```
 
-## Update Country
+### Update Country
 
 Update the details of a country by sending a PUT request.
 
@@ -333,7 +301,7 @@ Update the details of a country by sending a PUT request.
 - URL: `/country/{countryId}`
 - Method: `PUT`
 - Headers
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 - Path Parameters:
     - `countryId` (Integer): The ID of the country to update.
 - Request Body: JSON
@@ -365,7 +333,7 @@ Update the details of a country by sending a PUT request.
   ]
   ```
 
-## Delete Country
+### Delete Country
 
 Delete a country by sending a DELETE request.
 
@@ -374,7 +342,7 @@ Delete a country by sending a DELETE request.
 - URL: `/country/{countryId}`
 - Method: `DELETE`
 - Headers
-    - `Accept: application/json`
+    - `Content-Type: application/json`
 - Path Parameters:
     - `countryId (Integer)`: The ID of the country to delete.
 
@@ -394,4 +362,549 @@ Delete a country by sending a DELETE request.
       "name": "Indonesia"
     }
   ]
+  ```
+
+## Role
+
+### Create a Role
+
+Create a new role by sending a POST request to /role.
+
+#### Request
+
+- URL: `/role`
+- Method: `POST`
+- Headers
+    - `Content-Type: application/json`
+- Request Body: JSON
+  ```json
+  {
+    "name": "Indonesia"
+  }
+  ```
+
+#### Response
+
+- Status Code: 201 (Created)
+- Headers
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  {
+    "id": 1,
+    "name": "admin"
+  }
+    ```
+
+### Get All Role
+
+Retrieve a list of all regions by sending a GET request to /regions.
+
+#### Request
+
+- URL: `/roles`
+- Method: `GET`
+- Headers:
+    - `Content-Type: application/json`
+
+#### Response
+
+- Status Code: 200 (OK)
+- Body:
+  ```json
+  [
+    {
+      "id": 1,
+      "name": "admin"
+    }
+  ]
+  ```
+
+### Get Role By ID
+
+Retrieve a specific role by its ID.
+
+#### Request
+
+- URL: `/role/{roleId}`
+- Method: `GET`
+- Headers:
+    - `Content-Type: application/json`
+- Path Parameters:
+    - `roleId` (Integer): The ID of the role to retrieve.
+
+#### Response: JSON
+
+- Status Code: 200 (OK)
+- Headers:
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  {
+    "id": 1,
+    "name": "admin"
+  }
+  ```
+
+### Update Role
+
+Update the details of a role by sending a PUT request.
+
+#### Request
+
+- URL: `/role/{roleId}`
+- Method: `PUT`
+- Headers
+    - `Content-Type: application/json`
+- Path Parameters:
+    - `roleId` (Integer): The ID of the role to update.
+- Request Body: JSON
+  ```json
+  {
+    "id": 1,
+    "name": "admin"
+  }
+  ```
+
+#### Response
+
+- Status Code: 200 (OK)
+- Headers
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  {
+    "id": 1,
+    "name": "admin"
+  }
+  ```
+
+### Delete Role
+
+Delete a role by sending a DELETE request.
+
+#### Request
+
+- URL: `/role/{roleId}`
+- Method: `DELETE`
+- Headers
+    - `Content-Type: application/json`
+- Path Parameters:
+    - `roleId (Integer)`: The ID of the role to delete.
+
+#### Response: JSON
+
+- Status Code: 200 (OK)
+- Body:
+  ```json
+  {
+    "id": 1,
+    "name": "admin"
+  }
+  ```
+
+## User
+
+### Create a User
+
+Create a new user by sending a POST request to /user.
+
+#### Request
+
+- URL: `/user`
+- Method: `POST`
+- Headers
+    - `Content-Type: application/json`
+- Request Body: JSON
+  ```json
+  {
+     "username": "mark",
+     "password": "mark1234567",
+     "roleIds": [5]
+  }
+  ```
+
+#### Response
+
+- Status Code: 201 (Created)
+- Headers
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  {
+      "id": 6,
+      "username": "mark",
+      "password": "mark1234567",
+      "roles": [
+          {
+              "id": 5,
+              "name": "admin"
+          },
+          {
+              "id": 6,
+              "name": "user"
+          }
+      ]
+  }
+    ```
+
+### Get All User
+
+Retrieve a list of all regions by sending a GET request to /regions.
+
+#### Request
+
+- URL: `/users`
+- Method: `GET`
+- Headers:
+    - `Content-Type: application/json`
+
+#### Response
+
+- Status Code: 200 (OK)
+    - Body:
+      ```json
+      [
+        {
+            "id": 6,
+            "username": "mark",
+            "password": "mark1234567",
+            "roles": [
+                {
+                    "id": 5,
+                    "name": "admin"
+                },
+                {
+                    "id": 6,
+                    "name": "user"
+                }
+            ]
+        }
+      ]
+      ```
+
+### Get User By ID
+
+Retrieve a specific user by its ID.
+
+#### Request
+
+- URL: `/user/{userId}`
+- Method: `GET`
+- Headers:
+    - `Content-Type: application/json`
+- Path Parameters:
+    - `userId` (Integer): The ID of the user to retrieve.
+
+#### Response: JSON
+
+- Status Code: 200 (OK)
+- Headers:
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  {
+      "id": 6,
+      "username": "mark",
+      "password": "mark1234567",
+      "roles": [
+          {
+              "id": 5,
+              "name": "admin"
+          },
+          {
+              "id": 6,
+              "name": "user"
+          }
+      ]
+  }
+  ```
+
+### Update User
+
+Update the details of a user by sending a PUT request.
+
+#### Request
+
+- URL: `/user/{userId}`
+- Method: `PUT`
+- Headers
+    - `Content-Type: application/json`
+- Path Parameters:
+    - `userId` (Integer): The ID of the user to update.
+- Request Body: JSON
+  ```json
+  {
+     "username": "mark",
+     "password": "mark1234567",
+     "roleIds": [5,6]
+  }
+  ```
+
+#### Response
+
+- Status Code: 200 (OK)
+- Headers
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  {
+      "id": 6,
+      "username": "mark",
+      "password": "mark1234567",
+      "roles": [
+          {
+              "id": 5,
+              "name": "admin"
+          },
+          {
+              "id": 6,
+              "name": "user"
+          }
+      ]
+  }
+  ```
+
+### Delete User
+
+Delete a user by sending a DELETE request.
+
+#### Request
+
+- URL: `/user/{userId}`
+- Method: `DELETE`
+- Headers
+    - `Content-Type: application/json`
+- Path Parameters:
+    - `userId (Integer)`: The ID of the user to delete.
+
+#### Response: JSON
+
+- Status Code: 200 (OK)
+- Body:
+  ```json
+  {
+      "id": 6,
+      "username": "mark",
+      "password": "mark1234567",
+      "roles": [
+          {
+              "id": 5,
+              "name": "admin"
+          },
+          {
+              "id": 6,
+              "name": "user"
+          }
+      ]
+  }
+  ```
+
+## Employee
+
+### Create an Employee
+
+Create a new employee by sending a POST request to /employee.
+
+#### Request
+
+- URL: `/employee`
+- Method: `POST`
+- Headers
+    - `Content-Type: application/json`
+- Request Body: JSON
+  ```json
+  {
+     "name": "Tubagus Saifulloh",
+     "email": "tubagus@gmail.com",
+     "phone": "083212",
+     "userId": 6
+  }
+  ```
+
+#### Response
+
+- Status Code: 201 (Created)
+- Headers
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  {
+      "id": 7,
+      "name": "Tubagus Saifulloh",
+      "email": "tubagussaifulloh@gmail.com",
+      "phone": "0832578",
+      "user": {
+          "id": 7,
+          "username": "bagus",
+          "password": "bagus123456",
+          "roles": [
+              {
+                  "id": 5,
+                  "name": "admin"
+              }
+          ]
+      }
+  }
+    ```
+
+### Get All Employee
+
+Retrieve a list of all regions by sending a GET request to /regions.
+
+#### Request
+
+- URL: `/employees`
+- Method: `GET`
+- Headers:
+    - `Content-Type: application/json`
+
+#### Response
+
+- Status Code: 200 (OK)
+    - Body:
+      ```json
+      [
+        {
+            "id": 7,
+            "name": "Tubagus Saifulloh",
+            "email": "tubagussaifulloh@gmail.com",
+            "phone": "0832578",
+            "user": {
+                "id": 7,
+                "username": "bagus",
+                "password": "bagus123456",
+                "roles": [
+                    {
+                        "id": 5,
+                        "name": "admin"
+                    }
+                ]
+            }
+        }
+      ]
+      ```
+
+### Get Employee By ID
+
+Retrieve a specific employee by its ID.
+
+#### Request
+
+- URL: `/employee/{employeeId}`
+- Method: `GET`
+- Headers:
+    - `Content-Type: application/json`
+- Path Parameters:
+    - `employeeId` (Integer): The ID of the employee to retrieve.
+
+#### Response: JSON
+
+- Status Code: 200 (OK)
+- Headers:
+    - `Content-Type: application/json`
+- Body:
+  ```json
+    {
+        "id": 7,
+        "name": "Tubagus Saifulloh",
+        "email": "tubagussaifulloh@gmail.com",
+        "phone": "0832578",
+        "user": {
+            "id": 7,
+            "username": "bagus",
+            "password": "bagus123456",
+            "roles": [
+                {
+                    "id": 5,
+                    "name": "admin"
+                }
+            ]
+        }
+    }
+  ```
+
+### Update Employee
+
+Update the details of an employee by sending a PUT request.
+
+#### Request
+
+- URL: `/employee/{employeeId}`
+- Method: `PUT`
+- Headers
+    - `Content-Type: application/json`
+- Path Parameters:
+    - `employeeId` (Integer): The ID of the employee to update.
+- Request Body: JSON
+  ```json
+  {
+    "name": "Tubagus Saifulloh",
+    "email": "tubagussaifulloh@gmail.com",
+    "phone": "0832578",
+    "userId": 7
+  }
+  ```
+
+#### Response
+
+- Status Code: 200 (OK)
+- Headers
+    - `Content-Type: application/json`
+- Body:
+  ```json
+  {
+      "id": 7,
+      "name": "Tubagus Saifulloh",
+      "email": "tubagussaifulloh@gmail.com",
+      "phone": "0832578",
+      "user": {
+          "id": 7,
+          "username": "bagus",
+          "password": "bagus123456",
+          "roles": [
+              {
+                  "id": 5,
+                  "name": "admin"
+              }
+          ]
+      }
+  }
+  ```
+
+### Delete Employee
+
+Delete an employee by sending a DELETE request.
+
+#### Request
+
+- URL: `/employee/{employeeId}`
+- Method: `DELETE`
+- Headers
+    - `Content-Type: application/json`
+- Path Parameters:
+    - `employeeId (Integer)`: The ID of the employee to delete.
+
+#### Response: JSON
+
+- Status Code: 200 (OK)
+- Body:
+  ```json
+  {
+      "id": 7,
+      "name": "Tubagus Saifulloh",
+      "email": "tubagussaifulloh@gmail.com",
+      "phone": "0832578",
+      "user": {
+          "id": 7,
+          "username": "bagus",
+          "password": "bagus123456",
+          "roles": [
+              {
+                  "id": 5,
+                  "name": "admin"
+              }
+          ]
+      }
+  }
   ```
