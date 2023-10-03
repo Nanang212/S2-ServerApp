@@ -23,7 +23,6 @@ import co.id.ms.mii.serverapp.services.RegionServices;
 public class RegionController {
     private RegionServices regionServices;
 
-
     @GetMapping
     public List<Region> findAll() {
         return regionServices.getAll();

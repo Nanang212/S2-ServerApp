@@ -15,7 +15,6 @@ import java.util.List;
 public class RoleController {
     private RoleService roleService;
 
-
     @GetMapping
     public List<Role> findAll() {
         return roleService.getall();
