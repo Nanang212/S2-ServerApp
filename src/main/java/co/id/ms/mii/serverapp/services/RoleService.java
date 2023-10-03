@@ -51,6 +51,7 @@ public class RoleService {
     }
     public Role delete(Integer id) {
         Role role = getById(id);
+        role.getUsers().forEach(users -> users.getRoles().remove(role));
         roleRepository.delete(role);
         return role;
     }

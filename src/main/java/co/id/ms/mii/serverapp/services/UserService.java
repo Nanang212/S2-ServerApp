@@ -48,7 +48,7 @@ public class UserService {
             user.setPassword(userRequest.getPassword());
 
             //inisialisasi roletemp untuk menampung data role nanti
-            List<Role> RolesTemp = new ArrayList<Role>();
+            List<Role> RolesTemp = new ArrayList<>();
 
             //save role
             for (String roleName :
@@ -68,6 +68,7 @@ public class UserService {
                     RolesTemp.add(userRole);
                 }
             }
+
             user.setRoles(RolesTemp);
 
             //save user
@@ -119,6 +120,9 @@ public class UserService {
     public User delete(Integer id) {
         User user = getById(id);
         user.getRoles().forEach(role -> role.getUsers().remove(user));
+        if(user.getEmployee() != null){
+            user.getEmployee().setUser(null);
+        }
         userRepository.delete(user);
         return user;
     }

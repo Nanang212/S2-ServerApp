@@ -29,6 +29,7 @@ public class EmployeeService {
     }
 
     public Employee create (EmployeeRequest employeeRequest){
+        //employee name validation
         if(employeeRequest.getName().isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Name Empty!!!");
         }
@@ -37,6 +38,7 @@ public class EmployeeService {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Name already exists!!!");
         }
 
+        //employee email validation
         if(employeeRequest.getEmail().isEmpty()){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Email Empty!!!");
         }
@@ -45,6 +47,7 @@ public class EmployeeService {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Email already exists!!!");
         }
 
+        //employee phone validation
         if(employeeRequest.getPhone() == null){
             throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Phone is Empty!!!");
         }
@@ -53,8 +56,8 @@ public class EmployeeService {
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Phone already exists!!!");
         }
 
+        //check if user is already associated with employee
         User findUserId = userService.getById(employeeRequest.getUserid());
-
         if (employeeRepository.existsByUser(findUserId)){
             throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee is already associated with a User");
         }
