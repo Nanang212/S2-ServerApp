@@ -35,6 +35,9 @@ public class UserService {
         new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!!")
       );
   }
+  //  public User create(User user) {
+  //   return userRepository.save(user);
+  // }
   
   public User update(Integer id, User user) {
     getById(id);
