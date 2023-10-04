@@ -1,9 +1,9 @@
 package id.co.mii.serverapp.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import id.co.mii.serverapp.models.Role;
+import id.co.mii.serverapp.models.dto.Role;
 
-public interface RoleRepository extends JpaRepository<Role,Long>{
-    //spring data JPA untuk mengakses si role
-}
+@Repository
+public interface RoleRepository extends JpaRepository<Role, Integer> {}

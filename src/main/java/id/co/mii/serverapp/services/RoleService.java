@@ -1,67 +1,46 @@
 package id.co.mii.serverapp.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import id.co.mii.serverapp.models.Role;
-import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.repositories.RoleRepository;
-import id.co.mii.serverapp.repositories.UserRepository;
-
 import java.util.List;
-import java.util.Optional;
-import java.util.Set;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
+
+import id.co.mii.serverapp.models.dto.Role;
+import id.co.mii.serverapp.repositories.RoleRepository;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class RoleService {
 
-    @Autowired
-    private RoleRepository roleRepository;
+  private RoleRepository roleRepository;
 
-    @Autowired
-    private UserRepository userRepository;
+  public List<Role> getAll() {
+    return roleRepository.findAll();
+  }
 
-    // // Create Role
-    public Role createRole(Role role) {
-        return roleRepository.save(role);
-    }
+  public Role getById(Integer id) {
+    return roleRepository
+      .findById(id)
+      .orElseThrow(() ->
+        new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found!!!")
+      );
+  }
 
-    // Read Role by ID
-    public Role getRoleById(Long id) {
-        Optional<Role> roleOptional = roleRepository.findById(id);
-        return roleOptional.orElse(null);
-    }
+  public Role create(Role role) {
+    return roleRepository.save(role);
+  }
 
-    // Read All Roles
-    public List<Role> getAllRoles() {
-        return roleRepository.findAll();
-    }
+  public Role update(Integer id, Role role) {
+    getById(id);
+    role.setId(id);
+    return roleRepository.save(role);
+  }
 
-    // Update Role
-    public Role updateRole(Long id, Role newRole) {
-        Optional<Role> roleOptional = roleRepository.findById(id);
-
-        if (roleOptional.isPresent()) {
-            Role existingRole = roleOptional.get();
-            existingRole.setName(newRole.getName());
-            return roleRepository.save(existingRole);
-        }
-
-        return null;
-    }
-
-    // Delete Role
-    public Role deleteRole(Long id) {
-        Role role = getRoleById(id);
-        roleRepository.deleteById(id);
-        return role;
-    }
-    public User addUserRole (Long userId,Long roleId){
-        User user = userRepository.findById(userId).orElse(null);
-        Role role = getRoleById(roleId);
-        Set<Role> roles = user.getRoles();
-        roles.add(role);
-        user.setRoles(roles);
-        return userRepository.save(user);
-    }
+  public Role delete(Integer id) {
+    Role role = getById(id);
+    roleRepository.delete(role);
+    return role;
+  }
 }

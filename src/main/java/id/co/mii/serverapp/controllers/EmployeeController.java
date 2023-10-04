@@ -1,56 +1,52 @@
 package id.co.mii.serverapp.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import id.co.mii.serverapp.models.Employee;
-import id.co.mii.serverapp.services.EmployeeService;
-
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import id.co.mii.serverapp.models.dto.Employee;
+import id.co.mii.serverapp.services.EmployeeService;
+import lombok.AllArgsConstructor;
+
 @RestController
+@AllArgsConstructor
 @RequestMapping("/employee")
 public class EmployeeController {
 
-    @Autowired
-    //sebuah anotasi yang dari spring boot
-    private EmployeeService employeeService;
+  private EmployeeService employeeService;
 
-    // Create Employee
-    @PostMapping
-    public Employee createEmployee(@RequestBody Employee employee) {
-        return employeeService.createEmployee(employee);
-    }
+  @GetMapping
+  public List<Employee> getAll() {
+    return employeeService.getAll();
+  }
 
-    // Read Employee by ID
-    @GetMapping("/{id}")
-    public Employee getEmployeeById(@PathVariable Long id) {
-        return employeeService.getEmployeeById(id);
-    }
+  @GetMapping("/{id}")
+  public Employee getById(@PathVariable Integer id) {
+    return employeeService.getById(id);
+  }
+  // @PostMapping
+  // public Employee create(@RequestBody Employee employee){
+  //   return employeeService.create(employee);
+  // }
 
-    // Read All Employees
-    @GetMapping
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
-    }
+  @PutMapping("/{id}")
+  public Employee update(
+    @PathVariable Integer id,
+    @RequestBody Employee employee
+  ) {
+    return employeeService.update(id, employee);
+  }
 
-    // Update Employee
-    @PutMapping("/{id}")
-    public Employee updateEmployee(@PathVariable Long id, @RequestBody Employee employee) {
-       return employeeService.updatEmployee(id, employee);
-    }
-
-    // Delete Employee
-    @DeleteMapping("/{id}")
-    public Employee deleteEmployee(@PathVariable Long id) {
-        return employeeService.deleteEmployee(id);
-
-    }
-    @PostMapping("/users/{id}/employees")
-    public Employee createUserEmployee( @RequestBody Employee employee , @PathVariable Long id){
-        return employeeService.createUserEmployee(employee, id);
-      
-    }
-
-
+  @DeleteMapping("/{id}")
+  public Employee delete(@PathVariable Integer id) {
+    return employeeService.delete(id);
+  }
 }

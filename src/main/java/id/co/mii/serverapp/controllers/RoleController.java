@@ -1,52 +1,49 @@
 package id.co.mii.serverapp.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import id.co.mii.serverapp.models.Role;
-import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.services.RoleService;
-
 import java.util.List;
 
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import id.co.mii.serverapp.models.dto.Role;
+import id.co.mii.serverapp.services.RoleService;
+import lombok.AllArgsConstructor;
+
 @RestController
-@RequestMapping("/roles")
+@AllArgsConstructor
+@RequestMapping("/role")
 public class RoleController {
 
-    @Autowired
-    private RoleService roleService;
+  private RoleService roleService;
 
-    // Create Role
-    @PostMapping
-    public Role createRole(@RequestBody Role role) {
-        return roleService.createRole(role);
-    }
+  @GetMapping
+  public List<Role> getAll() {
+    return roleService.getAll();
+  }
 
-    // Read Role by ID
-    @GetMapping("/{id}")
-    public Role getRoleById(@PathVariable Long id) {
-        return roleService.getRoleById(id);
-    }
+  @GetMapping("/{id}")
+  public Role getById(@PathVariable Integer id) {
+    return roleService.getById(id);
+  }
 
-    // Read All Roles
-    @GetMapping
-    public List<Role> getAllRoles() {
-        return roleService.getAllRoles();
-    }
+  @PostMapping
+  public Role create(@RequestBody Role role) {
+    return roleService.create(role);
+  }
 
-    // Update Role
-    @PutMapping("/{id}")
-    public Role updateRole(@PathVariable Long id, @RequestBody Role role) {
-        return roleService.updateRole(id, role);
-    }
+  @PutMapping("/{id}")
+  public Role update(@PathVariable Integer id, @RequestBody Role role) {
+    return roleService.update(id, role);
+  }
 
-    // Delete Role
-    @DeleteMapping("/{id}")
-    public Role deleteRole(@PathVariable Long id) {
-       return roleService.deleteRole(id);
-    }
-    @PostMapping("/users/{userId}/role/{roleId}")
-    public User addUserRole (@PathVariable Long userId , @PathVariable Long roleId){
-        return roleService.addUserRole(userId, roleId);
-    }
+  @DeleteMapping("/{id}")
+  public Role delete(@PathVariable Integer id) {
+    return roleService.delete(id);
+  }
 }

@@ -1,60 +1,57 @@
 package id.co.mii.serverapp.services;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.repositories.UserRepository;
-
 import java.util.List;
-import java.util.Optional;
 
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.server.ResponseStatusException;
+
+import id.co.mii.serverapp.models.dto.Role;
+import id.co.mii.serverapp.models.dto.User;
+import id.co.mii.serverapp.repositories.UserRepositorty;
+import lombok.AllArgsConstructor;
 
 @Service
+@AllArgsConstructor
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+  private UserRepositorty userRepository;
+  private RoleService roleService;
 
-    // Create User
-    public User createUser(User user) {
-        return userRepository.save(user);
-    }
 
-    // Read User by ID
-    public User getUserById(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
-        return userOptional.orElse(null);
-    }
-    public List<User>getAllUsers(){
-        return userRepository.findAll();
-    }
+  public List<User> getAll() {
+    return userRepository.findAll();
+  }
 
-    // // Read All Users
-    // public List<User> getAllUsers() {
-    //     return userRepository.findAll();
-    // }
+  public User getById(Integer id) {
+    return userRepository
+      .findById(id)
+      .orElseThrow(() ->
+        new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!!")
+      );
+  }
+  
+  public User update(Integer id, User user) {
+    getById(id);
+    user.setId(id);
+    return userRepository.save(user);
+  }
 
-    // Update User
-    public User updateUser(Long id, User newUser) {
-        Optional<User> userOptional = userRepository.findById(id);
+  // add role
+  public User addRole(Integer id, Role role) {
+    // cek user
+    User user = getById(id);
 
-        if (userOptional.isPresent()) {
-            User existingUser = userOptional.get();
-            existingUser.setUsername(newUser.getUsername());
-            existingUser.setPassword(newUser.getPassword());
-            return userRepository.save(existingUser);
-        }
+    // cek role & set role
+    List<Role> roles = user.getRoles();
+    roles.add(roleService.getById(role.getId()));
+    user.setRoles(roles);
 
-        return null;
-    }
-
-    // Delete User
-    public User deleteUser(Long id) {
-       User user = getUserById (id);
-        userRepository.delete(user);
-        return user;
-    }
-
+    return userRepository.save(user);
+  }
 }

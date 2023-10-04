@@ -1,48 +1,43 @@
 package id.co.mii.serverapp.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
-
-import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.services.UserService;
-
 import java.util.List;
 
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import id.co.mii.serverapp.models.dto.Role;
+import id.co.mii.serverapp.models.dto.User;
+import id.co.mii.serverapp.services.UserService;
+import lombok.AllArgsConstructor;
+
 @RestController
+@AllArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 
-    @Autowired
-    private UserService userService;
+  private UserService userService;
 
-    // Create User
-    @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
-    }
+  @GetMapping  public List<User> getAll() {
+    return userService.getAll();
+  }
 
-    // Read User by ID
-    @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
-        return userService.getUserById(id);
-    }
+  @GetMapping("/{id}")
+  public User getById(@PathVariable Integer id) {
+    return userService.getById(id);
+  }
 
-    // Read All Users
-    @GetMapping
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
-    }
+  @PutMapping("/{id}")
+  public User update(@PathVariable Integer id, @RequestBody User user) {
+    return userService.update(id, user);
+  }
 
-    // Update User
-    @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
-        return userService.updateUser(id, user);
-    }
-
-    // Delete User
-    @DeleteMapping("/{id}")
-    public User deleteUser(@PathVariable Long id) {
-        return userService.deleteUser(id);
-
-    }
+  // add role
+  @PutMapping("/add-role/{id}")
+  public User addRole(@PathVariable Integer id, @RequestBody Role role) {
+    return userService.addRole(id, role);
+  }
 }
