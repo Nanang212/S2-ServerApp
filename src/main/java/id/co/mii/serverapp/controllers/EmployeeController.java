@@ -1,9 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.Employee;
-import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
-import id.co.mii.serverapp.models.dto.requests.UserEmployeeRequest;
 import id.co.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

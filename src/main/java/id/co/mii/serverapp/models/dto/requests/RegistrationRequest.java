@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserEmployeeRequest {
+public class RegistrationRequest {
     private String username;
     private String password;
     private String name;

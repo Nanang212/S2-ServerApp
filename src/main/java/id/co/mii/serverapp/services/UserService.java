@@ -2,6 +2,7 @@ package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.models.dto.requests.UserRequest;
 import id.co.mii.serverapp.repositories.UserRepo;
 import id.co.mii.serverapp.services.base.BaseService;
@@ -21,15 +22,12 @@ public class UserService extends BaseService<User> {
     private ModelMapper modelMapper;
     private UserRepo userRepo;
     private RoleService roleService;
-    public User create(UserRequest userRequest) {
-        if (userRepo.existsByUsername(userRequest.getUsername())) {
+    private AuthService authService;
+    public User create(RegistrationRequest registrationRequest) {
+        if (userRepo.existsByUsername(registrationRequest.getUsername())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already used !!!");
         }
-        User user = modelMapper.map(userRequest, User.class);
-        List<Role> roles = mapToRoles(userRequest.getRoleIds());
-        user.setRoles(roles);
-        userRepo.save(user);
-        return user;
+        return authService.registration(registrationRequest);
     }
 
     public User update(Integer id, UserRequest userRequest) {

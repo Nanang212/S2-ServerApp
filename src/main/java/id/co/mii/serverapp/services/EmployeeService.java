@@ -20,6 +20,7 @@ public class EmployeeService extends BaseService<Employee> {
     private UserService userService;
     private EmployeRepo employeRepo;
     private ModelMapper modelMapper;
+
     public Employee create(EmployeeRequest employeeRequest) {
         if (employeRepo.existsByEmail(employeeRequest.getEmail())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already used !!!");
@@ -34,6 +35,7 @@ public class EmployeeService extends BaseService<Employee> {
         userRepo.save(user);
         return employee;
     }
+
     public Employee update(Integer id, EmployeeRequest employeeRequest) {
         Employee updatedEmployee = getById(id);
         if (!StringUtils.isEmptyOrNull(employeeRequest.getName())

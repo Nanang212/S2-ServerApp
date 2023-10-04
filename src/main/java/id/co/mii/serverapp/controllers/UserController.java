@@ -1,6 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.models.dto.requests.UserRequest;
 import id.co.mii.serverapp.services.UserService;
 import lombok.AllArgsConstructor;
@@ -17,10 +18,10 @@ public class UserController {
     private UserService userService;
 
     @PostMapping
-    public ResponseEntity<User> create(@RequestBody UserRequest userRequest) {
+    public ResponseEntity<User> create(@RequestBody RegistrationRequest registrationRequest) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(userService.create(userRequest));
+                .body(userService.create(registrationRequest));
     }
 
     @GetMapping
