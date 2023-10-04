@@ -17,48 +17,50 @@ import lombok.Data;
 @AllArgsConstructor
 @Data
 public class EmployeeService {
-    
+
     private EmployeeRepository employeeRepository;
 
     private UserRepository userRepository;
 
-    public List<Employee> getAll(){
+    public List<Employee> getAll() {
         return employeeRepository.findAll();
     }
 
-    public Employee getById(Integer id){
-        return employeeRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "tidak ada id: " + id));
+    public Employee getById(Integer id) {
+        return employeeRepository.findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "tidak ada id: " + id));
     }
 
-    public Employee create(Employee employee){
+    public Employee create(Employee employee) {
         // if(employeeRepository.existsByUserId(employee.getUser().getId())){
-        //     throw new ResponseStatusException(HttpStatus.CONFLICT, "user id must be unique");
+        // throw new ResponseStatusException(HttpStatus.CONFLICT, "user id must be
+        // unique");
         // }
         return employeeRepository.save(employee);
     }
 
-    public Employee update(Employee employee, Integer id){
+    public Employee update(Employee employee, Integer id) {
         getById(id);
         employee.setId(id);
         return employeeRepository.save(employee);
     }
 
-    public Employee delete(Integer id){
+    public Employee delete(Integer id) {
         Employee employee = getById(id);
         employeeRepository.delete(employee);
         return employee;
     }
 
-    public Employee createEmployeByExistingUser(Employee employee, Integer id){
-       User user = userRepository.findById(id).orElse(null);
+    public Employee createEmployeByExistingUser(Employee employee, Integer id) {
+        User user = userRepository.findById(id).orElse(null);
 
-       if (employeeRepository.existsByUserId(id)){
-        throw new ResponseStatusException(HttpStatus.CONFLICT, "user id is already exist");
-       }
-       
+        if (employeeRepository.existsByUserId(id)) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "user id is already exist");
+        }
+
         // user.setEmployee(employee);
         employee.setUser(user);
-      return   employeeRepository.save(employee);
-    
+        return employeeRepository.save(employee);
+
     }
 }
