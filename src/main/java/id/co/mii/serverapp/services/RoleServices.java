@@ -19,36 +19,31 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class RoleServices {
+
     private RoleRepositories roleRepositories;
-
-    public Role create(RoleRequest request) {
-
-        Role role = new Role();
-        role.setName(request.getName());
-
-        return roleRepositories.save(role);
-    }
-
-    public Role getById(Integer roleId) {
-        return roleRepositories
-            .findById(roleId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found"));
-    }
 
     public List<Role> getAll() {
         return roleRepositories.findAll();
     }
 
-    public Role update(Integer roleId, RoleRequest request) {
-        Role role = getById(roleId);
-        role.setName(request.getName());
+    public Role getById(Integer id) {
+        return roleRepositories
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found!!!"));
+    }
+
+    public Role create(Role role) {
         return roleRepositories.save(role);
     }
 
-    public Role delete(Integer roleId) {
-        Role role = roleRepositories
-            .findById(roleId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found"));
+    public Role update(Integer id, Role role) {
+        getById(id);
+        role.setId(id);
+        return roleRepositories.save(role);
+    }
+
+    public Role delete(Integer id) {
+        Role role = getById(id);
         roleRepositories.delete(role);
         return role;
     }

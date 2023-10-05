@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.UserDTO;
 import id.co.mii.serverapp.models.request.CreateUserRequest;
@@ -26,27 +27,23 @@ public class UserController {
     private UserServices userServices;
 
     @GetMapping
-    public List<UserDTO> getAll(){
+    public List<User> getAll() {
         return userServices.getAll();
     }
 
     @GetMapping("/{id}")
-    public User getById(@PathVariable Integer id){
+    public User getById(@PathVariable Integer id) {
         return userServices.getById(id);
     }
 
-    @PostMapping
-    public UserDTO create(@RequestBody CreateUserRequest request){
-        return userServices.createUser(request);
+    @PutMapping("/{id}")
+    public User update(@PathVariable Integer id, @RequestBody User user) {
+        return userServices.update(id, user);
     }
 
-    @PutMapping("/{id}")
- public UserDTO update(@PathVariable Integer id, @RequestBody UpdateUserRequest request){
-    return userServices.updateUser(id, request);
-}
-
-    @DeleteMapping("/{id}")
-    public void delete(@PathVariable Integer id){
-        userServices.delete(id);
+    // add role
+    @PutMapping("/add-role/{id}")
+    public User addRole(@PathVariable Integer id, @RequestBody Role role) {
+        return userServices.addRole(id, role);
     }
 }

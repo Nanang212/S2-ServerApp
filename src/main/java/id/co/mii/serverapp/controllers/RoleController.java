@@ -15,11 +15,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Role;
-import id.co.mii.serverapp.models.dto.RoleDTO;
-
 import id.co.mii.serverapp.models.request.RoleRequest;
 import id.co.mii.serverapp.services.RoleServices;
-
 import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
@@ -28,46 +25,59 @@ import lombok.AllArgsConstructor;
 public class RoleController {
     private final RoleServices roleService;
 
-    @PostMapping(
-        value = "/role",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    @ResponseStatus(HttpStatus.CREATED)
-    public Role create(@RequestBody RoleRequest request) {
-        return roleService.create(request);
-    }
+    // @GetMapping(value = "/role/{roleId}", produces =
+    // MediaType.APPLICATION_JSON_VALUE)
+    // public Role getById(@PathVariable Integer roleId) {
+    // return roleService.getById(roleId);
+    // }
+    // @PostMapping(value = "/role", consumes = MediaType.APPLICATION_JSON_VALUE,
+    // produces = MediaType.APPLICATION_JSON_VALUE)
+    // @ResponseStatus(HttpStatus.CREATED)
+    // public Role create(@RequestBody RoleRequest request) {
+    // return roleService.create(request);
+    // }
 
-    @GetMapping(
-        value = "/role/{roleId}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public Role getById(@PathVariable Integer roleId) {
-        return roleService.getById(roleId);
-    }
+    // @GetMapping(value = "/roles", produces = MediaType.APPLICATION_JSON_VALUE)
+    // public List<Role> getAll() {
+    // return roleService.getAll();
+    // }
 
-    @GetMapping(
-        value = "/roles",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    // @PutMapping(value = "/role/{roleId}", consumes =
+    // MediaType.APPLICATION_JSON_VALUE, produces =
+    // MediaType.APPLICATION_JSON_VALUE)
+    // public Role create(@PathVariable Integer roleId, @RequestBody RoleRequest
+    // request) {
+    // return roleService.update(roleId, request);
+    // }
+
+    // @DeleteMapping(value = "/role/{roleId}", produces =
+    // MediaType.APPLICATION_JSON_VALUE)
+    // public Role delete(@PathVariable Integer roleId) {
+    // return roleService.delete(roleId);
+    // }
+    @GetMapping
     public List<Role> getAll() {
         return roleService.getAll();
     }
 
-    @PutMapping(
-        value = "/role/{roleId}",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public Role create(@PathVariable Integer roleId, @RequestBody RoleRequest request) {
-        return roleService.update(roleId, request);
+    @GetMapping("/{id}")
+    public Role getById(@PathVariable Integer id) {
+        return roleService.getById(id);
     }
 
-    @DeleteMapping(
-        value = "/role/{roleId}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
-    public Role delete(@PathVariable Integer roleId) {
-        return roleService.delete(roleId);
+    @PostMapping
+    public Role create(@RequestBody Role role) {
+        return roleService.create(role);
     }
+
+    @PutMapping("/{id}")
+    public Role update(@PathVariable Integer id, @RequestBody Role role) {
+        return roleService.update(id, role);
+    }
+
+    @DeleteMapping("/{id}")
+    public Role delete(@PathVariable Integer id) {
+        return roleService.delete(id);
+    }
+
 }

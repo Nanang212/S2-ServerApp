@@ -26,10 +26,6 @@ import lombok.AllArgsConstructor;
 public class CountryController {
     private CountryServices countryServices;
 
-    // public CountryController(CountryServices countryServices) {
-    //     this.countryServices = countryServices;
-    // }
-
     @GetMapping
     public List<Country> getAll() {
         return countryServices.getAll();
@@ -74,16 +70,16 @@ public class CountryController {
     // custom manual
     @GetMapping("/custom/{id}")
     public Map<String, Object> getByIdCustom(@PathVariable Integer id) {
-    return countryServices.getByIdCustom(id);
+        return countryServices.getByIdCustom(id);
     }
 
     @GetMapping("/all")
     public List<Map<String, Object>> getAllCustom() {
-    return countryServices.getAllCustom();
+        return countryServices.getAllCustom();
     }
 
     @GetMapping("/all/stream")
     public List<Map<String, Object>> getAllCustomStream() {
-    return countryServices.getAllCustomStream();
+        return countryServices.getAllCustomStream();
     }
 }

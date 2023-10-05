@@ -29,21 +29,12 @@ public class EmailController {
         return emailServices.sendMessageWithAttachment(emailRequest);
     }
 
-    @PostMapping(
-        value = "/attachment",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping(value = "/attachment", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public EmailRequest attachment(@RequestBody EmailRequest request) {
         return emailServices.sendMessageWithAttachment(request);
     }
 
-    
-    @PostMapping(
-        value = "/html",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping(value = "/html", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public EmailRequest sendMessageWithHtml(@RequestBody EmailRequest request) {
         return emailServices.sendMessageUsingHtml(request);
     }

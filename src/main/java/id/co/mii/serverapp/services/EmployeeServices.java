@@ -1,4 +1,5 @@
 package id.co.mii.serverapp.services;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,21 +21,22 @@ import lombok.AllArgsConstructor;
 public class EmployeeServices {
     private EmployeeRepositories employeeRepositories;
 
-    public List<EmployeeDTO> getAll() {
-        List<Employee> employees = employeeRepositories.findAll();
-        return employees.stream()
-                .map(employee -> {
-                    EmployeeDTO employeeDTO = new EmployeeDTO();
-                    BeanUtils.copyProperties(employee, employeeDTO);
-                    return employeeDTO;
-                })
-                .collect(Collectors.toList());
+    public List<Employee> getAll() {
+        // List<Employee> employees = employeeRepositories.findAll();
+        // return employees.stream()
+        // .map(employee -> {
+        // EmployeeDTO employeeDTO = new EmployeeDTO();
+        // BeanUtils.copyProperties(employee, employeeDTO);
+        // return employeeDTO;
+        // })
+        // .collect(Collectors.toList());
+        return employeeRepositories.findAll();
     }
 
-    public Employee getById(Integer id){
-        return employeeRepositories.findById(id).orElseThrow(()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employees with that id is not found!!"));
+    public Employee getById(Integer id) {
+        return employeeRepositories.findById(id).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employees with that id is not found!!"));
     }
-
 
     public EmployeeDTO create(CreateEmployeeRequest request) {
         Employee employee = new Employee();
@@ -48,14 +50,13 @@ public class EmployeeServices {
         return employeeDTO;
     }
 
-
     // public Employee update(Integer id, Employee employee){
-    //     getById(id);
-    //     employee.setId(id);
-    //     return employeeRepositories.save(employee);
+    // getById(id);
+    // employee.setId(id);
+    // return employeeRepositories.save(employee);
     // }
 
-      public EmployeeDTO update(Integer id, UpdateEmployeeRequest request) {
+    public EmployeeDTO update(Integer id, UpdateEmployeeRequest request) {
         Employee employee = employeeRepositories.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
         employee.setName(request.getName());
