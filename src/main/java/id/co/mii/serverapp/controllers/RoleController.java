@@ -22,27 +22,27 @@ public class RoleController {
     private RoleService roleService;
 
     @GetMapping
-    public List<Role> getAll(){
+    public List<Role> getAll() {
         return roleService.getAll();
     }
 
     @GetMapping("/{id}")
-    public Role getById(@PathVariable Integer id){
+    public Role getById(@PathVariable Integer id) {
         return roleService.getById(id);
     }
 
     @PostMapping
-    public Role insert(@RequestBody Role role){
+    public Role insert(@RequestBody Role role) {
         return roleService.insert(role);
     }
 
     @PutMapping("/update/{id}")
-    public Role update(@PathVariable Integer id, @RequestBody Role role){
+    public Role update(@PathVariable Integer id, @RequestBody Role role) {
         return roleService.update(id, role);
     }
 
-    @DeleteMapping("/delete/{id}")
-    public Role delete(@PathVariable Integer id){
+    @DeleteMapping("/{id}")
+    public Role delete(@PathVariable Integer id) {
         return roleService.delete(id);
     }
 }

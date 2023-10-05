@@ -17,8 +17,6 @@ import lombok.AllArgsConstructor;
 public class EmployeeService {
 
     private final EmployeeRepository employeeRepository;
-    private UserService userService;
-    private ModelMapper modelMapper;
 
     public List<Employee> getAll() {
         return employeeRepository.findAll();
@@ -30,13 +28,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "tidak ditemukan id no :" + id));
     }
 
-    public Employee insertDTOByModelMapper(EmployeeRequest employeeRequest){
-        Employee employee = modelMapper.map(employeeRequest, Employee.class);
-        employee.setUser(userService.getById(employeeRequest.getUserId()));
-        return employeeRepository.save(employee);
-    }
-
-    public Employee update(Integer id, Employee employee){
+    public Employee update(Integer id, Employee employee) {
         getById(id);
         employee.setId(id);
         if (employeeRepository.existsByEmail(employee.getEmail())) {
@@ -49,7 +41,7 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee delete(Integer id){
+    public Employee delete(Integer id) {
         Employee employee = getById(id);
         employeeRepository.delete(employee);
         return employee;
