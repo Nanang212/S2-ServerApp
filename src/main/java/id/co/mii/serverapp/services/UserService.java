@@ -37,10 +37,9 @@ public class UserService {
     }
 
     public User create(User user) {
-        // if(userRepository.existsByEmployeeId(user.getEmployee().getId())){
-        // throw new ResponseStatusException(HttpStatus.CONFLICT, "employee id must be
-        // unique");
-        // }
+        if(userRepository.existsById(user.getId())){
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "employee id must be unique");
+        }
         return userRepository.save(user);
     }
 
