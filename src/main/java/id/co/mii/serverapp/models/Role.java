@@ -2,11 +2,15 @@ package id.co.mii.serverapp.models;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
@@ -27,11 +31,15 @@ public class Role {
     @Column(name = "role_id")
     private Integer id;
 
-    @Column(name="role_name", nullable = false, length = 50)
+    @Column(name = "role_name", nullable = false, length = 50)
     private String name;
 
     @ManyToMany(mappedBy = "roles")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<User> users;
+
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @JoinTable(name = "role_privileges", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "privilege_id"))
+    private List<Privilege> privileges;
 
 }
