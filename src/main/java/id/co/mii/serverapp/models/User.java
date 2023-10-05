@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import id.co.mii.serverapp.models.base.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -18,10 +19,12 @@ public class User extends BaseEntity {
     private String username;
     @Column(nullable = false)
     private String password;
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Employee employee;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),

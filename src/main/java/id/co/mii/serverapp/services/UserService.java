@@ -19,16 +19,9 @@ import java.util.stream.Collectors;
 @Service
 @AllArgsConstructor
 public class UserService extends BaseService<User> {
-    private ModelMapper modelMapper;
     private UserRepo userRepo;
     private RoleService roleService;
     private AuthService authService;
-    public User create(RegistrationRequest registrationRequest) {
-        if (userRepo.existsByUsername(registrationRequest.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already used !!!");
-        }
-        return authService.registration(registrationRequest);
-    }
 
     public User update(Integer id, UserRequest userRequest) {
         User updatedUser = getById(id);
@@ -55,6 +48,15 @@ public class UserService extends BaseService<User> {
         user.getRoles().forEach(role -> role.getUsers().remove(user));
         userRepo.delete(user);
         return user;
+    }
+
+    public User addRole(Integer id, Role role) {
+        User user = getById(id);
+
+        List<Role> roles = user.getRoles();
+        roles.add(role);
+        user.setRoles(roles);
+        return userRepo.save(user);
     }
 
     private List<Role> mapToRoles(List<Integer> roleIds) {

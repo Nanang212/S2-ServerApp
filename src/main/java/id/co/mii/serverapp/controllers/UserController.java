@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.controllers;
 
+import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.models.dto.requests.UserRequest;
@@ -16,13 +17,6 @@ import java.util.List;
 @AllArgsConstructor
 public class UserController {
     private UserService userService;
-
-    @PostMapping
-    public ResponseEntity<User> create(@RequestBody RegistrationRequest registrationRequest) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(userService.create(registrationRequest));
-    }
 
     @GetMapping
     public ResponseEntity<List<User>> getAll() {
@@ -50,5 +44,12 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(userService.delete(id));
+    }
+
+    @PutMapping("/{id}/add-role")
+    public ResponseEntity<User> addRole(@PathVariable Integer id, @RequestBody Role role) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(userService.addRole(id, role));
     }
 }

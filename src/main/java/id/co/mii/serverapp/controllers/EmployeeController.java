@@ -16,12 +16,6 @@ import java.util.List;
 public class EmployeeController {
     private EmployeeService employeeService;
 
-    @PostMapping
-    public ResponseEntity<Employee> create(@RequestBody EmployeeRequest employeeRequest) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(employeeService.create(employeeRequest));
-    }
 
     @GetMapping
     public ResponseEntity<List<Employee>> getAll() {

@@ -16,25 +16,7 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 @AllArgsConstructor
 public class EmployeeService extends BaseService<Employee> {
-    private UserRepo userRepo;
-    private UserService userService;
     private EmployeRepo employeRepo;
-    private ModelMapper modelMapper;
-
-    public Employee create(EmployeeRequest employeeRequest) {
-        if (employeRepo.existsByEmail(employeeRequest.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already used !!!");
-        }
-        if (employeRepo.existsByPhone(employeeRequest.getPhone())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number already used !!!");
-        }
-        Employee employee = modelMapper.map(employeeRequest, Employee.class);
-        User user = userService.getById(employeeRequest.getUserId());
-        employee.setUser(user);
-        user.setEmployee(employee);
-        userRepo.save(user);
-        return employee;
-    }
 
     public Employee update(Integer id, EmployeeRequest employeeRequest) {
         Employee updatedEmployee = getById(id);
@@ -61,10 +43,6 @@ public class EmployeeService extends BaseService<Employee> {
 
     @Override
     public Employee delete(Integer id) {
-        User user = userService.getById(id);
-        user.setEmployee(null);
-        userRepo.save(user);
-
         Employee employee = getById(id);
         employeRepo.delete(employee);
         return employee;

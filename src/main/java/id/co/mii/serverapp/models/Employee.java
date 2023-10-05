@@ -18,9 +18,8 @@ public class Employee extends BaseEntity {
     private String email;
     @Column(unique = true, length = 15)
     private String phone;
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private User user;
 }
