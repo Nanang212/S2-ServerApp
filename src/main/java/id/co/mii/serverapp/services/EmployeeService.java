@@ -29,9 +29,9 @@ public class EmployeeService {
         new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found!!!")
       );
   }
-  // public Employee create(Employee employee) {
-  //   return employeeRepository.save(employee);
-  // }
+  public Employee create(Employee employee) {
+    return employeeRepository.save(employee);
+  }
 
   public Employee update(Integer id, Employee employee) {
     getById(id);

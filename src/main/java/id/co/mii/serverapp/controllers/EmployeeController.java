@@ -32,10 +32,10 @@ public class EmployeeController {
   public Employee getById(@PathVariable Integer id) {
     return employeeService.getById(id);
   }
-  // @PostMapping
-  // public Employee create(@RequestBody Employee employee){
-  //   return employeeService.create(employee);
-  // }
+  @PostMapping
+  public Employee create(@RequestBody Employee employee){
+    return employeeService.create(employee);
+  }
 
   @PutMapping("/{id}")
   public Employee update(

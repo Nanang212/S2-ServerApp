@@ -12,6 +12,8 @@ import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -34,6 +36,7 @@ public class User {
   @OneToOne
   @MapsId
   @JoinColumn(name = "id")
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) 
   private Employee employee;
   
   @ManyToMany

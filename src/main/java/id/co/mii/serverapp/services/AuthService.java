@@ -2,6 +2,7 @@ package id.co.mii.serverapp.services;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import org.modelmapper.ModelMapper;
@@ -27,10 +28,10 @@ public class AuthService {
     User user = modelMapper.map(registrationRequest, User.class);
 
     // set default role
-    // List<Role> roles = Collection.singletonList(roleService.getById(2));
-    List<Role> roles = new ArrayList<>();
-    roles.add(roleService.getById(2));
-    user.setRoles(roles);
+    List<Role> roles = Collections.singletonList(roleService.getById(2)); 
+    // List<Role> roles = new ArrayList<>();
+    // roles.add(roleService.getById(2));
+     // user.setRoles(roles);
 
     employee.setUser(user);
     user.setEmployee(employee);
