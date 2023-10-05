@@ -46,18 +46,21 @@ public class EmailService {
         return emailRequest;
     }
 
-    public EmailRequest sendHtmlMessage(EmailRequest emailRequest){
+    public EmailRequest sendHtmlMessage(EmailRequest emailRequest) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_NO, StandardCharsets.UTF_8.name());
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_NO,
+                    StandardCharsets.UTF_8.name());
             Context context = new Context();
             context.setVariable("message", emailRequest);
             String htmlContent = springTemplateEngine.process("emailtemplate.html", context);
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());
-            helper.setText(htmlContent,true);
+            helper.setText(htmlContent, true);
+            FileSystemResource file = new FileSystemResource(emailRequest.getAttachment());
+            helper.addAttachment(file.getFilename(), file);
             javaMailSender.send(message);
-            
+
         } catch (Exception e) {
             System.out.println("Error : " + e.getMessage());
         }

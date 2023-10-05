@@ -2,7 +2,7 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
-import org.modelmapper.ModelMapper;
+// import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -18,7 +18,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeeService {
     private EmployeeRepository employeeRepository;
-    private ModelMapper modelMapper;
     private UserService userService;
     private UserRepository userRepository;
 
@@ -29,28 +28,6 @@ public class EmployeeService {
     public Employee getById(Integer id) {
         return employeeRepository.findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Employee"));
-    }
-
-    public Employee create(EmployeeRequest employeeRequest) {
-
-        if (employeeRepository.existsByName(employeeRequest.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Name employee already taken");
-        }
-
-        if (employeeRepository.existsByEmail(employeeRequest.getEmail())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email employee already taken");
-        }
-
-        if (employeeRepository.existsByPhone(employeeRequest.getPhone())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone employee already taken");
-        }
-
-        Employee employee = modelMapper.map(employeeRequest, Employee.class);
-        User user = userService.getById(employeeRequest.getUserId());
-        employee.setUser(user);
-        user.setEmployee(employee);
-        userRepository.save(user);
-        return employee;
     }
 
     public Employee update(Integer id, EmployeeRequest employeeRequest){

@@ -3,8 +3,9 @@ package id.co.mii.serverapp.services;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.modelmapper.ModelMapper;
+// import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+// import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -14,13 +15,13 @@ import id.co.mii.serverapp.models.dto.request.UserRequest;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 
-
 @Service
 @AllArgsConstructor
 public class UserService {
     private UserRepository userRepository;
-    private ModelMapper modelMapper;
+    // private ModelMapper modelMapper;
     private RoleService roleService;
+    // private PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -31,21 +32,33 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No User"));
     }
 
-    public User create(UserRequest userRequest) {
-        if (userRequest.getUsername().isEmpty() || userRequest.getPassword().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Both should not be empty");
-        }
+    // public User create(UserRequest userRequest) {
+    // if (userRequest.getUsername().isEmpty() ||
+    // userRequest.getPassword().isEmpty()) {
+    // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Both should not be
+    // empty");
+    // }
 
-        if (userRepository.existsByUsername(userRequest.getUsername())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already taken");
-        }
+    // if (userRepository.existsByUsername(userRequest.getUsername())) {
+    // throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already
+    // taken");
+    // }
 
-        User user = modelMapper.map(userRequest, User.class);
-        List<Role> roles = mapsToRoles(userRequest.getRolesId());
-        user.setRoles(roles);
-        userRepository.save(user);
-        return user;
-    }
+    // // User user = modelMapper.map(userRequest, User.class);
+    // // List<Role> roles = mapsToRoles(userRequest.getRolesId());
+    // // user.setRoles(roles);
+    // // userRepository.save(user);
+    // // return user;
+
+    // User user = new User();
+    // user.setUsername(userRequest.getUsername().toLowerCase());
+    // user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+    // List<Role> roles = mapsToRoles(userRequest.getRolesId());
+    // user.setRoles(roles);
+    // userRepository.save(user);
+    // return user;
+
+    // }
 
     public User update(Integer id, UserRequest userRequest) {
         if (userRequest.getUsername().isEmpty() || userRequest.getPassword().isEmpty()) {
@@ -62,11 +75,16 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    public User delete(Integer id){
+    public User addRole(Integer id, Role role) {
+        // cek user
         User user = getById(id);
-        user.getRoles().forEach(role -> role.getUsers().remove(user));
-        userRepository.delete(user);
-        return user;
+
+        // cek role
+        List<Role> roles = user.getRoles();
+        roles.add(roleService.getById(role.getId()));
+        user.setRoles(roles);
+        return userRepository.save(user);
+
     }
 
     private List<Role> mapsToRoles(List<Integer> rolesId) {

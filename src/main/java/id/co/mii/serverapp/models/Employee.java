@@ -1,16 +1,15 @@
 package id.co.mii.serverapp.models;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,10 +36,11 @@ public class Employee {
     @Column(name ="employee_phone", nullable = false, unique = true, length = 13)
     private String phone;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    // @MapsId
+    // @JoinColumn(name = "user_id")
+    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
     
