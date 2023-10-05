@@ -33,6 +33,8 @@ public class User {
   @Column(nullable = false)
   private String password;
 
+  private Boolean isEnabled = true;
+
   @OneToOne
   @MapsId
   @JoinColumn(name = "id")
