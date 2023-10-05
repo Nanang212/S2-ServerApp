@@ -1,4 +1,4 @@
- package id.co.mii.serverapp.controllers;
+package id.co.mii.serverapp.controllers;
 
 import java.util.List;
 
@@ -8,67 +8,42 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Role;
-import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.services.RoleService;
 import lombok.AllArgsConstructor;
 
 @RestController
-
 @AllArgsConstructor
+@RequestMapping("/role")
 public class RoleController {
     
     private RoleService roleService;
 
-    @GetMapping("/role")
+    @GetMapping
     public List<Role> getAll(){
         return roleService.getAll();
-    }
+    } 
 
-    @GetMapping("/role/{id}")
-    public Role getById(@PathVariable Integer id){
+    @GetMapping("/{id}")
+    public Role getByid( Integer id){
         return roleService.getById(id);
     }
 
-    @PostMapping("/role")
+    @PostMapping
     public Role create(@RequestBody Role role){
         return roleService.create(role);
     }
 
-    @PutMapping("/role/{id}") 
-    public Role update(@RequestBody Role role, @PathVariable Integer id){
-        return roleService.update(role, id);
+     @PutMapping("/{id}")
+    public Role update(@PathVariable Integer id, @RequestBody Role role) {
+        return roleService.update(id, role);
     }
 
-    @DeleteMapping("/role/{id}")
-    public Role delte(@PathVariable Integer id){
+    @DeleteMapping("/{id}")
+    public Role delete(@PathVariable Integer id) {
         return roleService.delete(id);
-    }
-
-    @PostMapping("/users/{id}/role")
-    public Role createUserHasRole(@RequestBody Role role,@PathVariable Integer id){
-        return roleService.createUserHasRole(role, id);
-    }
-
-    @PostMapping("/users/{userId}/role/{roleId}")
-    public User addUserHasRole(@PathVariable Integer userId, @PathVariable Integer roleId){
-        return roleService.addUserHasRole(userId, roleId);
-    }
-
-    @GetMapping("/roles/{id}/users")
-    public List<User> getAllUsersByRoleId(@PathVariable Integer id){
-        return roleService.getAllUsersByRoleId(id);
-    }
-
-    @GetMapping("/users/{id}/roles")
-    public List<Role> getAllRolesByUserId(@PathVariable Integer id){
-        return roleService.getAllRolesByUserId(id);
-    }
-
-    @PutMapping("/users/{id}/roles")
-    public User updateRoleOfUser(@RequestBody Role role, @PathVariable Integer id){
-        return roleService.updateRoleOfUser(role, id);
     }
 }

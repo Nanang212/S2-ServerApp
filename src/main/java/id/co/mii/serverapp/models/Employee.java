@@ -1,38 +1,38 @@
 package id.co.mii.serverapp.models;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Entity
-@Table(name = "tb_employee")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
+@Table(name = "tb_employee")
 public class Employee {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(nullable = false, length = 50)
     private String name;
 
+    @Column(nullable = false, unique = true)
     private String email;
 
+    @Column(length = 15)
     private String phone;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "id")
-    @JsonProperty(access = Access.WRITE_ONLY)
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     private User user;
 }
