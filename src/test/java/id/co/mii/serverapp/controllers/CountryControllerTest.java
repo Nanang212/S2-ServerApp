@@ -88,7 +88,7 @@ class CountryControllerTest {
     @Test
     void testCreateCountryShouldReturnCountry() throws Exception {
         Region expectedRegion = regions.get(2);
-        CountryRequest countryRequest = new CountryRequest(expectedRegion.getId(), "zb", "Zimbabwe");
+        CountryRequest countryRequest = new CountryRequest(expectedRegion.getId(), "ZB", "Zimbabwe");
 
         mockMvc
             .perform(
