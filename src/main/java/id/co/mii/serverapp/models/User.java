@@ -26,7 +26,7 @@ public class User extends BaseEntity {
     @JoinColumn(name = "id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Employee employee;
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
