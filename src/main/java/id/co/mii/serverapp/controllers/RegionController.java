@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping ("/region")
+@PreAuthorize("hasRole('ADMIN')")
 public class RegionController {
     private RegionService regionService;
 
