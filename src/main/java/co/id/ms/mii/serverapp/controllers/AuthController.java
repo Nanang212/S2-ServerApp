@@ -1,6 +1,8 @@
 package co.id.ms.mii.serverapp.controllers;
 
+import co.id.ms.mii.serverapp.dto.request.LoginRequest;
 import co.id.ms.mii.serverapp.dto.request.UserRequest;
+import co.id.ms.mii.serverapp.dto.response.LoginResponse;
 import co.id.ms.mii.serverapp.models.Employee;
 import co.id.ms.mii.serverapp.services.AuthService;
 import lombok.AllArgsConstructor;
@@ -20,5 +22,9 @@ public class AuthController {
             @RequestBody UserRequest userRequest
     ) {
         return authService.registration(userRequest);
+    }
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody LoginRequest loginRequest){
+        return authService.login(loginRequest);
     }
 }
