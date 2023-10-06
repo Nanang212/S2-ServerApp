@@ -6,7 +6,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import co.id.mii.serverapp.models.Employee;
+import co.id.mii.serverapp.models.dto.request.LoginRequest;
 import co.id.mii.serverapp.models.dto.request.RegistrationRequest;
+import co.id.mii.serverapp.models.responses.LoginRespons;
 import co.id.mii.serverapp.services.AuthServices;
 import lombok.AllArgsConstructor;
 
@@ -20,4 +22,8 @@ public class AuthController {
     public Employee registration(@RequestBody RegistrationRequest registrationRequest){
         return authServices.registration(registrationRequest);
     }
+    @PostMapping("/login")
+    public LoginRespons login(@RequestBody LoginRequest loginRequest) {
+    return authServices.login(loginRequest);
+  }
 }
