@@ -1,20 +1,18 @@
 package id.co.mii.serverapp.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import java.util.List;
-
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,30 +24,28 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_user")
 public class User {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
-    private Integer id;
-    
-    @Column(name = "user_username",
-            nullable = false,
-            unique = true,
-            length = 20)
-    private String username;
-    
-    @Column(name = "user_password",
-            nullable = false)
-    private String password;
+  @Id
+  private Integer id;
 
-    @OneToOne(mappedBy = "user", cascade  = CascadeType.ALL )
-    @PrimaryKeyJoinColumn
-    private Employee employee;
+  @Column(nullable = false, unique = true)
+  private String username;
 
-    @ManyToMany
-    @JoinTable(
-        name = "user_roles",
-        joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "role_id")
-    )
-       private List<Role> roles;
+  @Column(nullable = false)
+  private String password;
+
+  private Boolean isEnabled = true;
+
+  @OneToOne
+  @MapsId
+  @JoinColumn(name = "id")
+  @JsonProperty(access = Access.WRITE_ONLY)
+  private Employee employee;
+
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+    name = "tb_tr_user_role",
+    joinColumns = @JoinColumn(name = "user_id"),
+    inverseJoinColumns = @JoinColumn(name = "role_id")
+  )
+  private List<Role> roles;
 }
