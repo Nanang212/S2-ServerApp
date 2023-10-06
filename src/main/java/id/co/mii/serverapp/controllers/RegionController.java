@@ -2,6 +2,7 @@ package id.co.mii.serverapp.controllers;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 // import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,13 +22,10 @@ import lombok.AllArgsConstructor;
 @RestController // output json
 @AllArgsConstructor
 @RequestMapping("/region")
+@PreAuthorize("hasRole('ADMIN')")
 public class RegionController {
     // meng assign
     private RegionService regionService;
-
-    // public RegionController(RegionService regionService) {
-    //     this.regionService = regionService;
-    // }
 
     // http://localhost:777/region/1    = path variable
     // http://localhost:777/region?id=1 = path param
