@@ -2,7 +2,7 @@ package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.models.dto.request.UserRequest;
+import id.co.mii.serverapp.models.dto.requests.UserRequest;
 import id.co.mii.serverapp.repositories.RoleRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -73,12 +73,22 @@ public class UserService {
     }
 
     public User delete(Integer userId) {
-        User user = userRepository
-            .findById(userId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        User user = getById(userId);
 
         userRepository.delete(user);
 
         return user;
+    }
+
+    public User addRole(Integer userId, Set<Integer> roleIds) {
+        User user = getById(userId);
+        Set<Role> roles = roleIds.stream().map(roleId -> roleRepository
+            .findById(roleId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role with id " + roleId + " is not found"))
+        ).collect(Collectors.toSet());
+
+        user.getRoles().addAll(roles);
+
+        return userRepository.save(user);
     }
 }

@@ -1,7 +1,7 @@
 package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.Region;
-import id.co.mii.serverapp.models.dto.request.RegionRequest;
+import id.co.mii.serverapp.models.dto.requests.RegionRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
 import lombok.AllArgsConstructor;

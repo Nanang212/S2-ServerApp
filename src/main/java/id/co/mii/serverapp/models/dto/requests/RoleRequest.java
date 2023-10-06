@@ -1,4 +1,4 @@
-package id.co.mii.serverapp.models.dto.request;
+package id.co.mii.serverapp.models.dto.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,7 +10,7 @@ import javax.validation.constraints.Size;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class RegionRequest {
+public class RoleRequest {
     @NotNull
     @Size(min = 1, max = 64)
     private String name;

@@ -3,7 +3,7 @@ package id.co.mii.serverapp.controllers;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import id.co.mii.serverapp.models.Region;
-import id.co.mii.serverapp.models.dto.request.RegionRequest;
+import id.co.mii.serverapp.models.dto.requests.RegionRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
 import id.co.mii.serverapp.utils.DataDummy;

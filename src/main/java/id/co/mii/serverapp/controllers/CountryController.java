@@ -1,7 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.Country;
-import id.co.mii.serverapp.models.dto.request.CountryRequest;
+import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.services.CountryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

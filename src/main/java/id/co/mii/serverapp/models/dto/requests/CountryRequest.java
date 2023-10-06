@@ -1,4 +1,4 @@
-package id.co.mii.serverapp.models.dto.request;
+package id.co.mii.serverapp.models.dto.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,18 +7,18 @@ import lombok.NoArgsConstructor;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
-import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class UserRequest {
+public class CountryRequest {
     @NotNull
-    @Size(min = 4, max = 32)
-    private String username;
+    @Positive
+    private Integer regionId;
     @NotNull
-    @Size(min = 8, max = 32)
-    private String password;
+    @Size(min = 2, max = 2)
+    private String code;
     @NotNull
-    private Set<@Positive Integer> roleIds;
+    @Size(min = 1, max = 64)
+    private String name;
 }

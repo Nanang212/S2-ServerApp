@@ -1,29 +1,24 @@
-package id.co.mii.serverapp.models.dto.request;
+package id.co.mii.serverapp.models.dto.requests;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class EmployeeRequest {
-
+public class UserRequest {
     @NotNull
     @Size(min = 4, max = 32)
-    private String name;
+    private String username;
     @NotNull
-    @Email
-    private String email;
+    @Size(min = 8, max = 32)
+    private String password;
     @NotNull
-    @Size(min = 3, max = 16)
-    private String phone;
-    @NotNull
-    @Positive
-    private Integer userId;
+    private Set<@Positive Integer> roleIds;
 }

@@ -9,7 +9,7 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 import java.nio.charset.StandardCharsets;
 
 @Configuration
-public class TemplateConfiguration {
+public class TemplateUtil {
 
     @Bean
     public SpringTemplateEngine springTemplateEngine(ClassLoaderTemplateResolver classLoaderTemplateResolver) {

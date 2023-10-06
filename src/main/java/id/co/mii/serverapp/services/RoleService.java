@@ -1,7 +1,7 @@
 package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.Role;
-import id.co.mii.serverapp.models.dto.request.RoleRequest;
+import id.co.mii.serverapp.models.dto.requests.RoleRequest;
 import id.co.mii.serverapp.repositories.RoleRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -31,7 +31,7 @@ public class RoleService {
         }
 
         Role role = new Role();
-        role.setName(request.getName());
+        role.setName(request.getName().toUpperCase());
 
         return roleRepository.save(role);
     }
@@ -53,7 +53,7 @@ public class RoleService {
         }
 
         Role role = getById(roleId);
-        role.setName(request.getName());
+        role.setName(request.getName().toUpperCase());
 
         return roleRepository.save(role);
     }

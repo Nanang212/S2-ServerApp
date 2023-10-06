@@ -1,6 +1,6 @@
 package id.co.mii.serverapp.controllers;
 
-import id.co.mii.serverapp.models.dto.request.EmailRequest;
+import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import id.co.mii.serverapp.services.EmailService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.models.Region;
-import id.co.mii.serverapp.models.dto.request.CountryRequest;
+import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
 import id.co.mii.serverapp.utils.DataDummy;

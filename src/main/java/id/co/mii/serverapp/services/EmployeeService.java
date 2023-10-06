@@ -2,7 +2,7 @@ package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.models.dto.request.EmployeeRequest;
+import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;

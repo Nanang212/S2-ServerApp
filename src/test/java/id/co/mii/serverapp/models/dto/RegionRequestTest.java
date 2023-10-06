@@ -1,6 +1,6 @@
 package id.co.mii.serverapp.models.dto;
 
-import id.co.mii.serverapp.models.dto.request.RegionRequest;
+import id.co.mii.serverapp.models.dto.requests.RegionRequest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,6 +1,6 @@
 package id.co.mii.serverapp.services;
 
-import id.co.mii.serverapp.models.dto.request.EmailRequest;
+import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import lombok.AllArgsConstructor;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.SimpleMailMessage;

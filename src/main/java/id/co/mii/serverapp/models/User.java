@@ -18,13 +18,14 @@ import java.util.Set;
 @Getter
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     private Integer id;
     @Column(name = "username", unique = true, nullable = false)
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
+    @Column(name = "is_enabled", nullable = false)
+    private Boolean isEnabled = true;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
@@ -34,8 +35,9 @@ public class User {
     )
     private Set<Role> roles = new HashSet<>();
 
-    @OneToOne(mappedBy = "user", cascade = CascadeType.REMOVE)
-    @PrimaryKeyJoinColumn
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Employee employee;
 }

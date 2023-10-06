@@ -1,7 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.Role;
-import id.co.mii.serverapp.models.dto.request.RoleRequest;
+import id.co.mii.serverapp.models.dto.requests.RoleRequest;
 import id.co.mii.serverapp.services.RoleService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;

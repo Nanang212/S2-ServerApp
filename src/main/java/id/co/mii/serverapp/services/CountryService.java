@@ -2,7 +2,7 @@ package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.models.Region;
-import id.co.mii.serverapp.models.dto.request.CountryRequest;
+import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
 import id.co.mii.serverapp.repositories.RegionRepository;
 import lombok.AllArgsConstructor;

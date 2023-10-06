@@ -1,7 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.Region;
-import id.co.mii.serverapp.models.dto.request.RegionRequest;
+import id.co.mii.serverapp.models.dto.requests.RegionRequest;
 import id.co.mii.serverapp.services.RegionService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
