@@ -16,24 +16,25 @@ public class AppUserDetail implements UserDetails{
     private User user;
 
     @Override
-  public Collection<? extends GrantedAuthority> getAuthorities() {
-    List<GrantedAuthority> authorities = new ArrayList<>();
-    user
-      .getRoles()
-      .forEach(role -> {
-    //    String roles = "ROLE_" + role.getName().toUpperCase();
-        authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName().toUpperCase()));
-        role
-          .getPrevileges()
-          .forEach(privilege -> {
-            authorities.add(
-              new SimpleGrantedAuthority(privilege.getName().toUpperCase())
-            );
-          });
-      });
-
-    return authorities;
-  }
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+      List<GrantedAuthority> authorities = new ArrayList<>();
+      user
+        .getRoles()
+        .forEach(role -> {
+          String roles = "ROLE_" + role.getName().toUpperCase();
+          authorities.add(new SimpleGrantedAuthority(roles));
+          role
+            .getPrevileges()
+            .forEach(privilege -> {
+              authorities.add(
+                new SimpleGrantedAuthority(privilege.getName().toUpperCase())
+              );
+            });
+        });
+  
+      return authorities;
+    }
+  
 
     @Override
     public String getPassword() {

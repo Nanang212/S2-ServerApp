@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.services;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
@@ -33,9 +34,24 @@ public class UserService {
         User user = getById(id);
 
         List<Role> roles = user.getRoles();
+
+
          roles.add(roleService.getById(role.getId()));
          user.setRoles(roles);
 
         return userRepository.save(user);
+
+        // User user = getById(id);
+        // Role r = roleService.getById(role.getId());
+        // List<Role> addRoles = Arrays.asList(r);
+
+        //     //   if (userRepository.existsByRolesId(r.getId())){
+        //     //      throw new ResponseStatusException(HttpStatus.CONFLICT, "role id already exist");
+        //     //  }
+
+
+        // user.setRoles(addRoles);
+
+        // return userRepository.save(user);
     }
 }

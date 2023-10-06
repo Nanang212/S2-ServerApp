@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,7 +32,7 @@ public class UserController {
         return userService.getById(id);
     }
 
-    @PutMapping("/add-role/{id}")
+    @PostMapping("{id}/add-role")
     public User addRole(@PathVariable Integer id, @RequestBody Role role){
         return userService.addRole(id, role);
     }
