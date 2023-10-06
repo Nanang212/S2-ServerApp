@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.MapsId;
 import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,7 +19,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@Entity
+@Entity 
 @AllArgsConstructor
 @NoArgsConstructor
 @Table(name = "tb_employee")
@@ -34,9 +35,7 @@ public class Employee {
     @Column(name = "empoyee_phone")
     private String phone;
 
-    @OneToOne
-    @MapsId
-    @JoinColumn(name = "user_id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
     private User user;
 }

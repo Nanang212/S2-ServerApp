@@ -2,6 +2,7 @@ package co.id.mii.serverapp.controllers;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,35 +18,34 @@ import co.id.mii.serverapp.models.dto.request.EmployeeRequest;
 import co.id.mii.serverapp.services.EmployeeServices;
 import lombok.AllArgsConstructor;
 
-@Controller
+
 @RestController
 @AllArgsConstructor
 @RequestMapping("/employee")
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class EmployeeController {
     
     private EmployeeServices employeeServices;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
     public List<Employee> getAll() {
-        return employeeServices.getall();
+        return employeeServices.getAll();
     }
 
     @GetMapping("/{id}")
+    @PreAuthorize("hasAuthority('READ_ADMIN')")
     public Employee getById(@PathVariable Integer id) {
         return employeeServices.getById(id);
     }
 
-    @PostMapping
-    public Employee create(@RequestBody EmployeeRequest EmployeeRequest) {
-        return employeeServices.create(EmployeeRequest);
-    }
-
     @PutMapping("/{id}")
-    public Employee update(@PathVariable Integer id, @RequestBody EmployeeRequest employeeRequest) {
-        return employeeServices.update(employeeRequest, id);
+    public Employee update(@PathVariable Integer id, @RequestBody Employee employee) {
+        return employeeServices.update(id,employee);
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     public Employee delete(@PathVariable Integer id) {
         return employeeServices.delete(id);
     }

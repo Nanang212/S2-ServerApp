@@ -16,7 +16,6 @@ import co.id.mii.serverapp.models.Role;
 import co.id.mii.serverapp.services.RoleServices;
 import lombok.AllArgsConstructor;
 
-@Controller
 @RestController
 @AllArgsConstructor
 @RequestMapping("/role")

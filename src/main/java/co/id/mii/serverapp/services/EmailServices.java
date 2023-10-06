@@ -54,7 +54,6 @@ public class EmailServices {
         return emailRequest;
     }
     public EmailRequest sendHtmlMessage(EmailRequest emailRequest) {
-        System.out.printf("%s", "A");
         Context context = new Context();
         context.setVariable("name", emailRequest.getTo().split("@")[0]);
         String htmlContent = templateEngine.process("kirimTugas.html", context);

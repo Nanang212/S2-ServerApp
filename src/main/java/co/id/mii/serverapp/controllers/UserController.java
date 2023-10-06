@@ -13,42 +13,38 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import co.id.mii.serverapp.models.Role;
 import co.id.mii.serverapp.models.User;
 import co.id.mii.serverapp.models.dto.request.UserRequest;
 import co.id.mii.serverapp.services.EmployeeServices;
 import co.id.mii.serverapp.services.UserServices;
 import lombok.AllArgsConstructor;
 
-
-@Controller
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
 public class UserController {
     private UserServices userServices;
-    private EmployeeServices employeeServices;
 
     @GetMapping
-    public List<User> findall(){
+    public List<User> findall() {
         return userServices.getAll();
     }
+
     @GetMapping("/{Id}")
-    public User findById(@PathVariable Integer Id){
+    public User findById(@PathVariable Integer Id) {
         return userServices.getById(Id);
     }
 
-    @PostMapping
-    public User create(@RequestBody UserRequest userRequest){
-        return userServices.create(userRequest);
-    }
-
     @PutMapping("/{id}")
-    public User update(@RequestBody UserRequest userRequest, @PathVariable Integer id){
-        return userServices.update(userRequest,id);
+    public User update(@PathVariable Integer id, @RequestBody User user) {
+        return userServices.update(id, user);
     }
 
-    @DeleteMapping("/{id}")
-    public User delete(@PathVariable Integer id){
-        return userServices.delete(id);
+    // add role
+    @PutMapping("/add-role/{id}")
+    public User addRole(@PathVariable Integer id, @RequestBody Role role) {
+        return userServices.addRole(id, role);
     }
+
 }
