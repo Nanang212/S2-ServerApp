@@ -1,22 +1,18 @@
 package id.co.mii.serverapp.controllers;
 
+import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.models.dto.requests.UserRequest;
 import id.co.mii.serverapp.services.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
-import java.util.Optional;
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/user")
 public class UserController {
 
-    private final UserService userService;
-
-    public UserController(UserService userService) {
-        this.userService = userService;
-    }
+    private UserService userService;
 
     @GetMapping
     public List<User> getAll() {
@@ -25,26 +21,17 @@ public class UserController {
 
     @GetMapping("/{id}")
     public User getById(@PathVariable Integer id) {
-        Optional<User> user = userService.getById(id);
-        if (user.isPresent()) {
-            return user.get();
-        } else {
-            throw new RuntimeException("User not found");
-        }
-    }
-
-    @PostMapping
-    public User create(@RequestBody UserRequest userRequest) {
-        return userService.create(userRequest);
+        return userService.getById(id);
     }
 
     @PutMapping("/{id}")
-    public User update(@PathVariable Integer id, @RequestBody UserRequest user) {
+    public User update(@PathVariable Integer id, @RequestBody User user) {
         return userService.update(id, user);
     }
 
-    @DeleteMapping("/{id}")
-    public Optional<User> delete(@PathVariable Integer id) {
-        return userService.delete(id);
+    // add role
+    @PutMapping("/add-role/{id}")
+    public User addRole(@PathVariable Integer id, @RequestBody Role role) {
+        return userService.addRole(id, role);
     }
 }

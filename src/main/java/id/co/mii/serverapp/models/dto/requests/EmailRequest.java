@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.models.dto.requests;
 
+import java.util.Map;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -8,7 +9,8 @@ import lombok.Data;
 public class EmailRequest {
     
     private String to;
+    private String from;
     private String subject;
-    private String text;
-    private String attachment;
+    private String template;
+    private Map<String, Object> properties;
 }

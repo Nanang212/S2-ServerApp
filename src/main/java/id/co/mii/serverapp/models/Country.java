@@ -13,7 +13,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 // mengatur struktur data
-
 @Data
 @Entity
 @NoArgsConstructor

@@ -8,7 +8,6 @@ import id.co.mii.serverapp.models.Region;
 import java.util.List;
 import java.util.Optional;
 
-
 @Repository
 public interface RegionRepository extends JpaRepository<Region, Integer> {  
     // Native Query

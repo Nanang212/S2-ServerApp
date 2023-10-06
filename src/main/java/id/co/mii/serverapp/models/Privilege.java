@@ -1,7 +1,13 @@
 package id.co.mii.serverapp.models;
 
 import java.util.List;
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.AllArgsConstructor;
@@ -10,25 +16,19 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Entity
-@AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "tb_role")
-public class Role {
+@AllArgsConstructor
+@Table(name = "tb_privilege")
+public class Privilege {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 25)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "privileges")
     @JsonProperty(access = Access.WRITE_ONLY)
-    private List<User> users;
-
-    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "tb_tr_role_privilege", 
-    joinColumns = @JoinColumn(name = "role_id"), 
-    inverseJoinColumns = @JoinColumn(name = "privilege_id"))
-    private List<Privilege> privileges;
+    private List<Role> roles;
 }

@@ -4,6 +4,7 @@ import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.services.RegionService;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController // json
 @AllArgsConstructor
 @RequestMapping("/region")
+@PreAuthorize("hasRole('ADMIN')")
 public class RegionController {
 
     private RegionService regionService;
@@ -26,8 +28,8 @@ public class RegionController {
         return regionService.getAll();
     }
 
-  // http://localhost:9000/region/1    = path variable
-  // http://localhost:9000/region?id=1 = path param
+    // http://localhost:9000/region/1 = path variable
+    // http://localhost:9000/region?id=1 = path param
 
     @GetMapping("/{id}")
     public Region getById(@PathVariable Integer id) {
@@ -49,15 +51,17 @@ public class RegionController {
         return regionService.delete(id);
     }
 
-    // Native Query
+    // Native
     @GetMapping("/native")
-    public List<Region> searchAllNameNative(@RequestParam(name = "name") String name) {
+    public List<Region> searchAllNameNative(
+            @RequestParam(name = "name") String name) {
         return regionService.searchAllNameNative(name);
     }
 
-    // JPQL Query
+    // JPQL
     @GetMapping("/jpql")
-    public List<Region> searchAllNameJPQL(@RequestParam(name = "name") String name) {
+    public List<Region> searchAllNameJPQL(
+            @RequestParam(name = "name") String name) {
         return regionService.searchAllNameJPQL(name);
     }
 

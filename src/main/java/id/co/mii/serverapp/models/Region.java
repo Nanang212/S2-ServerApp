@@ -20,12 +20,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "tb_region")
 public class Region {
 
-    @Id
+@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "region_id")
-    private Integer id;
+private Integer id;
 
-    @Column(name = "region_name", nullable = false, length = 20)
+@Column(name = "region_name", nullable = false, length = 20)
     private String name;
 
     @OneToMany(mappedBy = "region") 
