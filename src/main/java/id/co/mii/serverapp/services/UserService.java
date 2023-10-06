@@ -40,7 +40,7 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username or Password is required!");
         }
 
-        if (userRepository.findByUsername(userRequest.getUsername()) != null) {
+        if (userRepository.findByUsername(userRequest.getUsername()).getUsername() != userRequest.getUsername()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username already exist!");
         }
 
@@ -61,6 +61,8 @@ public class UserService {
             }
             user.setRoles(roles);
         }
+
+        user.setRoles(roles);
 
         return userRepository.save(user);
     }
