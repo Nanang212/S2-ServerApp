@@ -1,7 +1,9 @@
 package id.co.mii.serverapp.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,11 +40,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .cors()
                 .disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/registration")
-                .permitAll()
+                .antMatchers(HttpMethod.POST, "/registration").permitAll()
+                .antMatchers(HttpMethod.POST,"/login").permitAll()
                 .anyRequest()
                 .authenticated()
                 .and().httpBasic();
     }
+
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
+
+    
 
 }

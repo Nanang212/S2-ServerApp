@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.dto.requests.LoginRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
+import id.co.mii.serverapp.models.dto.responses.LoginResponse;
 import id.co.mii.serverapp.services.AuthService;
 import lombok.AllArgsConstructor;
 
@@ -18,5 +20,10 @@ public class AuthController {
     @PostMapping("/registration")
     public Employee registration(@RequestBody RegistrationRequest registrationRequest ){
         return authService.registration(registrationRequest);
+    }
+
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody LoginRequest loginRequest){
+        return authService.login(loginRequest);
     }
 }
