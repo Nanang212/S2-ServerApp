@@ -5,6 +5,7 @@ import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 import java.util.List;
@@ -15,6 +16,7 @@ public class UserService {
 
     private UserRepository userRepository;
     private RoleService roleService;
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -29,6 +31,7 @@ public class UserService {
     public User update(Integer id, User user) {
         getById(id);
         user.setId(id);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 
