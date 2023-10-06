@@ -1,6 +1,7 @@
 package id.co.mii.serverapp.models;
 
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,8 +11,9 @@ import java.util.Collection;
 import java.util.List;
 
 @AllArgsConstructor
+@Getter
 public class AppUserDetail implements UserDetails {
-
+    private static final long serialVersionUID = 7120567194854787996L;
     private User user;
 
     @Override
@@ -24,11 +26,9 @@ public class AppUserDetail implements UserDetails {
                 authorities.add(new SimpleGrantedAuthority(roles));
                 role
                     .getPrivileges()
-                    .forEach(privilege -> {
-                        authorities.add(
-                            new SimpleGrantedAuthority(privilege.getName().toUpperCase())
-                        );
-                    });
+                    .forEach(privilege -> authorities.add(
+                        new SimpleGrantedAuthority(privilege.getName().toUpperCase())
+                    ));
             });
 
         return authorities;
