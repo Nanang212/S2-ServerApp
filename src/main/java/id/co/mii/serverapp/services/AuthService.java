@@ -9,6 +9,7 @@ import id.co.mii.serverapp.repositories.UserRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,6 +23,7 @@ public class AuthService {
     private EmployeRepo employeRepo;
     private ModelMapper modelMapper;
     private RoleService roleService;
+    private PasswordEncoder passwordEncoder;
 
     public Employee registration(RegistrationRequest registrationRequest) {
         if (userRepo.existsByUsername(registrationRequest.getUsername())) {
@@ -35,6 +37,7 @@ public class AuthService {
         }
         Employee employee = modelMapper.map(registrationRequest, Employee.class);
         User user = modelMapper.map(registrationRequest, User.class);
+        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 
         List<Role> roles = Collections.singletonList(roleService.getById(2));
         user.setEmployee(employee);
