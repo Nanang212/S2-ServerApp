@@ -3,6 +3,7 @@ package co.id.ms.mii.serverapp.controllers;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +21,7 @@ import co.id.ms.mii.serverapp.services.RegionServices;
 @RestController // json
 @AllArgsConstructor
 @RequestMapping("/regions")
+@PreAuthorize("hasRole('ADMIN')")
 public class RegionController {
     private RegionServices regionServices;
 

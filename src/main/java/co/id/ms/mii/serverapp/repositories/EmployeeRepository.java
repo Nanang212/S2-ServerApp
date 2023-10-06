@@ -9,6 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface EmployeeRepository extends JpaRepository<Employee,Integer> {
     boolean existsByNameIgnoreCase(String name);
     boolean existsByEmail(String email);
-    boolean existsByPhone(Integer phone);
+    boolean existsByPhone(String phone);
     boolean existsByUser(User user);
 }

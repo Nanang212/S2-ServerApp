@@ -1,5 +1,6 @@
 package co.id.ms.mii.serverapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -15,14 +16,18 @@ import javax.persistence.*;
 public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "employee_id")
+    @JsonIgnore
+    @Column(nullable = false)
     private Integer id;
+    @Column(length = 50,nullable = false)
     private String name;
+    @Column(nullable = false,unique = true)
     private String email;
-    private Integer phone;
+    @Column(nullable = false,length = 15)
+    private String phone;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "user_id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+
     private User user;
 }

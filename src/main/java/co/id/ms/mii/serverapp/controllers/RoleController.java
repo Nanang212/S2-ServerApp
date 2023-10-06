@@ -3,6 +3,7 @@ package co.id.ms.mii.serverapp.controllers;
 import co.id.ms.mii.serverapp.models.Role;
 import co.id.ms.mii.serverapp.services.RoleService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,15 +13,18 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/role")
+@PreAuthorize("hasAnyRole('ADMIN','USER')")
 public class RoleController {
     private RoleService roleService;
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('VIEW_USER')")
     public List<Role> findAll() {
         return roleService.getall();
     }
 
     @GetMapping("/{Id}")
+    @PreAuthorize("hasAnyAuthority('VIEW_ADMIN')")
     public Role findById(@PathVariable Integer Id){
         return roleService.getById(Id);
     }

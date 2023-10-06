@@ -19,7 +19,7 @@ public class SwaggerConfig {
     public Docket api(){
         return new Docket(DocumentationType.SWAGGER_2).select()
                 .apis(RequestHandlerSelectors.basePackage("co.id.ms.mii.serverapp"))
-                .build();
+                .build().apiInfo(apiInfoMetaData());
     }
     private ApiInfo apiInfoMetaData() {
         return new ApiInfoBuilder().title("API Documentation")

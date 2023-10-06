@@ -5,6 +5,7 @@ import co.id.ms.mii.serverapp.models.Country;
 import co.id.ms.mii.serverapp.models.Employee;
 import co.id.ms.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,6 +16,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/employee")
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class EmployeeController {
     private EmployeeService employeeService;
 
@@ -28,18 +30,9 @@ public class EmployeeController {
         return employeeService.getById(id);
     }
 
-    @PostMapping
-    public Employee create(@RequestBody EmployeeRequest employeeRequest){
-        return employeeService.create(employeeRequest);
-    }
-
-    @PutMapping("/{id}")
-    public Employee update(@RequestBody EmployeeRequest employeeRequest, @PathVariable Integer id){
-        return employeeService.update(employeeRequest,id);
-    }
-
     @DeleteMapping("/{id}")
-    public Employee delete(@PathVariable Integer id){
+    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
+    public Employee delete(@PathVariable Integer id) {
         return employeeService.delete(id);
     }
 }

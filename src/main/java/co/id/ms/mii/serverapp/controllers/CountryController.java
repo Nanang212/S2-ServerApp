@@ -4,6 +4,7 @@ import co.id.ms.mii.serverapp.dto.request.CountryRequest;
 import co.id.ms.mii.serverapp.models.Country;
 import co.id.ms.mii.serverapp.services.CountryService;
 import lombok.AllArgsConstructor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,6 +14,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/country")
+@PreAuthorize("hasRole('USER')")
 public class CountryController {
     private CountryService countryService;
 

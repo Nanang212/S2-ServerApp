@@ -1,6 +1,7 @@
 package co.id.ms.mii.serverapp.controllers;
 
 import co.id.ms.mii.serverapp.dto.request.UserRequest;
+import co.id.ms.mii.serverapp.models.Role;
 import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.services.EmployeeService;
@@ -30,18 +31,24 @@ public class UserController {
         return userService.getById(Id);
     }
 
-    @PostMapping
-    public User create(@RequestBody UserRequest userRequest){
-        return userService.create(userRequest);
-    }
+//    @PostMapping
+//    public User create(@RequestBody UserRequest userRequest){
+//        return userService.create(userRequest);
+//    }
 
     @PutMapping("/{id}")
-    public User update(@RequestBody UserRequest userRequest, @PathVariable Integer id){
-        return userService.update(userRequest,id);
+    public User update(@PathVariable Integer id, @RequestBody User user) {
+        return userService.update(id, user);
     }
 
-    @DeleteMapping("/{id}")
-    public User delete(@PathVariable Integer id){
-        return userService.delete(id);
+    // add role
+    @PutMapping("/add-role/{id}")
+    public User addRole(@PathVariable Integer id, @RequestBody Role role) {
+        return userService.addRole(id, role);
     }
+
+//    @DeleteMapping("/{id}")
+//    public User delete(@PathVariable Integer id){
+//        return userService.delete(id);
+//    }
 }

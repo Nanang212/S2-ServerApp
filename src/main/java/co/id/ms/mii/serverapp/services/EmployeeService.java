@@ -28,86 +28,9 @@ public class EmployeeService {
         );
     }
 
-    public Employee create (EmployeeRequest employeeRequest){
-        //employee name validation
-        if(employeeRequest.getName().isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Name Empty!!!");
-        }
-
-        if(employeeRepository.existsByNameIgnoreCase(employeeRequest.getName())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Name already exists!!!");
-        }
-
-        //employee email validation
-        if(employeeRequest.getEmail().isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Email Empty!!!");
-        }
-
-        if (employeeRepository.existsByEmail(employeeRequest.getEmail())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Email already exists!!!");
-        }
-
-        //employee phone validation
-        if(employeeRequest.getPhone() == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Phone is Empty!!!");
-        }
-
-        if (employeeRepository.existsByPhone(employeeRequest.getPhone())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Phone already exists!!!");
-        }
-
-        //check if user is already associated with employee
-        User findUserId = userService.getById(employeeRequest.getUserid());
-        if (employeeRepository.existsByUser(findUserId)){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee is already associated with a User");
-        }
-
-        Employee employee = new Employee();
-        employee.setName(employeeRequest.getName());
-        employee.setEmail(employeeRequest.getEmail());
-        employee.setPhone(employeeRequest.getPhone());
-        employee.setUser(findUserId);
-
-        return employeeRepository.save(employee);
-    }
-
-    public Employee update(EmployeeRequest employeeRequest,Integer id){
-        if(employeeRequest.getName().isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Name Empty!!!");
-        }
-
-        if(employeeRepository.existsByNameIgnoreCase(employeeRequest.getName())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Name already exists!!!");
-        }
-
-        if(employeeRequest.getEmail().isEmpty()){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Email Empty!!!");
-        }
-
-        if (employeeRepository.existsByEmail(employeeRequest.getEmail())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Email already exists!!!");
-        }
-
-        if(employeeRequest.getPhone() == null){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Phone is Empty!!!");
-        }
-
-        if (employeeRepository.existsByPhone(employeeRequest.getPhone())){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Phone already exists!!!");
-        }
-
-        User findUserId = userService.getById(employeeRequest.getUserid());
-
-        if (employeeRepository.existsByUser(findUserId)){
-            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee is already associated with a User");
-        }
-
-        Employee employee = getById(id);
-        employee.setName(employeeRequest.getName());
-        employee.setEmail(employeeRequest.getEmail());
-        employee.setPhone(employeeRequest.getPhone());
-        employee.setUser(findUserId);
-
+    public Employee update(Integer id, Employee employee) {
+        getById(id);
+        employee.setId(id);
         return employeeRepository.save(employee);
     }
 
@@ -116,4 +39,47 @@ public class EmployeeService {
         employeeRepository.delete(employee);
         return employee;
     }
+
+//    public Employee create (EmployeeRequest employeeRequest){
+//        //employee name validation
+//        if(employeeRequest.getName().isEmpty()){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Name Empty!!!");
+//        }
+//
+//        if(employeeRepository.existsByNameIgnoreCase(employeeRequest.getName())){
+//            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Name already exists!!!");
+//        }
+//
+//        //employee email validation
+//        if(employeeRequest.getEmail().isEmpty()){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Email Empty!!!");
+//        }
+//
+//        if (employeeRepository.existsByEmail(employeeRequest.getEmail())){
+//            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Email already exists!!!");
+//        }
+//
+//        //employee phone validation
+//        if(employeeRequest.getPhone().isEmpty()){
+//            throw new ResponseStatusException(HttpStatus.NOT_FOUND,"Employee Phone is Empty!!!");
+//        }
+//
+//        if (employeeRepository.existsByPhone(employeeRequest.getPhone())){
+//            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee Phone already exists!!!");
+//        }
+//
+//        //check if user is already associated with employee
+//        User findUserId = userService.getById(employeeRequest.getUserid());
+//        if (employeeRepository.existsByUser(findUserId)){
+//            throw new ResponseStatusException(HttpStatus.CONFLICT,"Employee is already associated with a User");
+//        }
+//
+//        Employee employee = new Employee();
+//        employee.setName(employeeRequest.getName());
+//        employee.setEmail(employeeRequest.getEmail());
+//        employee.setPhone(employeeRequest.getPhone());
+//        employee.setUser(findUserId);
+//
+//        return employeeRepository.save(employee);
+//    }
 }

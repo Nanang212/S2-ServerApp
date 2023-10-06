@@ -1,5 +1,7 @@
 package co.id.ms.mii.serverapp.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,13 +16,16 @@ import java.util.List;
 @Table(name = "user")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_id")
+    @JsonIgnore
     private Integer id;
     private String username;
     private String password;
+    private Boolean isEnabled = true;
 
-    @OneToOne(mappedBy = "user")
+    @OneToOne
+    @MapsId
+    @JoinColumn(name = "id")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Employee employee;
 
     @ManyToMany(fetch = FetchType.EAGER)
