@@ -2,7 +2,9 @@ package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.LoginRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
+import id.co.mii.serverapp.models.dto.responses.LoginResponse;
 import id.co.mii.serverapp.services.AuthService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,5 +25,12 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(authService.registration(registrationRequest));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> registration(@RequestBody LoginRequest loginRequest) {
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(authService.login(loginRequest));
     }
 }

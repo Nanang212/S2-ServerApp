@@ -34,7 +34,7 @@ public class EmployeeController {
                 .body(employeeService.getById(id));
     }
 
-    @PreAuthorize("hasAuthority('UPDATE_ADMIN')")
+//    @PreAuthorize("hasAuthority('UPDATE_ADMIN')")
     @PutMapping("/{id}")
     public ResponseEntity<Employee> update(@PathVariable Integer id, @RequestBody EmployeeRequest employeeRequest) {
         return ResponseEntity
@@ -42,7 +42,7 @@ public class EmployeeController {
                 .body(employeeService.update(id, employeeRequest));
     }
 
-    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
+//    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     @DeleteMapping("/{id}")
     public ResponseEntity<Employee> delete(@PathVariable Integer id) {
         return ResponseEntity

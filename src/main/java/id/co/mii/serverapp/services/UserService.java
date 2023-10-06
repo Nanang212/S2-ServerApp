@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,7 +22,6 @@ import java.util.stream.Collectors;
 public class UserService extends BaseService<User> {
     private UserRepo userRepo;
     private RoleService roleService;
-    private AuthService authService;
 
     public User update(Integer id, UserRequest userRequest) {
         User updatedUser = getById(id);
@@ -52,9 +52,8 @@ public class UserService extends BaseService<User> {
 
     public User addRole(Integer id, Role role) {
         User user = getById(id);
-
         List<Role> roles = user.getRoles();
-        roles.add(role);
+        roles.add(roleService.getById(role.getId()));
         user.setRoles(roles);
         return userRepo.save(user);
     }
