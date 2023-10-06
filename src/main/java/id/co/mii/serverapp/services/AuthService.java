@@ -17,7 +17,7 @@ import id.co.mii.serverapp.repositories.EmployeeRepository;
 import lombok.AllArgsConstructor;
 
 @Service
-// @AllArgsConstructor
+@AllArgsConstructor
 public class AuthService {
 
   private EmployeeRepository employeeRepository;

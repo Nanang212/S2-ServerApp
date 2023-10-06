@@ -14,7 +14,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import id.co.mii.serverapp.models.AppUserDetailService;
+import id.co.mii.serverapp.services.AppUserDetailService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
@@ -59,12 +59,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/registration")
         .permitAll()
-        .antMatchers("/region")
-        .hasRole("ADMIN")
-        .antMatchers("/employee")
-        .hasAnyRole("ADMIN", "USER")
-        .antMatchers("/country")
-        .hasRole("USER")
+        // .antMatchers("/region")
+        // .hasRole("ADMIN")
+        // .antMatchers("/employee")
+        // .hasAnyRole("ADMIN", "USER")
+        // .antMatchers("/country")
+        // .hasRole("USER")
         .anyRequest()
         .authenticated()
         // .permitAll()
