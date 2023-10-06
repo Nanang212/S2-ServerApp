@@ -18,7 +18,7 @@ import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.LoginRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
-import id.co.mii.serverapp.models.dto.respones.LoginResponse;
+import id.co.mii.serverapp.models.dto.responses.LoginResponse;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
@@ -35,11 +35,11 @@ public class AuthService {
 
     private PasswordEncoder passwordEncoder;
 
-    // private AuthenticationManager authenticationManager;
+    private AuthenticationManager authenticationManager;
 
-    // private UserRepository userRepository;
+    private UserRepository userRepository;
 
-    // private AppUserDetailService appUserDetailService;
+    private AppUserDetailService appUserDetailService;
 
     public Employee registration(RegistrationRequest registrationRequest){
         Employee employee = modelMapper.map(registrationRequest, Employee.class );
@@ -57,27 +57,25 @@ public class AuthService {
 
     }
 
-    // public LoginResponse login(LoginRequest loginRequest){
-        
-    //     //set login
-    //     UsernamePasswordAuthenticationToken authenticationRequest = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
+    public LoginResponse login(LoginRequest loginRequest){
+        //set login
+        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword());
 
-    //     //set principle
-    //     Authentication authentication = authenticationManager.authenticate(authenticationRequest);
-    //     SecurityContextHolder.getContext().setAuthentication(authentication);
+        //set principle
+        Authentication auth = authenticationManager.authenticate(authReq);
+        SecurityContextHolder.getContext().setAuthentication(auth);
 
-    //     //set respones
-    //     User user = userRepository.findByUsernameOrEmployeeEmail(loginRequest.getUsername(), loginRequest.getUsername()).get();
+        //set response
+        User user = userRepository.findByUsernameOrEmployeeEmail(loginRequest.getUsername(),loginRequest.getPassword()).get();
 
-    //     UserDetails userDetails = appUserDetailService.loadUserByUsername(loginRequest.getUsername());
+        UserDetails userDetails = appUserDetailService.loadUserByUsername(loginRequest.getUsername());
 
-    //     List<String> authorities = userDetails
-    //                                     .getAuthorities()
-    //                                     .stream()
-    //                                     .map(authority -> authority.getAuthority())
-    //                                     .collect(Collectors.toList());
+        List<String> authorities = userDetails.getAuthorities()
+                        .stream()
+                        .map(authority -> authority.getAuthority())
+                        .collect(Collectors.toList());
 
-    //     return new LoginResponse(user.getUsername(), user.getEmployee().getEmail(), authorities);
-    // }
+        return new LoginResponse(user.getUsername(),user.getEmployee().getEmail(), authorities);
+    }
 
 }

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.dto.requests.LoginRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
-import id.co.mii.serverapp.models.dto.respones.LoginResponse;
+import id.co.mii.serverapp.models.dto.responses.LoginResponse;
 import id.co.mii.serverapp.services.AuthService;
 import lombok.AllArgsConstructor;
 
@@ -24,18 +24,8 @@ public class AuthController {
         return authService.registration(registrationRequest);
     }
 
-    //     @PostMapping("/registration")
-    // public String registration(@RequestBody RegistrationRequest registrationRequest ){
-    //     return "jalan" + registrationRequest.getUsername();
-    // }
-
-    // @PostMapping("/login")
-    // public LoginResponse login(@RequestBody LoginRequest loginRequest){
-    //     return authService.login(loginRequest);
-    // }
-
-        @PostMapping("/login")
-    public String login(@RequestBody LoginRequest loginRequest){
-        return "jalan" + loginRequest.getUsername();
+    @PostMapping("/login")
+    public LoginResponse login(@RequestBody LoginRequest loginRequest){
+        return authService.login(loginRequest);
     }
 }

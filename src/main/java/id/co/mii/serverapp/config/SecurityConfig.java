@@ -1,7 +1,5 @@
 package id.co.mii.serverapp.config;
 
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -37,28 +35,23 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-        .csrf()
-        .disable()
-        .cors()
-        .disable()
-        .authorizeRequests()
-        .antMatchers(HttpMethod.POST, "/registration")
-        .permitAll()
-        .antMatchers(HttpMethod.POST, "/login")
-        .permitAll()
-        .anyRequest()
-        .authenticated()
-        // .permitAll()
-        .and()
-        // .formLogin();
-        .httpBasic();
+                .csrf()
+                .disable()
+                .cors()
+                .disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/registration").permitAll()
+                .antMatchers(HttpMethod.POST,"/login").permitAll()
+                .anyRequest()
+                .authenticated()
+                .and().httpBasic();
     }
 
-    // @Override
-    // @Bean
-    // public AuthenticationManager authenticationManagerBean() throws Exception {
-    //     return super.authenticationManagerBean();
-    // }
+    @Override
+    @Bean
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
+    }
 
     
 

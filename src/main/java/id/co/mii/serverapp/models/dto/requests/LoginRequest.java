@@ -3,11 +3,11 @@ package id.co.mii.serverapp.models.dto.requests;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
-@AllArgsConstructor
 @Data
+@AllArgsConstructor
 public class LoginRequest {
     
-    public String username;
+    private String username;
+    private String password;
 
-    public String password;
 }
