@@ -68,7 +68,7 @@ public class UserController {
     }
 
     @PatchMapping(
-        value = "/user/{userId}",
+        value = "/user/{userId}/role",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public User addRole(@PathVariable Integer userId, @RequestBody Set<Integer> roleIds) {
