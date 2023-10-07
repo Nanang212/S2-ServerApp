@@ -10,6 +10,7 @@ import id.co.mii.serverapp.utils.StringUtils;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class UserService extends BaseService<User> {
     private UserRepo userRepo;
     private RoleService roleService;
+    private PasswordEncoder passwordEncoder;
 
     public User update(Integer id, UserRequest userRequest) {
         User updatedUser = getById(id);
@@ -34,11 +36,13 @@ public class UserService extends BaseService<User> {
         }
         if (!StringUtils.isEmptyOrNull(userRequest.getPassword())
                 && !updatedUser.getPassword().equalsIgnoreCase(userRequest.getPassword())) {
-            updatedUser.setPassword(userRequest.getPassword());
+            updatedUser.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         }
         if (userRequest.getRoleIds() != null) {
             updatedUser.setRoles(mapToRoles(userRequest.getRoleIds()));
         }
+        updatedUser.setIsEnable(true);
+        updatedUser.setToken(null);
         return userRepo.save(updatedUser);
     }
 

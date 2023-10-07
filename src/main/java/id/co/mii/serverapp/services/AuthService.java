@@ -3,6 +3,7 @@ package id.co.mii.serverapp.services;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import id.co.mii.serverapp.models.dto.requests.LoginRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.models.dto.responses.LoginResponse;
@@ -21,9 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -36,6 +35,7 @@ public class AuthService {
     private PasswordEncoder passwordEncoder;
     private AuthenticationManager authenticationManager;
     private AppUserDetailService userDetailService;
+    private EmailService emailService;
 
     public Employee registration(RegistrationRequest registrationRequest) {
         if (userRepo.existsByUsername(registrationRequest.getUsername())) {
@@ -47,17 +47,44 @@ public class AuthService {
         if (employeRepo.existsByPhone(registrationRequest.getPhone())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number already used !!!");
         }
+        if (registrationRequest.getUsername() == null) {
+            registrationRequest.setUsername("");
+        }
+        if (registrationRequest.getPassword() == null) {
+            registrationRequest.setPassword("");
+        }
+        if (registrationRequest.getName() == null) {
+            registrationRequest.setName("");
+        }
+        if (registrationRequest.getEmail() == null) {
+            registrationRequest.setEmail("");
+        }
+        if (registrationRequest.getPhone() == null) {
+            registrationRequest.setPhone("");
+        }
         Employee employee = modelMapper.map(registrationRequest, Employee.class);
         User user = modelMapper.map(registrationRequest, User.class);
-        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-
         List<Role> roles = Collections.singletonList(roleService.getById(2));
+        if (!registrationRequest.getPassword().isEmpty()) {
+            user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        } else {
+            user.setPassword(registrationRequest.getPassword());
+        }
+        user.setToken(UUID.randomUUID().toString());
         user.setEmployee(employee);
-
-        employee.setUser(user);
         user.setRoles(roles);
+        employee.setUser(user);
 
         employeRepo.save(employee);
+
+        EmailRequest emailRequest = new EmailRequest();
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("token", user.getToken());
+        emailRequest.setTo(registrationRequest.getEmail());
+        emailRequest.setSubject("Verification email");
+        emailRequest.setBody("emails/test.html");
+        emailRequest.setProperties(properties);
+        emailService.sendHtmlMessage(emailRequest);
 
         return employee;
     }

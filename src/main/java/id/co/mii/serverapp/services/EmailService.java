@@ -31,8 +31,7 @@ public class EmailService {
 
     public EmailRequest sendHtmlMessage(EmailRequest emailRequest) {
         Context context = new Context();
-        context.setVariable("name", emailRequest.getNameSender());
-        context.setVariable("date", LocalDate.now().toString());
+        context.setVariables(emailRequest.getProperties());
         String htmlContent = templateEngine.process(emailRequest.getBody(), context);
         try {
             MimeMessage message = sender.createMimeMessage();

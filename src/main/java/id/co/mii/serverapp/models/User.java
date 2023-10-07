@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity
 @Table(name = "users")
@@ -16,11 +17,12 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User extends BaseEntity {
-    @Column(unique = true, length = 10, nullable = false)
+    @Column(unique = true, length = 10)
     private String username;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
-    private Boolean isEnable = true;
+    private Boolean isEnable = false;
+    private String token ;
     @OneToOne
     @MapsId
     @JoinColumn(name = "id")

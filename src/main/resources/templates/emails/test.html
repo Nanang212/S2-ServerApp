@@ -8,25 +8,11 @@
         <p>
             Hello, <span th:text="${name}"></span>
         </p>
-        <p th:if="${name.length() > 10}">
-            Wow! You've got a long name (more than 10 chars)!
+        <p>
+            You can find link below this text to verified your email.
         </p>
         <p>
-            You have been successfully subscribed to the <b>Fake newsletter</b> on
-            <span th:text="${#dates.format(subscriptionDate)}">28-12-2012</span>
-        </p>
-        <p>Your hobbies are:</p>
-        <ul th:remove="all-but-first">
-            <li th:each="tech : ${technologies}" th:text="${tech}">Java</li>
-            <li>JavaScript</li>
-            <li>CSS</li>
-        </ul>
-        <p>
-            You can find <b>your inlined image</b> just below this text.
-        </p>
-        <p>
-            Regards, <br/>
-            <em>The Thymeleaf Team</em>
+            <a th:href="@{'http://localhost:8080/api/v1/registration'(token=${token})}">CLick here</a>
         </p>
     </body>
 </html>

@@ -50,7 +50,7 @@ public class SecurityConfig {
                 .antMatchers("/registration/**")
                     .permitAll()
                 .anyRequest()
-                .authenticated()
+                .permitAll()
                 .and()
                 .httpBasic()
                 .and()
