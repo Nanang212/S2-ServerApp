@@ -20,7 +20,8 @@ public class User {
     private Integer id;
     private String username;
     private String password;
-    private Boolean isEnabled = true;
+    private Boolean isEnabled = false;
+    private String token;
 
     @OneToOne
     @MapsId
@@ -35,4 +36,17 @@ public class User {
             inverseJoinColumns = @JoinColumn(name = "role_id")
     )
     private List<Role> roles;
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", isEnabled=" + isEnabled +
+                ", token='" + token + '\'' +
+                ", employee=" + employee +
+                ", roles=" + roles +
+                '}';
+    }
 }

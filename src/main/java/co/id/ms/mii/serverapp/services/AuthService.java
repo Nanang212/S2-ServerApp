@@ -2,6 +2,7 @@ package co.id.ms.mii.serverapp.services;
 
 
 import co.id.ms.mii.serverapp.dto.request.LoginRequest;
+import co.id.ms.mii.serverapp.dto.request.RegistrationRequest;
 import co.id.ms.mii.serverapp.dto.request.UserRequest;
 import co.id.ms.mii.serverapp.dto.response.LoginResponse;
 import co.id.ms.mii.serverapp.models.Employee;
@@ -11,6 +12,7 @@ import co.id.ms.mii.serverapp.repositories.EmployeeRepository;
 import co.id.ms.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -19,9 +21,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,6 +38,7 @@ public class AuthService {
     private AuthenticationManager authenticationManager;
     private UserRepository userRepository;
     private AppUserDetailService appUserDetailService;
+    private EmailService emailService;
 
     public Employee registration(UserRequest userRequest) {
         Employee employee = modelMapper.map(userRequest, Employee.class);
@@ -85,5 +90,30 @@ public class AuthService {
                 user.getEmployee().getEmail(),
                 authorities
         );
+    }
+
+    public Employee signup(RegistrationRequest registrationRequest){
+        if(registrationRequest.getName().isEmpty()){
+         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Name is empty!!");
+        }
+        if(registrationRequest.getEmail().isEmpty()){
+         throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Email is empty!!");
+        }
+
+        Employee employee = new Employee();
+        employee.setName(registrationRequest.getName());
+        employee.setEmail(registrationRequest.getEmail());
+//        employee.setUser(new User());
+
+        User user = new User();
+        user.setToken(UUID.randomUUID().toString());
+        user.setEmployee(employee);
+        employee.setUser(user);
+
+        employeeRepository.save(employee);
+
+        emailService.sendHtmlsignup(employee);
+
+        return employee;
     }
 }

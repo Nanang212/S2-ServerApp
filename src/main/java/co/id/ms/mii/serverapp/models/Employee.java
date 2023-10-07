@@ -17,17 +17,26 @@ public class Employee {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
-    @Column(nullable = false)
     private Integer id;
-    @Column(length = 50,nullable = false)
+    @Column(length = 50)
     private String name;
-    @Column(nullable = false,unique = true)
+    @Column(unique = true)
     private String email;
-    @Column(nullable = false,length = 15)
+    @Column(length = 15)
     private String phone;
 
     @OneToOne(mappedBy = "employee",cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-
     private User user;
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", phone='" + phone + '\'' +
+                ", user=" + user +
+                '}';
+    }
 }
