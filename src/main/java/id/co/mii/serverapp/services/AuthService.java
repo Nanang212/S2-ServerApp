@@ -2,6 +2,7 @@ package id.co.mii.serverapp.services;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -12,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
@@ -27,26 +27,23 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class AuthService {
 
-    private EmployeeRepository employeeRepository;
-    private ModelMapper modelMapper;
-    private RoleService roleService;
-    private PasswordEncoder passwordEncoder;
-    private AuthenticationManager authManager;
-    private UserRepository userRepository;
-    private AppUserDetailService appUserDetailService;
+        private EmployeeRepository employeeRepository;
+        private ModelMapper modelMapper;
+        private RoleService roleService;
+        private AuthenticationManager authManager;
+        private UserRepository userRepository;
+        private AppUserDetailService appUserDetailService;
 
-    public Employee registration(RegistrationRequest registrationRequest) {
+        public Employee registration(RegistrationRequest registrationRequest) {
         Employee employee = modelMapper.map(registrationRequest, Employee.class);
         User user = modelMapper.map(registrationRequest, User.class);
-
-        // set password
-        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 
         // set default role
         List<Role> roles = Collections.singletonList(roleService.getById(2));
         // List<Role> roles = new ArrayList<>();
         // roles.add(roleService.getById(2));
         user.setRoles(roles);
+        user.setToken(UUID.randomUUID().toString());
 
         employee.setUser(user);
         user.setEmployee(employee);
