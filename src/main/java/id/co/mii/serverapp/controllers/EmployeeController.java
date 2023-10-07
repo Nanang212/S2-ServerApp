@@ -53,7 +53,7 @@ public class EmployeeController {
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Employee create(@PathVariable Integer employeeId, @RequestBody EmployeeRequest request) {
+    public Employee update(@PathVariable Integer employeeId, @RequestBody EmployeeRequest request) {
         return employeeService.update(employeeId, request);
     }
 

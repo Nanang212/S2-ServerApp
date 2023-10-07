@@ -53,7 +53,7 @@ public class RoleController {
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Role create(@PathVariable Integer roleId, @RequestBody RoleRequest request) {
+    public Role update(@PathVariable Integer roleId, @RequestBody RoleRequest request) {
         return roleService.update(roleId, request);
     }
 

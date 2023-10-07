@@ -55,7 +55,7 @@ public class UserController {
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public User create(@PathVariable Integer userId, @RequestBody UserRequest request) {
+    public User update(@PathVariable Integer userId, @RequestBody UserRequest request) {
         return userService.update(userId, request);
     }
 
