@@ -25,6 +25,36 @@ public class UserService extends BaseService<User> {
     private RoleService roleService;
     private PasswordEncoder passwordEncoder;
 
+    public User findByToken(String token) {
+        return userRepo
+                .findByToken(token)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    public User update(Integer id, RegistrationRequest registrationRequest) {
+        User updatedUser = getById(id);
+        if (!StringUtils.isEmptyOrNull(registrationRequest.getUsername())
+                && !updatedUser.getUsername().equalsIgnoreCase(registrationRequest.getUsername())) {
+            if (userRepo.existsByUsername(registrationRequest.getUsername())) {
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already used !!!");
+            }
+            updatedUser.setUsername(registrationRequest.getUsername());
+        }
+        if (!StringUtils.isEmptyOrNull(registrationRequest.getPassword())
+                && !updatedUser.getPassword().equalsIgnoreCase(registrationRequest.getPassword())) {
+            updatedUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        }
+        if (!StringUtils.isEmptyOrNull(registrationRequest.getPhone())
+                && !updatedUser.getEmployee().getPhone().equalsIgnoreCase(registrationRequest.getPhone())) {
+            updatedUser.getEmployee().setPhone(registrationRequest.getPhone());
+        }
+        if (registrationRequest.getRoleIds() != null) {
+            updatedUser.setRoles(mapToRoles(registrationRequest.getRoleIds()));
+        }
+        updatedUser.setIsEnable(true);
+        return userRepo.save(updatedUser);
+    }
+
     public User update(Integer id, UserRequest userRequest) {
         User updatedUser = getById(id);
         if (!StringUtils.isEmptyOrNull(userRequest.getUsername())
@@ -42,7 +72,6 @@ public class UserService extends BaseService<User> {
             updatedUser.setRoles(mapToRoles(userRequest.getRoleIds()));
         }
         updatedUser.setIsEnable(true);
-        updatedUser.setToken(null);
         return userRepo.save(updatedUser);
     }
 

@@ -18,7 +18,7 @@ import java.util.List;
 public class EmployeeController {
     private EmployeeService employeeService;
 
-    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
+//    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
     @GetMapping
     public ResponseEntity<List<Employee>> getAll() {
         return ResponseEntity
@@ -26,7 +26,7 @@ public class EmployeeController {
                 .body(employeeService.getAll());
     }
 
-    @PreAuthorize("hasAuthority('READ_ADMIN')")
+//    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping("/{id}")
     public ResponseEntity<Employee> getById(@PathVariable Integer id) {
         return ResponseEntity

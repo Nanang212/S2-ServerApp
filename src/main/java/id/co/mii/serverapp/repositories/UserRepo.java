@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface UserRepo extends BaseRepository<User> {
     Boolean existsByUsername(String username);
     Optional<User> findByUsernameOrEmployeeEmail(String username, String email);
+    Optional<User> findByToken(String token);
 }
