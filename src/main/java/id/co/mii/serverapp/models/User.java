@@ -1,6 +1,7 @@
 package id.co.mii.serverapp.models;
 
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -35,13 +36,13 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
-    @Column(nullable = false, unique = true, length = 50)
+    @Column(unique = true, length = 50)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
-    private Boolean isEnabled = true;
+    private Boolean isEnabled = false;
+    private String token;
 
     @OneToOne
     @MapsId

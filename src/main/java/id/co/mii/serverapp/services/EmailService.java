@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 
+import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.request.EmailRequest;
 import lombok.AllArgsConstructor;
 
@@ -73,5 +74,16 @@ public class EmailService {
         }
 
         return emailRequest;
+    }
+
+    // isine email url sama token
+    public User sendHtmlUser(User user) {
+        try {
+
+        } catch (Exception e) {
+
+        }
+
+        return user;
     }
 }

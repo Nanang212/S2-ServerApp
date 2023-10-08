@@ -30,13 +30,13 @@ public class Employee {
     @Column(name = "employee_id")
     private Integer id;
 
-    @Column(name = "employee_name", nullable = false, length = 100)
+    @Column(name = "employee_name", length = 100)
     private String name;
 
-    @Column(name = "employee_email", nullable = false, length = 100)
+    @Column(name = "employee_email", length = 100)
     private String email;
 
-    @Column(name = "employee_phone", nullable = false, length = 15)
+    @Column(name = "employee_phone", length = 15)
     private String phone;
 
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
