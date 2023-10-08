@@ -3,13 +3,12 @@ package id.co.mii.serverapp.models;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.stream.Collectors;
-import lombok.AllArgsConstructor;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import id.co.mii.serverapp.models.dto.User;
+import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public class AppUserDetail implements UserDetails {

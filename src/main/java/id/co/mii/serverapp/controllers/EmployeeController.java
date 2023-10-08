@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import id.co.mii.serverapp.models.dto.Employee;
+import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
 

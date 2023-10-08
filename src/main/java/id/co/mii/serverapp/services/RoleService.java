@@ -3,10 +3,11 @@ package id.co.mii.serverapp.services;
 import java.util.List;
 
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import id.co.mii.serverapp.models.dto.Role;
+import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.repositories.RoleRepository;
 import lombok.AllArgsConstructor;
 

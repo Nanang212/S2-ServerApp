@@ -1,6 +1,5 @@
 package id.co.mii.serverapp.config;
 
-import org.apache.catalina.authenticator.SpnegoAuthenticator.AuthenticateAction;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -9,14 +8,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfiguration;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import id.co.mii.serverapp.services.AppUserDetailService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 
 @Configuration
 @EnableWebSecurity
@@ -24,34 +20,27 @@ import lombok.NoArgsConstructor;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private AppUserDetailService AppUserDetailService;
+    private AppUserDetailService appUserDetailService;
    private PasswordEncoder passwordEncoder;
 
     @Override
     protected void configure (AuthenticationManagerBuilder auth)throws
     Exception{
         auth
-        .userDetailsService(AppUserDetailService)
+        .userDetailsService(appUserDetailService)
         .passwordEncoder(passwordEncoder);
     }
-    //     .inMemoryAuthentication()
-    //     .withUser("admin")
-    //     .password("admin")
-    //     .roles("ADMIN")
-    //     .and()
-    //     .withUser("User")
-    //     .password("user")
-    //     .roles("USER");
-    // }
-//       @Bean
-//     protected PasswordEncoder passwordEncoder(){
-//         return NoOpPasswordEncoder.getInstance();
-//  }
-  
-    
+
     @Override
-    protected void configure(HttpSecurity http) throws Exception{
-        http
+    @Bean
+    public AuthenticationManager authenticationManagerBean()throws Exception{
+        return super .authenticationManagerBean();
+    }
+
+
+    @Override
+    protected void configure(HttpSecurity http) throws Exception {
+     http
         .csrf()
         .disable()
         .cors()
@@ -59,17 +48,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .authorizeRequests()
         .antMatchers(HttpMethod.POST, "/registration")
         .permitAll()
-        // .antMatchers("/region")
-        // .hasRole("ADMIN")
-        // .antMatchers("/employee")
-        // .hasAnyRole("ADMIN", "USER")
-        // .antMatchers("/country")
-        // .hasRole("USER")
+        // .antMatchers(HttpMethod.POST, "/registrasi").permitAll()
+        .antMatchers(HttpMethod.POST, "/login")
+        .permitAll()
         .anyRequest()
-        .authenticated()
         // .permitAll()
+        .authenticated()
         .and()
-        // .formLogin();
         .httpBasic();
     }
-  }
+}

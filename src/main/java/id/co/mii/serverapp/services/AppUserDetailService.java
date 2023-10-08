@@ -6,7 +6,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import id.co.mii.serverapp.models.AppUserDetail;
-import id.co.mii.serverapp.models.dto.User;
+import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.repositories.UserRepositorty;
 import lombok.AllArgsConstructor;
 

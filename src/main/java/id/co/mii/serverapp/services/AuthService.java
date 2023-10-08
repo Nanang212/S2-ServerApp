@@ -4,16 +4,29 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.security.access.prepost.PreAuthorize;
+// import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties.Authentication;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Service;
 
-import id.co.mii.serverapp.models.dto.Employee;
-import id.co.mii.serverapp.models.dto.Role;
-import id.co.mii.serverapp.models.dto.User;
+import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.Role;
+import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.LoginRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
+import id.co.mii.serverapp.models.dto.response.LoginResponse;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
+import id.co.mii.serverapp.repositories.UserRepositorty;
 import lombok.AllArgsConstructor;
 
 @Service
@@ -24,6 +37,9 @@ public class AuthService {
   private ModelMapper modelMapper;
   private RoleService roleService;
   private PasswordEncoder passwordEncoder;
+  private AuthenticationManager authManager;
+  private UserRepositorty userRepositorty;
+  private AppUserDetailService appUserDetailService;
 
   public Employee registration(RegistrationRequest registrationRequest) {
     Employee employee = modelMapper.map(registrationRequest, Employee.class);
@@ -33,14 +49,50 @@ public class AuthService {
     user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 
     // set default role
-    List<Role> roles = Collections.singletonList(roleService.getById(2)); 
+    List<Role> roles = Collections.singletonList(roleService.getById(1)); 
     // List<Role> roles = new ArrayList<>();
-    // roles.add(roleService.getById(2));
-     // user.setRoles(roles);
+    // roles.add(roleService.getById(1));
+    user.setRoles(roles);
     employee.setUser(user);
     user.setEmployee(employee);
 
     return employeeRepository.save(employee);
+  }
+
+    public LoginResponse login(LoginRequest loginRequest) {
+    // set login
+    UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
+      loginRequest.getUsername(),
+      loginRequest.getPassword()
+    );
+
+    // set principle
+    Authentication auth = authManager .authenticate(authReq);
+    SecurityContextHolder.getContext().setAuthentication(auth);
+
+    // set response
+    User user = userRepositorty
+      .findByUsernameOrEmployeeEmail(
+        loginRequest.getUsername(),
+        loginRequest.getUsername()
+      )
+      .get();
+
+    UserDetails userDetails = appUserDetailService.loadUserByUsername(
+      loginRequest.getUsername()
+    );
+
+    List<String> authorities = userDetails
+      .getAuthorities()
+      .stream()
+      .map(authority -> authority.getAuthority())
+      .collect(Collectors.toList());
+
+    return new LoginResponse(
+      user.getUsername(),
+      user.getEmployee().getEmail(),
+      authorities
+    );
   }
 }
 

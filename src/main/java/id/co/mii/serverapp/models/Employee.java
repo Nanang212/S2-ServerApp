@@ -1,4 +1,4 @@
-package id.co.mii.serverapp.models.dto;
+package id.co.mii.serverapp.models;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,6 +9,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
