@@ -25,24 +25,17 @@ public class RoleService {
     }
 
     public Role create(Role role) {
-        if (roleRepository.existsByName(role.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Role name is already exist");
-        }
         return roleRepository.save(role);
     }
 
     public Role update(Integer id, Role role) {
         getById(id);
         role.setId(id);
-        if (roleRepository.existsByName(role.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Role name is already exist");
-        }
         return roleRepository.save(role);
     }
 
     public Role delete(Integer id) {
         Role role = getById(id);
-        role.getUsers().forEach(user -> user.getRoles().remove(role));
         roleRepository.delete(role);
         return role;
     }

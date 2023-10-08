@@ -60,25 +60,24 @@ public class EmailService {
     public EmailRequest sendHtmlMessage(EmailRequest emailRequest) {
         try {
             MimeMessage message = javaMailSender.createMimeMessage();
-        MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                StandardCharsets.UTF_8.name());
-        Context context = new Context();
-        context.setVariable("name", emailRequest.getNameSender());
-        // context.setVariable("date", LocalDate.now().toString());
-        // context.setVariable("technologies", Arrays.asList("tes1","tes2"));
-        
-        helper.setTo(emailRequest.getTo());
-        helper.setSubject(emailRequest.getSubject());
-        String html = springTemplateEngine.process("index.html", context);
-        helper.setText(html, true);
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+            Context context = new Context();
+            context.setVariable("name", emailRequest.getNameSender());
+            // context.setVariable("date", LocalDate.now().toString());
+            // context.setVariable("technologies", Arrays.asList("tes1","tes2"));
 
-        
-        javaMailSender.send(message);
-            
+            helper.setTo(emailRequest.getTo());
+            helper.setSubject(emailRequest.getSubject());
+            String html = springTemplateEngine.process("index.html", context);
+            helper.setText(html, true);
+
+            javaMailSender.send(message);
+
         } catch (Exception e) {
             System.out.println(e.getMessage());
         }
-        
+
         return emailRequest;
     }
 
