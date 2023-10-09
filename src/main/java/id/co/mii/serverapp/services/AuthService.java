@@ -69,7 +69,7 @@ public class AuthService {
           StandardCharsets.UTF_8.name());
       Context context = new Context();
       context.setVariable("message", emailRequest);
-      String htmlContent = springTemplateEngine.process("konfirmasiemail.html", context);
+      String htmlContent = springTemplateEngine.process("EmailConfirm.html", context);
       helper.setTo(registrationRequest.getEmail());
       helper.setSubject("Email Confirmation");
       helper.setText(htmlContent, true);

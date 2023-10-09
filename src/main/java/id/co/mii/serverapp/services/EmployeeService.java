@@ -21,6 +21,12 @@ public class EmployeeService {
     private UserService userService;
     private UserRepository userRepository;
 
+    public Employee findByToken(String token) {
+        return employeeRepository
+                .findByToken(token)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
+    }
+    
     public List<Employee> getAll() {
         return employeeRepository.findAll();
     }
