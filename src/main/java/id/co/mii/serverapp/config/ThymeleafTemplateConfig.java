@@ -10,15 +10,15 @@ import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 
 @Configuration
 public class ThymeleafTemplateConfig {
-    
+
     @Bean
-    public SpringTemplateEngine springTemplateEngine(){
+    public SpringTemplateEngine springTemplateEngine() {
         SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
         springTemplateEngine.addTemplateResolver(eTemplateResolver());
         return springTemplateEngine;
     }
 
-    public ClassLoaderTemplateResolver eTemplateResolver(){
+    public ClassLoaderTemplateResolver eTemplateResolver() {
         ClassLoaderTemplateResolver eTemplateResolver = new ClassLoaderTemplateResolver();
         eTemplateResolver.setPrefix("/templates/");
         eTemplateResolver.setSuffix(".html");
