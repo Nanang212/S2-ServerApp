@@ -1,7 +1,6 @@
 package id.co.mii.serverapp.services;
 
 import java.nio.charset.StandardCharsets;
-
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;

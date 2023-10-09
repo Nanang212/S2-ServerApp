@@ -1,11 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-  </head>
-  <body>
-    SUCCESS <span th:text="${name}"></span>
-  </body>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <script src="https://cdn.tailwindcss.com"></script>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet"/>
+    </head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white p-8 rounded-lg shadow-md">
+        <img th:src="@{/img/gambar1.png}" alt="Verification Successful" class="w-72 h-72 mx-auto mb-4 rounded-full">
+        <div class="text-2xl font-semibold text-green-500 mb-4">Verification Successful</div>
+        <p class="text-gray-600">Terima kasih <span th:text="${name}"></span>! Verifikasi Anda telah berhasil.</p>
+        <!-- <div class="mt-6">
+            <a href="#" class="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded-md">
+                Login
+            </a>
+        </div> -->
+        <div class="w-full sm:w-auto">
+          <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 transition duration-300 mt-6">Login</button>
+      </div>
+    </div>
+</body>
 </html>
