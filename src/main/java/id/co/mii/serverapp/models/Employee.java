@@ -27,21 +27,21 @@ public class Employee {
     @Column(name="employee_id")
     private Integer id;
 
-    @Column(name ="employee_name", nullable = false, length = 50)
+    @Column(name ="employee_name", length = 50)
     private String name;
 
-    @Column(name ="employee_email", nullable = false, unique = true, length = 50)
+    @Column(name ="employee_email", unique = true, length = 50)
     private String email;
 
-    @Column(name ="employee_phone", nullable = false, unique = true, length = 13)
+    @Column(name ="employee_phone", unique = true, length = 13)
     private String phone;
+
+    @Column(name = "uuid")
+    private String uuid;
 
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
-    // @MapsId
-    // @JoinColumn(name = "user_id")
-    // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private User user;
 
-    
+
 }

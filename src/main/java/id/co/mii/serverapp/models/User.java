@@ -32,13 +32,13 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
-    @Column(name = "username", nullable = false, unique = true, length = 20)
+    @Column(name = "username", unique = true, length = 20)
     private String username;
 
-    @Column(name = "password", nullable = false)
+    @Column(name = "password")
     private String password;
 
-    private Boolean isEnabled = true;
+    private Boolean isEnabled = false;
 
     @OneToOne
     @MapsId
