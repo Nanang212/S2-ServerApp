@@ -1,84 +1,125 @@
 package id.co.mii.serverapp.services;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
-import java.util.stream.Collectors;
-
-import org.modelmapper.ModelMapper;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.request.EmailRequest;
 import id.co.mii.serverapp.models.dto.request.LoginRequest;
 import id.co.mii.serverapp.models.dto.request.RegistrationRequest;
 import id.co.mii.serverapp.models.dto.response.LoginResponse;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
+import java.util.stream.Collectors;
+
+import javax.mail.internet.MimeMessage;
+
 import lombok.AllArgsConstructor;
+
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+// import org.modelmapper.ModelMapper;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+// import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.thymeleaf.context.Context;
+import org.thymeleaf.spring5.SpringTemplateEngine;
 
 @Service
 @AllArgsConstructor
 public class AuthService {
-    private EmployeeRepository employeeRepository;
-    private ModelMapper modelMapper;
-    private RoleService roleService;
-    private PasswordEncoder passwordEncoder;
-    private AuthenticationManager authenticationManager;
-    private UserRepository userRepository;
-    private AppUserDetailService appUserDetailService;
-    private EmailService emailService;
 
-    public Employee registration(RegistrationRequest registrationRequest) {
-        Employee employee = modelMapper.map(registrationRequest, Employee.class);
-        User user = modelMapper.map(registrationRequest, User.class);
+  private EmployeeRepository employeeRepository;
+  // private ModelMapper modelMapper;
+  private RoleService roleService;
+  // private PasswordEncoder passwordEncoder;
+  private AuthenticationManager authManager;
+  private UserRepository userRepository;
+  private AppUserDetailService appUserDetailService;
+  private EmailRequest emailRequest;
+  private JavaMailSender javaMailSender;
+  private SpringTemplateEngine springTemplateEngine;
 
-        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+  public Employee registration(RegistrationRequest registrationRequest) {
+    Employee employee = new Employee();
+    User user = new User();
+    UUID uuid = UUID.randomUUID();
 
-        List<Role> roles = Collections.singletonList(roleService.getById(1));
-        user.setRoles(roles);
-        employee.setUser(user);
-        user.setEmployee(employee);
+    employee.setEmail(registrationRequest.getEmail());
+    employee.setName(registrationRequest.getName());
+    employee.setUuid(uuid.toString());
 
-        return employeeRepository.save(employee);
+    List<Role> roles = Collections.singletonList(roleService.getById(2));
+    user.setRoles(roles);
+
+    employee.setUser(user);
+    user.setEmployee(employee);
+
+    try {
+      MimeMessage message = javaMailSender.createMimeMessage();
+      MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_NO,
+          StandardCharsets.UTF_8.name());
+      Context context = new Context();
+      context.setVariable("message", emailRequest);
+      String htmlContent = springTemplateEngine.process("konfirmasiemail.html", context);
+      helper.setTo(registrationRequest.getEmail());
+      helper.setSubject("Email Confirmation");
+      helper.setText(htmlContent, true);
+      javaMailSender.send(message);
+
+    } catch (Exception e) {
+      System.out.println("Error : " + e.getMessage());
     }
 
-    public LoginResponse login(LoginRequest loginRequest) {
-        // set login
-        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(), loginRequest.getPassword());
+    return employeeRepository.save(employee);
+  }
 
-        // set praciple
-        Authentication auth = authenticationManager.authenticate(authReq);
-        SecurityContextHolder.getContext().setAuthentication(auth);
+  public LoginResponse login(LoginRequest loginRequest) {
+    // set login
+    UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(loginRequest.getUsername(),
+        loginRequest.getPassword());
 
-        // set response
-        User user = userRepository.findByUsernameOrEmployeeEmail(loginRequest.getUsername(),
-                loginRequest.getUsername()).get();
-        UserDetails userDetails = appUserDetailService.loadUserByUsername(loginRequest.getUsername());
+    // set princile untuk menyimpan cookies/session
+    Authentication auth = authManager.authenticate(authReq);
+    SecurityContextHolder.getContext().setAuthentication(auth);
 
-        List<String> authorities = userDetails.getAuthorities().stream().map(authority -> authority.getAuthority())
-                .collect(Collectors.toList());
-        return new LoginResponse(user.getUsername(), user.getEmployee().getEmail(), authorities);
-    }
+    // set response
+    User user = userRepository.findByUsernameOrEmployeeEmail(loginRequest.getUsername(), loginRequest.getUsername())
+        .get();
+    UserDetails userDetails = appUserDetailService.loadUserByUsername(loginRequest.getUsername());
+    List<String> authorities = userDetails.getAuthorities().stream().map(authority -> authority.getAuthority())
+        .collect(Collectors.toList());
 
-    public Employee signup(RegistrationRequest registrationRequest) {
-        Employee employee = new Employee();
-        employee.setName(registrationRequest.getName());
-        employee.setEmail(registrationRequest.getEmail());
-        employee.setUser(new User());
+    return new LoginResponse(user.getUsername(), user.getEmployee().getEmail(), authorities);
 
-        User user = new User();
-        user.setToken(UUID.randomUUID().toString());
-        employeeRepository.save(employee);
-        emailService.sendHtmlUser(user);
-        return employee;
-    }
+  }
+
+  // public Employee signUp(SignUpRequest signUpRequest){
+
+  // Employee employee = modelMapper.map(signUpRequest, Employee.class);
+  // User user = new User();
+  // user.setPassword(passwordEncoder.encode(user.getPassword()));
+  // List<Role> roles = Collections.singletonList(roleService.getById(2));
+  // user.setRoles(roles);
+  // user.setPassword(passwordEncoder.encode("nopassword"));
+  // employee.setUser(user);
+  // user.setEmployee(employee);
+  // return employeeRepository.save(employee);
+
+  // // User user = new User();
+  // // Employee employee = modelMapper.map(signUpRequest, Employee.class);
+  // // List<Role> roles = Collections.singletonList(roleService.getById(2));
+  // // user.setRoles(roles);
+  // // employee.setUser(user);
+  // // user.setEmployee(employee);
+  // // return employeeRepository.save(employee);
+  // }
 }

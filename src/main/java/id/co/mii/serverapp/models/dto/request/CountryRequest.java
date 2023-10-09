@@ -5,11 +5,10 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class CountryRequest {
-
     private String code;
     private String name;
-    private Integer regionId;
+    private Integer regionId; //untuk menyamakan level attribut
 }

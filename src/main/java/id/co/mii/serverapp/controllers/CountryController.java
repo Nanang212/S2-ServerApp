@@ -29,30 +29,29 @@ public class CountryController {
     }
 
     @GetMapping("/{id}")
-    public Country findById(@PathVariable Integer id) {
-        return countryService.GetById(id);
+    public Country findByIdCountry(@PathVariable Integer id) {
+        return countryService.getByIdCountry(id);
     }
 
-    // without dto
-    @PostMapping("/insert")
-    public Country insert(@RequestBody Country country) {
-        return countryService.insert(country);
+    @PostMapping
+    public Country inserCountry(@RequestBody Country country){
+    return countryService.insert(country);
     }
 
-    // with dto
+    //create country with dto
     @PostMapping("/dto")
-    public Country insertDTO(@RequestBody CountryRequest countryRequest) {
-        return countryService.insertDTO(countryRequest);
+    public Country insertCountryDto(@RequestBody CountryRequest countryRequest){
+        return countryService.createDTO(countryRequest);
     }
 
-    // with dto by model mapper
+    //withDtoByModelMapper
     @PostMapping("/dto-m")
-    public Country insertDTOByModelMapper(@RequestBody CountryRequest countryRequest) {
-        return countryService.insertDTOByModelMapper(countryRequest);
+    public Country createDtoByModelMapper(@RequestBody CountryRequest countryRequest){
+        return countryService.createDtoByModelMapper(countryRequest);
     }
 
     @PutMapping("/{id}")
-    public Country update(@PathVariable Integer id, @RequestBody Country country) {
+    public Country updateCountry(@PathVariable Integer id, @RequestBody Country country) {
         return countryService.update(id, country);
     }
 
@@ -61,19 +60,20 @@ public class CountryController {
         return countryService.delete(id);
     }
 
-    // custom manual
+    //get custom manual
     @GetMapping("/custom/{id}")
-    public Map<String, Object> getByIdCustom(@PathVariable Integer id) {
-        return countryService.getByIdMap(id);
+    public Map<String, Object> getByIdCustom(@PathVariable Integer id){
+        return countryService.getByIdCustom(id);
     }
 
     @GetMapping("/all")
-    public List<Map<String, Object>> getAllCustom() {
+    public List<Map<String, Object>> getAllCustom(){
         return countryService.getAllCustom();
     }
 
     @GetMapping("/all/stream")
-    public List<Map<String, Object>> getAllCustomStream() {
+    public List<Map<String, Object>> getAllCustomStream(){
         return countryService.getAllCustomStream();
     }
+
 }

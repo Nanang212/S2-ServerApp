@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.dto.request.EmployeeRequest;
 import id.co.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
 @RequestMapping("/employee")
-@PreAuthorize("hashAnyRole('ADMIN', 'USER')")
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class EmployeeController {
     private EmployeeService employeeService;
 
@@ -29,16 +30,18 @@ public class EmployeeController {
     }
 
     @GetMapping("/{id}")
-    public Employee findById(@PathVariable Integer id) {
+    @PreAuthorize("hasAuthority('READ_ADMIN')")
+    public Employee getById(@PathVariable Integer id) {
         return employeeService.getById(id);
     }
 
-    @PutMapping("/update/{id}")
-    public Employee update(@PathVariable Integer id, @RequestBody Employee employee) {
-        return employeeService.update(id, employee);
+    @PutMapping("/{id}")
+    public Employee update(@PathVariable Integer id, @RequestBody EmployeeRequest employeeRequest) {
+        return employeeService.update(id, employeeRequest);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
+    // @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     public Employee delete(@PathVariable Integer id) {
         return employeeService.delete(id);
     }
