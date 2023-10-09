@@ -121,7 +121,6 @@ public class CountryService {
             result.put("regionName", country.getRegion().getName());
             results.add(result);
         }
-
         return results;
     }
 
