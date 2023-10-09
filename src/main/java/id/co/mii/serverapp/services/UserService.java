@@ -7,7 +7,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.UserRequest;
@@ -71,5 +70,9 @@ public class UserService {
         User user = getById(id);
         userRepository.delete(user);
         return user;
+    }
+
+    public User findByToken(String token){
+        return userRepository.findByToken(token);
     }
 }

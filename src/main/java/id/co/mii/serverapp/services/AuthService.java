@@ -1,21 +1,22 @@
 package id.co.mii.serverapp.services;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import id.co.mii.serverapp.models.dto.requests.LoginRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.models.dto.responses.LoginResponse;
@@ -33,6 +34,7 @@ public class AuthService {
         private AuthenticationManager authManager;
         private UserRepository userRepository;
         private AppUserDetailService appUserDetailService;
+        private EmailService emailService;
 
         public Employee registration(RegistrationRequest registrationRequest) {
         Employee employee = modelMapper.map(registrationRequest, Employee.class);
@@ -47,11 +49,22 @@ public class AuthService {
 
         employee.setUser(user);
         user.setEmployee(employee);
+        EmailRequest emailRequest = new EmailRequest();
+        emailRequest.setTo(registrationRequest.getEmail());
+        emailRequest.setFrom("arifhanif2000@gmail.com");
+        emailRequest.setSubject("Verification Account");
+        emailRequest.setTemplate("welcome-email.html");
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("name", registrationRequest.getName());
+        properties.put("token", user.getToken());
+        emailRequest.setProperties(properties);
+
+        emailService.sendHtml(emailRequest);
 
         return employeeRepository.save(employee);
-    }
+        }
 
-    public LoginResponse login(LoginRequest loginRequest) {
+        public LoginResponse login(LoginRequest loginRequest) {
 
         // set login
         UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
@@ -82,6 +95,5 @@ public class AuthService {
                 user.getUsername(),
                 user.getEmployee().getEmail(),
                 authorities);
-    }
-
+        }
 }

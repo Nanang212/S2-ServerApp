@@ -11,7 +11,6 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-
 import id.co.mii.serverapp.services.AppUserDetailService;
 import lombok.AllArgsConstructor;
 
@@ -35,6 +34,8 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(requests -> requests
                         .antMatchers(HttpMethod.POST, "/auth/**")
+                        .permitAll()
+                        .antMatchers("/verify-account/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
