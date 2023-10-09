@@ -22,9 +22,6 @@
     ></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
     <style>
-      /* th {
-        color: ;
-      } */
     </style>
   </head>
   <body class="w-screen min-h-screen dark:bg-gray-800">
@@ -74,7 +71,7 @@
           <main className='flex flex-col max-w-screen-lg p-4 mx-auto'>
             <section className='flex flex-col gap-4'>
               <div className='flex justify-between'>
-                <h1 className='scroll-m-20 text-2xl font-semibold tracking-tight dark:text-white'>Overview</h1>
+                <h1 className='scroll-m-20 text-2xl font-semibold tracking-tight dark:text-white'>Dashboard</h1>
                 <button
                   type='button'
                   className='py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'
@@ -85,9 +82,9 @@
                 <ReactModal
                   isOpen={openModal}
                   ariaHideApp={false}
-                  className='backdrop-blur-sm w-screen min-h-screen px-4 py-8'
+                  className='backdrop-blur-sm w-screen min-h-screen px-4 py-8 dark:bg-gray-800'
                 >
-                  <div className='flex flex-col max-w-screen-sm mx-auto py-8 px-4 rounded-lg shadow bg-white'>
+                  <div className='flex flex-col max-w-screen-sm mx-auto py-8 px-4 rounded-lg shadow bg-white dark:bg-gray-500'>
                     <div>
                       <div className='mb-6'>
                         <label for='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
