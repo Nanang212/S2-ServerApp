@@ -20,45 +20,28 @@ import java.util.List;
 public class EmployeeController {
     private final EmployeeService employeeService;
 
-    @PostMapping(
-        value = "/employee",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PostMapping(value = "/employee", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public Employee create(@RequestBody EmployeeRequest request) {
         return employeeService.create(request);
     }
 
-    @GetMapping(
-        value = "/employee/{employeeId}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(value = "/employee/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee getById(@PathVariable Integer employeeId) {
         return employeeService.getById(employeeId);
     }
 
-    @GetMapping(
-        value = "/employees",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @GetMapping(value = "/employees", produces = MediaType.APPLICATION_JSON_VALUE)
     public List<Employee> getAll() {
         return employeeService.getAll();
     }
 
-    @PutMapping(
-        value = "/employee/{employeeId}",
-        consumes = MediaType.APPLICATION_JSON_VALUE,
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @PutMapping(value = "/employee/{employeeId}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee update(@PathVariable Integer employeeId, @RequestBody EmployeeRequest request) {
         return employeeService.update(employeeId, request);
     }
 
-    @DeleteMapping(
-        value = "/employee/{employeeId}",
-        produces = MediaType.APPLICATION_JSON_VALUE
-    )
+    @DeleteMapping(value = "/employee/{employeeId}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Employee delete(@PathVariable Integer employeeId) {
         return employeeService.delete(employeeId);
     }
@@ -96,5 +79,10 @@ public class EmployeeController {
         } catch (Exception e) {
             return new ModelAndView("views/employee_verification_not_found");
         }
+    }
+
+    @GetMapping("/employee-dashboard")
+    public ModelAndView dashboard() {
+        return new ModelAndView("views/employee_dashboard");
     }
 }
