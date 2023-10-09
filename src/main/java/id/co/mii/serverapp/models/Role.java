@@ -41,5 +41,5 @@ public class Role {
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "tb_tr_role_privilege", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "privilege_id"))
-    private List<privilege> privileges;
+    private List<Privilege> privileges;
 }
