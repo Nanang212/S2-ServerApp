@@ -38,9 +38,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 public class AuthService {
 
   private EmployeeRepository employeeRepository;
-  // private ModelMapper modelMapper;
   private RoleService roleService;
-  // private PasswordEncoder passwordEncoder;
   private AuthenticationManager authManager;
   private UserRepository userRepository;
   private AppUserDetailService appUserDetailService;
@@ -69,6 +67,7 @@ public class AuthService {
           StandardCharsets.UTF_8.name());
       Context context = new Context();
       context.setVariable("message", emailRequest);
+      context.setVariable("uuid", employee.getUuid());
       String htmlContent = springTemplateEngine.process("EmailConfirm.html", context);
       helper.setTo(registrationRequest.getEmail());
       helper.setSubject("Email Confirmation");
@@ -101,25 +100,4 @@ public class AuthService {
     return new LoginResponse(user.getUsername(), user.getEmployee().getEmail(), authorities);
 
   }
-
-  // public Employee signUp(SignUpRequest signUpRequest){
-
-  // Employee employee = modelMapper.map(signUpRequest, Employee.class);
-  // User user = new User();
-  // user.setPassword(passwordEncoder.encode(user.getPassword()));
-  // List<Role> roles = Collections.singletonList(roleService.getById(2));
-  // user.setRoles(roles);
-  // user.setPassword(passwordEncoder.encode("nopassword"));
-  // employee.setUser(user);
-  // user.setEmployee(employee);
-  // return employeeRepository.save(employee);
-
-  // // User user = new User();
-  // // Employee employee = modelMapper.map(signUpRequest, Employee.class);
-  // // List<Role> roles = Collections.singletonList(roleService.getById(2));
-  // // user.setRoles(roles);
-  // // employee.setUser(user);
-  // // user.setEmployee(employee);
-  // // return employeeRepository.save(employee);
-  // }
 }
