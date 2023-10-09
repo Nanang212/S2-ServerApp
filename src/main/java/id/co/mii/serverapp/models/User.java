@@ -35,6 +35,7 @@ public class User {
 
     private Boolean isEnabled = false;
 
+    @Column(nullable = true)
     private String token;
 
     @OneToOne

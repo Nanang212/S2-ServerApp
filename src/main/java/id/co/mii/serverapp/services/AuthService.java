@@ -12,6 +12,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
@@ -33,67 +34,83 @@ public class AuthService {
         private RoleService roleService;
         private AuthenticationManager authManager;
         private UserRepository userRepository;
+        private UserService userService;
         private AppUserDetailService appUserDetailService;
         private EmailService emailService;
+        private PasswordEncoder passwordEncoder;
 
         public Employee registration(RegistrationRequest registrationRequest) {
-        Employee employee = modelMapper.map(registrationRequest, Employee.class);
-        User user = modelMapper.map(registrationRequest, User.class);
+                Employee employee = modelMapper.map(registrationRequest, Employee.class);
+                User user = modelMapper.map(registrationRequest, User.class);
 
-        // set default role
-        List<Role> roles = Collections.singletonList(roleService.getById(2));
-        // List<Role> roles = new ArrayList<>();
-        // roles.add(roleService.getById(2));
-        user.setRoles(roles);
-        user.setToken(UUID.randomUUID().toString());
+                // set default role
+                List<Role> roles = Collections.singletonList(roleService.getById(2));
+                // List<Role> roles = new ArrayList<>();
+                // roles.add(roleService.getById(2));
+                user.setRoles(roles);
+                user.setToken(UUID.randomUUID().toString());
 
-        employee.setUser(user);
-        user.setEmployee(employee);
-        EmailRequest emailRequest = new EmailRequest();
-        emailRequest.setTo(registrationRequest.getEmail());
-        emailRequest.setFrom("arifhanif2000@gmail.com");
-        emailRequest.setSubject("Verification Account");
-        emailRequest.setTemplate("welcome-email.html");
-        Map<String, Object> properties = new HashMap<>();
-        properties.put("name", registrationRequest.getName());
-        properties.put("token", user.getToken());
-        emailRequest.setProperties(properties);
+                employee.setUser(user);
+                user.setEmployee(employee);
+                EmailRequest emailRequest = new EmailRequest();
+                emailRequest.setTo(registrationRequest.getEmail());
+                emailRequest.setFrom("arifhanif2000@gmail.com");
+                emailRequest.setSubject("Verification Account");
+                emailRequest.setTemplate("welcome-email.html");
+                Map<String, Object> properties = new HashMap<>();
+                properties.put("name", registrationRequest.getName());
+                properties.put("token", user.getToken());
 
-        emailService.sendHtml(emailRequest);
+                emailRequest.setProperties(properties);
 
-        return employeeRepository.save(employee);
+                emailService.sendHtml(emailRequest);
+
+                return employeeRepository.save(employee);
         }
 
         public LoginResponse login(LoginRequest loginRequest) {
 
-        // set login
-        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(),
-                loginRequest.getPassword());
+                // set login
+                UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
+                                loginRequest.getUsername(),
+                                loginRequest.getPassword());
 
-        // set principle
-        Authentication auth = authManager.authenticate(authReq);
-        SecurityContextHolder.getContext().setAuthentication(auth);
+                // set principle
+                Authentication auth = authManager.authenticate(authReq);
+                SecurityContextHolder.getContext().setAuthentication(auth);
 
-        // set response
-        User user = userRepository
-                .findByUsernameOrEmployeeEmail(
-                        loginRequest.getUsername(),
-                        loginRequest.getUsername())
-                .get();
+                // set response
+                User user = userRepository
+                                .findByUsernameOrEmployeeEmail(
+                                                loginRequest.getUsername(),
+                                                loginRequest.getUsername())
+                                .get();
 
-        UserDetails userDetails = appUserDetailService.loadUserByUsername(
-                loginRequest.getUsername());
+                UserDetails userDetails = appUserDetailService.loadUserByUsername(
+                                loginRequest.getUsername());
 
-        List<String> authorities = userDetails
-                .getAuthorities()
-                .stream()
-                .map(authority -> authority.getAuthority())
-                .collect(Collectors.toList());
+                List<String> authorities = userDetails
+                                .getAuthorities()
+                                .stream()
+                                .map(authority -> authority.getAuthority())
+                                .collect(Collectors.toList());
 
-        return new LoginResponse(
-                user.getUsername(),
-                user.getEmployee().getEmail(),
-                authorities);
+                return new LoginResponse(
+                                user.getUsername(),
+                                user.getEmployee().getEmail(),
+                                authorities);
+        }
+
+        public User verification(RegistrationRequest registrationRequest, String token) {
+
+                User user = userService.findByToken(token);
+
+                user.setIsEnabled(true);
+                user.setToken(null);
+                user.setUsername(registrationRequest.getUsername());
+                user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+                user.getEmployee().setPhone(registrationRequest.getPhone());
+
+                return userRepository.save(user);
         }
 }
