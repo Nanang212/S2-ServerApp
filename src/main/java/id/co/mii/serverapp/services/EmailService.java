@@ -63,13 +63,13 @@ public class EmailService {
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
             Context context = new Context();
-            context.setVariable("name", emailRequest.getNameSender());
+            context.setVariables(emailRequest.getProperties());
             // context.setVariable("date", LocalDate.now().toString());
             // context.setVariable("technologies", Arrays.asList("tes1","tes2"));
 
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());
-            String html = springTemplateEngine.process("index.html", context);
+            String html = springTemplateEngine.process(emailRequest.getText(), context);
             helper.setText(html, true);
 
             javaMailSender.send(message);

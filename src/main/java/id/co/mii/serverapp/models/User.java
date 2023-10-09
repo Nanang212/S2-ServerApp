@@ -32,10 +32,9 @@ public class User {
     @Column(name = "user_id")
     private Integer id;
 
-    @Column(unique = true, nullable = false, length = 10)
+    @Column(unique = true, length = 10)
     private String username;
 
-    @Column(nullable = false)
     private String password;
 
     private Boolean isEnabled = false;

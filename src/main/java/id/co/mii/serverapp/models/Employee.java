@@ -29,11 +29,11 @@ public class Employee {
     @Column(name = "employee_id")
     private Integer id;
 
-    @Column(nullable = false, length = 30)
+    @Column(length = 30)
     private String name;
-    @Column(name = "email_address", nullable = false, unique = true)
+    @Column(name = "email_address", unique = true)
     private String email;
-    @Column(name = "phone_number", nullable = false, length = 15, unique = true)
+    @Column(name = "phone_number", length = 15, unique = true)
     private String phone;
 
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
