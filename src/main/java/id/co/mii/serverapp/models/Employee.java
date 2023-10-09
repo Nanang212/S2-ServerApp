@@ -9,7 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -31,7 +30,7 @@ public class Employee {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @Column(length = 15)
+    @Column(nullable = true, length = 15)
     private String phone;
 
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
