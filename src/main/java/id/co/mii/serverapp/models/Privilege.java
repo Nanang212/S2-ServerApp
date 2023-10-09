@@ -20,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Data
 @Entity
 @AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "tb_privilege")
 public class Privilege {
 
