@@ -2,6 +2,7 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 
+import id.co.mii.serverapp.models.dto.request.RegistrationRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -30,6 +31,24 @@ public class UserService {
         getById(id);
         user.setId(id);
         return userRepository.save(user);
+    }
+
+    public User update(Integer id, RegistrationRequest registrationRequest) {
+        User updatedUser = getById(id);
+        if (registrationRequest.getUsername().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username cannot be empty");
+        }
+        if (registrationRequest.getPassword().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password cannot be empty");
+        }
+        if (registrationRequest.getPhone().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone number cannot be empty");
+        }
+        updatedUser.setUsername(registrationRequest.getUsername());
+        updatedUser.setPassword(registrationRequest.getPassword());
+        updatedUser.getEmployee().setPhone(registrationRequest.getPhone());
+        updatedUser.setIsEnabled(true);
+        return updatedUser;
     }
 
     // add role
