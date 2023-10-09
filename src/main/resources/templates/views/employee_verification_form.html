@@ -1,33 +1,122 @@
 <!DOCTYPE html>
-<html lang="en"
-      xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <meta charset="UTF-8" />
     <title>Users</title>
-</head>
-<body>
-<main>
-    <h1>Create user</h1>
-    <form th:action="@{/employee-verification}" method="post">
-        <div>
-            <label for="username">Username</label>
-            <input name="username" id="username" type="text">
-        </div>
-        <div>
-            <label for="password">Password</label>
-            <input name="password" id="password" type="password">
-        </div>
-        <div>
-            <label for="phone">Phone</label>
-            <input name="phone" id="phone" type="text">
-        </div>
-        <div>
-            <label for="token">Token</label>
-            <input name="token" id="token" type="text" th:value="${token}"/>
-        </div>
-        <button type="submit">Confirm and Update</button>
-    </form>
-</main>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
+      * {
+        font-family: Montserrat;
+        /* color: white; */
+      }
+      h1 {
+        font-weight: bolder;
+        font-size: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <h1>Create user</h1>
+      <form th:action="@{/employee-verification}" method="post">
+        <!-- username -->
+        <label for="username" class="mb-2 dark:text-white">Your Name</label>
+        <input
+          name="username"
+          type="username"
+          id="username"
+          aria-describedby="helper-text-explanation"
+          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="Tuh Bagus"
+        />
+        <!-- username end -->
 
-</body>
+        <!-- Email -->
+        <label for="email" class="mb-2 dark:text-white">Your Email</label>
+        <input
+          name="email"
+          type="email"
+          id="email"
+          aria-describedby="helper-text-explanation"
+          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="name@gmail.com"
+        />
+        <!-- Email end -->
+
+        <!-- Password -->
+        <label for="Password" class="mb-2 dark:text-white">Your Password</label>
+        <input
+          name="Password"
+          type="Password"
+          id="Password"
+          aria-describedby="helper-text-explanation"
+          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+        />
+        <!-- Password end -->
+
+        <!-- Phone -->
+        <label for="Phone" class="mb-2 dark:text-white"
+          >Your Phone Number</label
+        >
+        <input
+          name="phone"
+          type="text"
+          id="phone"
+          aria-describedby="helper-text-explanation"
+          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          placeholder="081545xxx "
+        />
+        <!-- Phone end -->
+
+        <!-- Token -->
+        <label for="token" class="mb-2 dark:text-white">Your Token </label>
+        <input
+          name="token"
+          type="text"
+          id="token"
+          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+          th:value="${token}"
+        />
+        <!-- Token end -->
+        <!-- 
+        <div>
+          <label for="username">Username</label>
+          <input name="username" id="username" type="text" />
+        </div>
+        <div>
+          <label for="password">Password</label>
+          <input name="password" id="password" type="password" />
+        </div>
+        <div>
+          <label for="phone">Phone</label>
+          <input name="phone" id="phone" type="text" />
+        </div>
+        <div>
+          <label for="token">Token</label>
+          <input name="token" id="token" type="text" th:value="${token}" />
+        </div> -->
+        <button
+          type="submit"
+          class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
+        >
+          <span
+            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
+          >
+            Confirm and Update
+          </span>
+        </button>
+        <!-- <button type="submit">Confirm and Update</button> -->
+      </form>
+    </main>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+  </body>
 </html>
