@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.request.EmailRequest;
 import id.co.mii.serverapp.models.dto.request.LoginRequest;
 import id.co.mii.serverapp.models.dto.request.RegistrationRequest;
 import id.co.mii.serverapp.models.dto.responses.LoginResponse;
@@ -26,62 +27,74 @@ import lombok.AllArgsConstructor;
 @Service
 @AllArgsConstructor
 public class AuthService {
-    private EmployeeRepository employeeRepository;
-    private ModelMapper modelMapper;
-    private RoleService roleService;
-    private PasswordEncoder passwordEncoder;
-    private AuthenticationManager authManager;
-    private UserRepository userRepository;
-    private AppUserDetailService appUserDetailService;
+        private EmployeeRepository employeeRepository;
+        private ModelMapper modelMapper;
+        private RoleService roleService;
+        private PasswordEncoder passwordEncoder;
+        private AuthenticationManager authManager;
+        private UserRepository userRepository;
+        private AppUserDetailService appUserDetailService;
+        private EmailService emailService;
 
-    public Employee registration(RegistrationRequest registrationRequest) {
-        Employee employee = modelMapper.map(registrationRequest, Employee.class);
-        User user = modelMapper.map(registrationRequest, User.class);
+        public Employee registration(RegistrationRequest registrationRequest) {
+                Employee employee = modelMapper.map(registrationRequest, Employee.class);
+                User user = modelMapper.map(registrationRequest, User.class);
+                if (user == null) {
+                        user = new User();
+                }
+                // set password
+                if (registrationRequest.getPassword() != null) {
+                        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+                }
 
-        // set password
-        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+                // set default role
+                List<Role> roles = Collections.singletonList(roleService.getById(2));
+                // List<Role> roles = new ArrayList<>();
+                // roles.add(getById(2));
+                user.setRoles(roles);
 
-        // set default role
-        List<Role> roles = Collections.singletonList(roleService.getById(2));
-        // List<Role> roles = new ArrayList<>();
-        // roles.add(getById(2));
-        user.setRoles(roles);
+                employee.setUser(user);
+                user.setEmployee(employee);
 
-        employee.setUser(user);
-        user.setEmployee(employee);
+                EmailRequest emailRequest = new EmailRequest();
+                emailRequest.setTo(registrationRequest.getEmail());
+                emailRequest.setSubject("Verification Email");
+                emailRequest.setText("verification-email.html");
 
-        return employeeRepository.save(employee);
-    }
+                emailService.sendHtmlMessage(emailRequest);
 
-    public LoginResponse login(LoginRequest loginRequest) {
-        // set login
-        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
-                loginRequest.getUsername(),
-                loginRequest.getPassword());
+                return employeeRepository.save(employee);
+        }
 
-        // set principle
-        Authentication auth = authManager.authenticate(authReq);
-        SecurityContextHolder.getContext().setAuthentication(auth);
+        public LoginResponse login(LoginRequest loginRequest) {
+                // set login
+                UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
+                                loginRequest.getUsername(),
+                                loginRequest.getPassword());
 
-        // set response
-        User user = userRepository
-                .findByUsernameOrEmployeeEmail(
-                        loginRequest.getUsername(),
-                        loginRequest.getUsername())
-                .get();
+                // set principle
+                Authentication auth = authManager.authenticate(authReq);
+                SecurityContextHolder.getContext().setAuthentication(auth);
 
-        UserDetails userDetails = appUserDetailService.loadUserByUsername(
-                loginRequest.getUsername());
+                // set response
+                User user = userRepository
+                                .findByUsernameOrEmployeeEmail(
+                                                loginRequest.getUsername(),
+                                                loginRequest.getUsername())
+                                .get();
 
-        List<String> authorities = userDetails
-                .getAuthorities()
-                .stream()
-                .map(authority -> authority.getAuthority())
-                .collect(Collectors.toList());
+                UserDetails userDetails = appUserDetailService.loadUserByUsername(
+                                loginRequest.getUsername());
 
-        return new LoginResponse(
-                user.getUsername(),
-                user.getEmployee().getEmail(),
-                authorities);
-    }
+                List<String> authorities = userDetails
+                                .getAuthorities()
+                                .stream()
+                                .map(authority -> authority.getAuthority())
+                                .collect(Collectors.toList());
+
+                return new LoginResponse(
+                                user.getUsername(),
+                                user.getEmployee().getEmail(),
+                                authorities);
+        }
 }
