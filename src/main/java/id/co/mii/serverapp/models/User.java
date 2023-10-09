@@ -1,6 +1,8 @@
 package id.co.mii.serverapp.models;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -18,6 +20,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -37,7 +40,13 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private Boolean isEnable = true;
+    private Boolean isEnable = false;
+
+    private String token = UUID.randomUUID().toString();
+
+    private LocalDateTime tokenCreatedAt = LocalDateTime.now();
+
+    private LocalDateTime tokenExpiredAt = LocalDateTime.now().plusHours(1);
 
     @OneToOne
     @MapsId

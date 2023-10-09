@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Page with Verify Button</title>
+</head>
+<body>
+   
+    <a th:href="@{'http://localhost:9000/auth/verify'(token=${token})}">
+        <button type="button">Go to Verify</button> 
+    </a>
+
+</body>
+</html>

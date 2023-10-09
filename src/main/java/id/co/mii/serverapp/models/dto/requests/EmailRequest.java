@@ -1,10 +1,12 @@
 package id.co.mii.serverapp.models.dto.requests;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
+@Builder
 public class EmailRequest {
     
     private String to;
@@ -14,4 +16,6 @@ public class EmailRequest {
     private String text;
 
     private String attachment;
+
+   private String token;
 }

@@ -2,9 +2,11 @@ package id.co.mii.serverapp.services;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,6 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
@@ -41,6 +44,10 @@ public class AuthService {
 
     private AppUserDetailService appUserDetailService;
 
+    private UserService userService;
+
+    private EmailService emailService;
+
     public Employee registration(RegistrationRequest registrationRequest){
         Employee employee = modelMapper.map(registrationRequest, Employee.class );
         User user = modelMapper.map(registrationRequest, User.class );
@@ -53,9 +60,11 @@ public class AuthService {
         employee.setUser(user);
         user.setEmployee(employee);
 
+       emailService.sendHtmlMessage(emailService.createVerifycationEmail(employee.getEmail(), user.getToken()));
+
         return employeeRepository.save(employee);
 
-    }
+    } 
 
     public LoginResponse login(LoginRequest loginRequest){
         //set login
@@ -77,5 +86,40 @@ public class AuthService {
 
         return new LoginResponse(user.getUsername(),user.getEmployee().getEmail(), authorities);
     }
+
+   public RegistrationRequest setNullField(RegistrationRequest registrationRequest){
+        if (registrationRequest.getUsername() == null || registrationRequest.getUsername().isEmpty()) {
+            registrationRequest.setUsername(UUID.randomUUID().toString());
+        }
+        if (registrationRequest.getPassword() == null || registrationRequest.getPassword().isEmpty()) {
+            registrationRequest.setPassword(UUID.randomUUID().toString());
+        }
+        if (registrationRequest.getName() == null || registrationRequest.getName().isEmpty()) {
+            registrationRequest.setName(UUID.randomUUID().toString());
+        }
+        if (registrationRequest.getEmail() == null || registrationRequest.getEmail().isEmpty()) {
+            registrationRequest.setEmail(UUID.randomUUID().toString());
+        }
+        if (registrationRequest.getPhone() == null || registrationRequest.getPhone().isEmpty()) {
+            registrationRequest.setPhone("081");
+        }
+
+        return registrationRequest;
+    }
+
+    public String isVerifyUser(String token){
+      User existsUser = userService.findByToken(token).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Token gak cocok"));
+
+      if (existsUser.getIsEnable()) {
+        
+        return "page-404";
+      } 
+      existsUser.setIsEnable(true);
+      userRepository.save(existsUser);
+      return "registration";
+    }
+
+
+
 
 }

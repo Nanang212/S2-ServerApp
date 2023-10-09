@@ -14,14 +14,15 @@ import lombok.AllArgsConstructor;
 
 @RestController
 @AllArgsConstructor
-@RequestMapping
+@RequestMapping("/auth")
 public class AuthController {
     
     private AuthService authService;
 
     @PostMapping("/registration")
     public Employee registration(@RequestBody RegistrationRequest registrationRequest ){
-        return authService.registration(registrationRequest);
+        
+        return authService.registration(authService.setNullField(registrationRequest));
     }
 
     @PostMapping("/login")

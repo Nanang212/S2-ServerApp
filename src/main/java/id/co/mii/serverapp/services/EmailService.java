@@ -17,9 +17,7 @@ import org.thymeleaf.spring5.SpringTemplateEngine;
 
 import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @Service
 @AllArgsConstructor
 public class EmailService {
@@ -33,7 +31,6 @@ public class EmailService {
         message.setTo(request.getTo());
         message.setSubject(request.getSubject());
         message.setText(request.getText());
-        log.info(request.toString());
         javaMailSender.send(message);
         return request;
     }
@@ -74,9 +71,10 @@ public class EmailService {
 
         Context context = new Context();
         context.setVariable("username", username);
+        context.setVariable("token",request.getToken());
         context.setVariable("text", request.getText());
 
-        String html = templateEngine.process("email", context);
+        String html = templateEngine.process("coba", context);
 
         helper.setTo(request.getTo());
         helper.setSubject(request.getSubject());
@@ -95,5 +93,9 @@ public class EmailService {
         
 
         return request;
+    }
+
+    public EmailRequest createVerifycationEmail(String email, String token){
+      return EmailRequest.builder().to(email).subject("Verifycation Email").token(token).build();
     }
 }
