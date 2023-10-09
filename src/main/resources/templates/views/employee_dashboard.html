@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>HR Dashboard</title>
+    <!-- Mungkin alangkah lebih baiknya jika menggunakan React + Vite dan babel transformer 😴😴😴 -->
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.10.3/babel.min.js" crossorigin></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/react-modal/3.14.3/react-modal.min.js"
+      integrity="sha512-MY2jfK3DBnVzdS2V8MXo5lRtr0mNRroUI9hoLVv2/yL3vrJTam3VzASuKQ96fLEpyYIT4a8o7YgtUs5lPjiLVQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
+    <style>
+      /* th {
+        color: ;
+      } */
+    </style>
+  </head>
+  <body class="w-screen min-h-screen dark:bg-gray-800">
+    <div id="root"></div>
+
+    <script type="text/babel" data-presets="react,stage-3">
+      const DashboardPage = () => {
+        const { employees, isLoading, addEmployee, deleteEmployee } = useEmployees()
+        const [newEmployee, setNewEmployee] = React.useState({ name: '', email: '' })
+        const [openModal, setOpenModal] = React.useState(false)
+
+        const handleAddNewEmployee = async () => {
+          try {
+            await addEmployee(newEmployee)
+            handleCloseModal()
+          } catch (error) {
+            if (error.response.data.message) {
+              alert(error.response.data.message)
+            } else {
+              alert(error)
+            }
+          }
+        }
+
+        const handleDeleteEmployee = (employeeId) => async () => {
+          try {
+            await deleteEmployee(employeeId)
+          } catch (error) {
+            console.log(error)
+          }
+        }
+
+        const handleSetOpenModal = () => {
+          setOpenModal(true)
+        }
+
+        const handleCloseModal = () => {
+          setOpenModal(false)
+          setNewEmployee({ name: '', email: '' })
+        }
+
+        const handleInputName = (ev) => setNewEmployee((prev) => ({ ...prev, name: ev.target.value }))
+
+        const handleInputEmail = (ev) => setNewEmployee((prev) => ({ ...prev, email: ev.target.value }))
+
+        return (
+          <main className='flex flex-col max-w-screen-lg p-4 mx-auto'>
+            <section className='flex flex-col gap-4'>
+              <div className='flex justify-between'>
+                <h1 className='scroll-m-20 text-2xl font-semibold tracking-tight dark:text-white'>Overview</h1>
+                <button
+                  type='button'
+                  className='py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'
+                  onClick={handleSetOpenModal}
+                >
+                  <i class='fa-solid fa-plus'></i> &nbsp; Add an Employee
+                </button>
+                <ReactModal
+                  isOpen={openModal}
+                  ariaHideApp={false}
+                  className='backdrop-blur-sm w-screen min-h-screen px-4 py-8'
+                >
+                  <div className='flex flex-col max-w-screen-sm mx-auto py-8 px-4 rounded-lg shadow bg-white'>
+                    <div>
+                      <div className='mb-6'>
+                        <label for='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
+                          Name
+                        </label>
+                        <input
+                          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                          onChange={handleInputName}
+                          value={newEmployee.name}
+                          required
+                        />
+                      </div>
+                      <div className='mb-6'>
+                        <label for='password' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
+                          Email
+                        </label>
+                        <input
+                          type='email'
+                          className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                          onChange={handleInputEmail}
+                          placeholder='tubagus.sflh@gmail.com'
+                          value={newEmployee.email}
+                          required
+                        />
+                      </div>
+                      <div className='flex justify-end'>
+                        <button
+                          type='button'
+                          className='py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'
+                          disabled={isLoading}
+                          onClick={handleCloseModal}
+                        >
+                          Cancel
+                        </button>
+                        <button
+                          type='button'
+                          className='text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
+                          disabled={isLoading}
+                          onClick={handleAddNewEmployee}
+                        >
+                          {isLoading ? 'Loading' : 'Save'}
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </ReactModal>
+              </div>
+
+              <div className='relative overflow-x-auto'>
+                <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400'>
+                  <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
+                    <tr>
+                      <th scope='col' className='px-6 py-3'>
+                        ID
+                      </th>
+                      <th scope='col' className='px-6 py-3'>
+                        Name
+                      </th>
+                      <th scope='col' className='px-6 py-3'>
+                        Email
+                      </th>
+                      <th scope='col' className='px-6 py-3'>
+                        Phone
+                      </th>
+                      <th scope='col' className='px-6 py-3'>
+                        Username
+                      </th>
+                      <th scope='col' className='px-6 py-3'>
+                        Active
+                      </th>
+                      <th scope='col' className='px-6 py-3'>
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {employees.map((employee) => (
+                      <tr key={employee.id} className='bg-white border-b dark:bg-gray-800 dark:border-gray-700'>
+                        <td className='px-6 py-4'>{employee.id}</td>
+                        <td className='px-6 py-4'>{employee.name}</td>
+                        <td className='px-6 py-4'>{employee.email}</td>
+                        <td className='px-6 py-4'>{employee.phone}</td>
+                        <td className='px-6 py-4'>{employee.user.username}</td>
+                        <td className='px-6 py-4'>{employee.user.isEnabled ? 'Yes' : 'No'}</td>
+                        <td className='px-6 py-4'>
+                          <button
+                            type='button'
+                            className='text-white bg-red-500 hover:bg-red-700 focus:outline-none focus:ring-4 focus:ring-red-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900'
+                            onClick={handleDeleteEmployee(employee.id)}
+                          >
+                            Delete
+                          </button>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </section>
+          </main>
+        )
+      }
+
+      const useEmployees = () => {
+        const [employees, setEmployees] = React.useState([])
+        const [isLoading, setIsLoading] = React.useState(false)
+
+        React.useEffect(() => {
+          ;(async () => {
+            try {
+              const data = await getEmployees()
+              setEmployees(data)
+            } catch (error) {
+              console.error(error)
+            }
+          })()
+        }, [])
+
+        const getEmployees = async () => {
+          const res = await axios.get('/api/v1/employees')
+          return res.data
+        }
+
+        const addEmployee = async (request) => {
+          setIsLoading(true)
+
+          const res = await axios.post(`/api/v1/employee-registration`, request)
+          setEmployees((prev) => [res.data, ...prev])
+
+          setIsLoading(false)
+
+          return res.data
+        }
+
+        const deleteEmployee = async (employeeId) => {
+          setIsLoading(true)
+
+          const res = await axios.delete(`/api/v1/employee/${employeeId}`)
+          setEmployees((prev) => prev.filter((employee) => employee.id !== employeeId))
+
+          setIsLoading(false)
+
+          return res.data
+        }
+
+        return {
+          employees,
+          isLoading,
+          addEmployee,
+          deleteEmployee,
+        }
+      }
+
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(<DashboardPage />)
+    </script>
+  </body>
+</html>
