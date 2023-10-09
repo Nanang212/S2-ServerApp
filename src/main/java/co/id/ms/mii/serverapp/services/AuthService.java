@@ -120,12 +120,14 @@ public class AuthService {
         return employee;
     }
 
-    public void register(String username,String password,String phone,String token){
+    public void saveregister(String username,String password,String phone,String token){
         try {
-            Employee findemployee = employeeRepository.findByUserToken(token);
+            Employee findemployee = employeeRepository.findByUserToken(token).orElseThrow(
+                    () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+            );
             findemployee.setPhone(phone);
             findemployee.getUser().setUsername(username);
-            findemployee.getUser().setPassword(password);
+            findemployee.getUser().setPassword(passwordEncoder.encode(password));
 
             List<Role> roles = new ArrayList<>();
             roles.add(roleService.getById(2));
