@@ -40,8 +40,10 @@ public class SecurityEngine extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger-ui/**")
                 .permitAll()
                 .antMatchers(HttpMethod.POST,"/login").permitAll()
-                .anyRequest().authenticated()
-//                .permitAll()
+                .antMatchers(HttpMethod.POST,"/signup").permitAll()
+                .antMatchers(HttpMethod.POST,"/verify").permitAll()
+                .anyRequest()
+                .permitAll()
                 .and()
 //                .formLogin()
                 .httpBasic();

@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Sign Up 4</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+            href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap"
+            rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.1/axios.min.js"></script>
+
+    <style type="text/css">
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body,
+        .wrapper {
+            height: 100%;
+        }
+
+        @keyframes rotate {
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        body {
+            display: grid;
+            place-items: center;
+            margin: 0;
+            background: #001d35;
+            font-family: "Euclid Circular A", "Poppins";
+            color: #063d6c;
+            animation: rotate 1s infinite alternate linear;
+        }
+
+        button {
+            background: transparent;
+            border: 0;
+            cursor: pointer;
+        }
+
+        .control {
+            border: 0;
+            outline: none;
+            width: 100%;
+            height: 56px;
+            padding: 0 56px 0 16px;
+            border-radius: 6px;
+            background: #ced2d9;
+            color: #5a4f79;
+            font-family: inherit;
+            font-size: 18px;
+            transition: 0.4s;
+        }
+
+        .control:focus {
+            border-color: rgb(0 0 0 / 30%);
+        }
+
+        .card {
+            width: 400px;
+            padding: 60px 30px 38px;
+            border-radius: 1.25rem;
+            background: #ffffff;
+            text-align: center;
+        }
+
+        .card > img {
+            width: 240px;
+            margin-bottom: 20px;
+        }
+
+        .card > h2 {
+            font-size: 36px;
+            font-weight: 600;
+            margin: 0 0 30px;
+        }
+
+        .form {
+            width: 100%;
+            margin: 0;
+            display: grid;
+            gap: 16px;
+        }
+
+        .form input.control::placeholder {
+            color: #aaa7bc;
+        }
+
+        .form > button.control {
+            cursor: pointer;
+            width: 100%;
+            height: 56px;
+            padding: 0 16px;
+            background: #062d4d;
+            color: #f9f9f9;
+            border: 0;
+            border-radius: 6px;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            text-align: center;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.375s;
+        }
+
+        .password {
+            position: relative;
+        }
+
+        .toggle {
+            position: absolute;
+            top: 50%;
+            right: 16px;
+            translate: 0 -50%;
+            width: 30px;
+            height: 30px;
+            background-image: url("assets/show.svg");
+            background-size: 85%;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .toggle.showing {
+            background-image: url("assets/hide.svg");
+        }
+    </style>
+
+</head>
+<body>
+<div class="card">
+    <img src="https://ebcfugh.stripocdn.email/content/guids/CABINET_9aa36f49cdb5185ad35ee0f7a5c7d9380ade3ae69ada3493ecaa145d1284bee9/images/25469811_developer_male_ICK.png" />
+    <h2>Sign Up</h2>
+    <form class="form">
+        <input
+                spellcheck="false"
+                class="control"
+                type="text"
+                placeholder="Username"
+                name="username"
+                id="username"
+        />
+        <input
+                spellcheck="false"
+                class="control"
+                type="text"
+                placeholder="Phone"
+                name="phone"
+                id="phone"
+        />
+        <div class="password">
+            <input
+                    spellcheck="false"
+                    class="control"
+                    id="password"
+                    type="password"
+                    placeholder="Password"
+                    autocomplete="off"
+                    name="password"
+            />
+            <button
+                    class="toggle"
+                    type="button"
+                    onclick="togglePassword(this)"
+            ></button>
+        </div>
+        <button class="control" type="submit" onclick="submitForm(event)">Sign Up</button> <!-- Change type to "submit" -->
+    </form>
+</div>
+
+</body>
+<script type="text/javascript">
+    const setCaret = (el) => {
+        if (!el) return;
+
+        try {
+            const range = document.createRange();
+            const sel = window.getSelection();
+
+            range.setStart(el.childNodes[0], el.innerText.length);
+            range.collapse(true);
+
+            sel.removeAllRanges();
+            sel.addRange(range);
+        } catch (err) {
+            console.log("Error Setting Caret: ", err);
+        }
+    };
+
+    const togglePassword = (button) => {
+        button.classList.toggle("showing");
+        const input = document.getElementById("password");
+        input.type = input.type === "password" ? "text" : "password";
+        input.focus();
+        setCaret(input);
+    };
+
+    async function submitForm(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        try {
+            const username = document.getElementById("username").value;
+            const phone = document.getElementById("phone").value;
+            const password = document.getElementById("password").value;
+            const urlParams = new URLSearchParams(window.location.search);
+            const myParam = urlParams.get('token');
+
+            const formData = {
+                username: username,
+                phone: phone,
+                password: password,
+                token: myParam
+            };
+
+            const response = await axios.put("/register", formData, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            console.log("Response from Spring Controller:", response.data);
+            // Optionally, redirect to another page or perform other actions based on response.data
+        } catch (error) {
+            console.error("An error occurred:", error);
+        }
+    }
+
+
+</script>
+</html>

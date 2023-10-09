@@ -1,6 +1,8 @@
 package co.id.ms.mii.serverapp.services;
 
 import co.id.ms.mii.serverapp.dto.request.EmailRequest;
+import co.id.ms.mii.serverapp.models.Employee;
+import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.utils.SpringTemplateEmailEngine;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -72,5 +74,26 @@ public class EmailService {
         }
 
         return emailRequest;
+    }
+
+    public Employee sendHtmlsignup(Employee employee){
+        try {
+            MimeMessage message = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(message,MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+
+            helper.setTo(employee.getEmail());
+            helper.setSubject("Verification Signup Email!!!");
+
+            Context context = new Context();
+            context.setVariable("signupEmail", employee);
+            String html = templateEmailEngine.springTemplateEngine().process("verificationEmailTemplate",context);
+            helper.setText(html, true);
+            javaMailSender.send(message);
+        } catch (Exception e){
+            System.out.println("Error = " + e.getMessage());
+        }
+
+        return employee;
     }
 }
