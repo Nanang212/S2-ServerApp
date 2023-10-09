@@ -23,6 +23,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -49,9 +50,11 @@ public class AuthService {
         user.setIsEnabled(true);
         // set default role
         List<Role> roles = Collections.singletonList(roleService.getById(1));
-        // List<Role> roles = new ArrayList<>();
-        // roles.add(roleService.getById(2));
         user.setRoles(roles);
+        // set isEnable to true
+        user.setIsEnabled(true);
+        // set token to null untuk menghilangkan token sek gak isok
+        user.setToken(null);
 
         employee.setUser(user);
         user.setEmployee(employee);
@@ -115,5 +118,23 @@ public class AuthService {
         emailService.sendHtmlsignup(employee);
 
         return employee;
+    }
+
+    public void register(String username,String password,String phone,String token){
+        try {
+            Employee findemployee = employeeRepository.findByUserToken(token);
+            findemployee.setPhone(phone);
+            findemployee.getUser().setUsername(username);
+            findemployee.getUser().setPassword(password);
+
+            List<Role> roles = new ArrayList<>();
+            roles.add(roleService.getById(2));
+            findemployee.getUser().setRoles(roles);
+
+            employeeRepository.save(findemployee);
+
+        }catch (Exception e){
+            System.out.println(e);
+        }
     }
 }
