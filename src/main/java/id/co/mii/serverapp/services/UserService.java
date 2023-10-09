@@ -4,6 +4,7 @@ import java.util.List;
 
 import id.co.mii.serverapp.models.dto.request.RegistrationRequest;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 public class UserService {
     private UserRepository userRepository;
     private RoleService roleService;
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         return userRepository.findAll();
@@ -45,9 +47,10 @@ public class UserService {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone number cannot be empty");
         }
         updatedUser.setUsername(registrationRequest.getUsername());
-        updatedUser.setPassword(registrationRequest.getPassword());
+        updatedUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         updatedUser.getEmployee().setPhone(registrationRequest.getPhone());
         updatedUser.setIsEnabled(true);
+        updatedUser.setToken(null);
         return updatedUser;
     }
 
@@ -62,5 +65,11 @@ public class UserService {
         user.setRoles(roles);
 
         return userRepository.save(user);
+    }
+
+    public User findByToken(String token) {
+        return userRepository
+                .findByToken(token)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Token is not valid"));
     }
 }
