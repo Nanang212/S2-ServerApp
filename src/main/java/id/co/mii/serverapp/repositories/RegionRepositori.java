@@ -1,11 +1,8 @@
 package id.co.mii.serverapp.repositories;
 
-
 import org.springframework.data.jpa.repository.JpaRepository;
+import id.co.mii.serverapp.models.Region;
 
-import id.co.mii.serverapp.models.Country;
-
-public interface CountryRepository extends JpaRepository<Country, Integer>{
+public interface RegionRepositori extends JpaRepository<Region, Integer> {
     boolean existsByName(String name);
-
 }

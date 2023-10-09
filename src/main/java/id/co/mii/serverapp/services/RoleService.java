@@ -21,29 +21,30 @@ public class RoleService {
 
     public Role getById(Integer id) {
         return roleRepository.findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role tidak ada!!!"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Role"));
     }
 
-    public Role insert(Role role) {
-        if (roleRepository.existsByName(role.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "nama role sudah ada");
+    public Role create(Role role){
+        if(roleRepository.existsByName(role.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Role already exists");
         }
-
         return roleRepository.save(role);
     }
 
-    public Role update(Integer id, Role role) {
+    public Role update(Integer id, Role role){
+         if(roleRepository.existsByName(role.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Role already exists");
+        }
         getById(id);
         role.setId(id);
-        if (roleRepository.existsByName(role.getName())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "nama role sudah ada");
-        }
         return roleRepository.save(role);
     }
 
-    public Role delete(Integer id) {
+    public Role delete(Integer id){
         Role role = getById(id);
+        role.getUsers().forEach(user -> user.getRoles().remove(role));
         roleRepository.delete(role);
         return role;
     }
+    
 }

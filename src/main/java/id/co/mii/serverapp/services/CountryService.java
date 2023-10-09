@@ -1,6 +1,5 @@
 package id.co.mii.serverapp.services;
 
-import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -16,14 +15,15 @@ import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.models.dto.request.CountryRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
-import id.co.mii.serverapp.repositories.RegionRepository;
+import id.co.mii.serverapp.repositories.RegionRepositori;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class CountryService {
+
+    private RegionRepositori regionRepository;
     private CountryRepository countryRepository;
-    private RegionRepository regionRepository;
     private RegionService regionService;
     private ModelMapper modelMapper;
 
@@ -31,85 +31,80 @@ public class CountryService {
         return countryRepository.findAll();
     }
 
-    public Country GetById(Integer id) {
+    public Country getByIdCountry(Integer id) {
         return countryRepository
                 .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tidak ditemukan id no : " + id));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Tidak ditemukan id"));
     }
 
     // without dto
     public Country insert(Country country) {
-        BigInteger count = countryRepository.countByName(country.getName());
-        if (count.intValue() > 0) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada !!! ");
+        if (countryRepository.existsByName(country.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah digunakan");
         }
 
         List<Region> regions = regionRepository.findAll();
-
         for (Region region : regions) {
             if (region.getName().equalsIgnoreCase(country.getName())) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada di wilayah !!!");
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama benua sudah digunakan");
             }
         }
         return countryRepository.save(country);
     }
 
-    // with dto
-    public Country insertDTO(CountryRequest countryRequest) {
+    // create country with DTO
+    public Country createDTO(CountryRequest countryRequest) {
         Country country = new Country();
         country.setCode(countryRequest.getCode());
         country.setName(countryRequest.getName());
-
-        Region region = regionService.getById(countryRequest.getRegionId());
+        Region region = regionService.findById(countryRequest.getRegionId());
         country.setRegion(region);
-
         return countryRepository.save(country);
     }
 
-    // with dto by modelMapper
-    public Country insertDTOByModelMapper(CountryRequest countryRequest) {
+    // with dto by modelmapper
+    public Country createDtoByModelMapper(CountryRequest countryRequest) {
         Country country = modelMapper.map(countryRequest, Country.class);
-        country.setRegion(regionService.getById(countryRequest.getRegionId()));
+        country.setRegion(regionService.findById(countryRequest.getRegionId()));
         return countryRepository.save(country);
     }
 
     public Country update(Integer id, Country country) {
-        GetById(id);
-        country.setId(id);
 
-        BigInteger count = countryRepository.countByName(country.getName());
-        if (count.intValue() > 0) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada !!! ");
+        getByIdCountry(id);
+        country.setId(id);
+        if (countryRepository.existsByName(country.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah digunakan");
         }
 
         List<Region> regions = regionRepository.findAll();
 
         for (Region region : regions) {
             if (region.getName().equalsIgnoreCase(country.getName())) {
-                throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama negara sudah ada di wilayah !!!");
+                throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama benua sudah digunakan");
             }
+
         }
 
         return countryRepository.save(country);
+
     }
 
     public Country delete(Integer id) {
-        Country country = GetById(id);
+        Country country = getByIdCountry(id);
         countryRepository.delete(country);
         return country;
     }
 
-    // custom manual
-    public Map<String, Object> getByIdMap(Integer id) {
+    // getById custom manual
+    public Map<String, Object> getByIdCustom(Integer id) {
         Map<String, Object> result = new HashMap<>();
         Country country = countryRepository.findById(id).get();
-
         result.put("countryId", country.getId());
         result.put("countryCode", country.getCode());
         result.put("countryName", country.getName());
         result.put("regionId", country.getRegion().getId());
         result.put("regionName", country.getRegion().getName());
-
         return result;
     }
 
@@ -130,18 +125,16 @@ public class CountryService {
     }
 
     public List<Map<String, Object>> getAllCustomStream() {
-        return countryRepository
-                .findAll()
-                .stream()
-                .map(country -> {
-                    Map<String, Object> result = new HashMap<>();
-                    result.put("countryId", country.getId());
-                    result.put("countryCode", country.getCode());
-                    result.put("countryName", country.getName());
-                    result.put("regionId", country.getRegion().getId());
-                    result.put("regionName", country.getRegion().getName());
-                    return result;
-                })
-                .collect(Collectors.toList());
+        return countryRepository.findAll().stream().map(country -> {
+            Map<String, Object> results = new HashMap<>();
+            results.put("countryId", country.getId());
+            results.put("countryCode", country.getCode());
+            results.put("countryName", country.getName());
+            results.put("regionId", country.getRegion().getId());
+            results.put("regionName", country.getRegion().getName());
+            return results;
+        })
+        .collect(Collectors.toList());
     }
+
 }

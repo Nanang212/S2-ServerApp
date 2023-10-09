@@ -14,12 +14,11 @@ import lombok.AllArgsConstructor;
 @RequestMapping("/email")
 public class EmailController {
     private EmailService emailService;
-
+    
     @PostMapping("/simple")
     public EmailRequest sendSimpleMessage(@RequestBody EmailRequest emailRequest){
         return emailService.sendSimpleMessage(emailRequest);
     }
-
     @PostMapping("/attach")
     public EmailRequest sendMessageWithAttachment(@RequestBody EmailRequest emailRequest){
         return emailService.sendMessageWithAttachment(emailRequest);
@@ -29,4 +28,6 @@ public class EmailController {
     public EmailRequest sendHtmlMessage(@RequestBody EmailRequest emailRequest){
         return emailService.sendHtmlMessage(emailRequest);
     }
+
+
 }
