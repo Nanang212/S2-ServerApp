@@ -21,8 +21,7 @@
       referrerpolicy="no-referrer"
     ></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
-    <style>
-    </style>
+    <style></style>
   </head>
   <body class="w-screen min-h-screen dark:bg-gray-800">
     <div id="root"></div>
@@ -85,7 +84,7 @@
                   className='backdrop-blur-sm w-screen min-h-screen px-4 py-8 dark:bg-gray-800'
                 >
                   <div className='flex flex-col max-w-screen-sm mx-auto py-8 px-4 rounded-lg shadow bg-white dark:bg-gray-500'>
-                    <div>
+                    <div className='relative'>
                       <div className='mb-6'>
                         <label for='email' className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'>
                           Name
@@ -128,6 +127,9 @@
                           {isLoading ? 'Loading' : 'Save'}
                         </button>
                       </div>
+                      {isLoading && (
+                        <i class='fa-solid fa-spinner absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 fa-2xl fa-spin'></i>
+                      )}
                     </div>
                   </div>
                 </ReactModal>
@@ -211,10 +213,14 @@
         const addEmployee = async (request) => {
           setIsLoading(true)
 
-          const res = await axios.post(`/api/v1/employee-registration`, request)
-          setEmployees((prev) => [res.data, ...prev])
-
-          setIsLoading(false)
+          try {
+            const res = await axios.post(`/api/v1/employee-registration`, request)
+            setEmployees((prev) => [res.data, ...prev])
+          } catch (error) {
+            throw error
+          } finally {
+            setIsLoading(false)
+          }
 
           return res.data
         }
@@ -222,10 +228,14 @@
         const deleteEmployee = async (employeeId) => {
           setIsLoading(true)
 
-          const res = await axios.delete(`/api/v1/employee/${employeeId}`)
-          setEmployees((prev) => prev.filter((employee) => employee.id !== employeeId))
-
-          setIsLoading(false)
+          try {
+            const res = await axios.delete(`/api/v1/employee/${employeeId}`)
+            setEmployees((prev) => prev.filter((employee) => employee.id !== employeeId))
+          } catch (error) {
+            throw error
+          } finally {
+            setIsLoading(false)
+          }
 
           return res.data
         }
