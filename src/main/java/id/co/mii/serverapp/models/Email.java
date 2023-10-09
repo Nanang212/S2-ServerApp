@@ -1,9 +1,6 @@
 package id.co.mii.serverapp.models;
-
 import java.util.Map;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
