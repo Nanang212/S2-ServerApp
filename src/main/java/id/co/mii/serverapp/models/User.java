@@ -38,7 +38,8 @@ public class User {
     @Column(nullable = false)
     private String password;
 
-    private Boolean isEnabled = true;
+    private Boolean isEnabled = false;
+    private String token;
 
     @OneToOne
     @MapsId
