@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Register Screen</title>
   </head>
   <body>
@@ -14,7 +15,11 @@
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
       >
         <a href="" class="flex items-center">
-          <img src="assets/img/logo7.png" class="h-11 mr-3" alt="Kelompok 7" />
+          <img
+            th:src="@{/images/logo7.png}"
+            class="h-11 mr-3"
+            alt="Kelompok 7"
+          />
           <span
             class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black"
             >KELOMPOK 7</span
@@ -56,15 +61,19 @@
               type="name"
               name="name"
               placeholder="Name"
+              onblur="validateName()"
             />
             <input
               class="p-2 rounded-xl border w-full"
               type="email"
               name="email"
               placeholder="Email"
+              onblur="validateEmail()"
             />
             <button
+              type="button"
               class="bg-[#2cb061] rounded-xl text-black py-2 hover:scale-105 duration-300"
+              onclick="submitRegister()"
             >
               Register
             </button>
@@ -75,7 +84,7 @@
           >
             <p>Already have an account?</p>
             <a
-              href="/src/main/resources/authscreen/login.html"
+              href="/src/main/resources/templates/login.html"
               class="py-2 px-5 bg-[#2cb061] text-black border rounded-xl hover:scale-110 duration-300"
             >
               Sign in
@@ -85,10 +94,80 @@
 
         <!-- image -->
         <div class="md:block hidden w-1/2">
-          <img class="rounded-2xl mx-auto" src="assets/img/tujuh.png" />
+          <img class="rounded-2xl mx-auto" th:src="@{/images/tujuh.png}" />
         </div>
       </div>
     </section>
+
+    <script>
+      function showToast(type, text) {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          icon: type,
+          title: text,
+        });
+      }
+
+      function validateName() {
+        const nameInput = document.querySelector('input[name="name"]');
+        const name = nameInput.value;
+
+        if (name.length === 0) {
+          showToast("error", "Name is required!");
+          nameInput.focus();
+        } else if (name.length > 20) {
+          showToast("error", "Name should not exceed 20 characters!");
+          nameInput.focus();
+        }
+      }
+
+      function validateEmail() {
+        const emailInput = document.querySelector('input[name="email"]');
+        const email = emailInput.value;
+
+        if (email.length === 0) {
+          showToast("error", "Email is required!");
+          emailInput.focus();
+        }
+      }
+
+      function submitRegister() {
+        const nameInput = document.querySelector('input[name="name"]');
+        const emailInput = document.querySelector('input[name="email"]');
+
+        if (nameInput.value.trim() === "") {
+          showToast("error", "Name is required!");
+          nameInput.focus();
+          return;
+        }
+
+        if (emailInput.value.trim() === "") {
+          showToast("error", "Email is required!");
+          emailInput.focus();
+          return;
+        }
+
+        validateName();
+        validateEmail();
+
+        // Check if all validations are successful
+        if (
+          nameInput.classList.contains("is-invalid") ||
+          emailInput.classList.contains("is-invalid")
+        ) {
+          return;
+        }
+
+        // Simulate registration success
+        showToast(
+          "success",
+          "Registration successful. Please check your email."
+        );
+      }
+    </script>
 
     <script>
       // Ambil elemen-elemen yang diperlukan

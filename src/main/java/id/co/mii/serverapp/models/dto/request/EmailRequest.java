@@ -16,4 +16,5 @@ public class EmailRequest {
     private String text;
     private String name;
     private String attachment;
+    private String uuid;
 }

@@ -20,7 +20,8 @@ public class RegistrationController {
     EmployeeService employeeService;
 
     @GetMapping("/register")
-    public String createView(RegistrationRequest registrationRequest, @RequestParam(name = "uuid", required = false) String uuid, Model model) {
+    public String createView(RegistrationRequest registrationRequest,
+            @RequestParam(name = "uuid", required = false) String uuid, Model model) {
         Employee employee = employeeService.findByUuid(uuid);
         if (employee.getUser().getIsEnabled()) {
             return "not-found";
@@ -36,8 +37,8 @@ public class RegistrationController {
     }
 
     @GetMapping("/login")
-    public String viewLogin(Model model){
+    public String viewLogin(Model model) {
         return "login";
     }
-    
+
 }

@@ -22,7 +22,11 @@
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
       >
         <a href="" class="flex items-center">
-          <img src="assets/img/logo7.png" class="h-11 mr-3" alt="Kelompok 7" />
+          <img
+            th:src="@{/images/logo7.png}"
+            class="h-11 mr-3"
+            alt="Kelompok 7"
+          />
           <span
             class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black"
             >KELOMPOK 7</span
@@ -101,7 +105,7 @@
           >
             <p>Don't have an account?</p>
             <a
-              href="/src/main/resources/authscreen/register.html"
+              href="/src/main/resources/templates/register.html"
               class="py-2 px-5 bg-[#2cb061] text-black border rounded-xl hover:scale-110 duration-300"
             >
               Register
@@ -111,7 +115,7 @@
 
         <!-- image -->
         <div class="md:block hidden w-1/2">
-          <img class="rounded-2xl mx-auto" src="assets/img/tujuh.png" />
+          <img class="rounded-2xl mx-auto" th:src="@{/images/tujuh.png}" />
         </div>
       </div>
     </section>
