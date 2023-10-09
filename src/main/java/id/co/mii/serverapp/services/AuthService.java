@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.services;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -19,6 +20,7 @@ import org.springframework.web.server.ResponseStatusException;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import id.co.mii.serverapp.models.dto.requests.LoginRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.models.dto.responses.LoginResponse;
@@ -109,6 +111,14 @@ public class AuthService {
 
     public String isVerifyUser(String token){
       User existsUser = userService.findByToken(token).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Token gak cocok"));
+        // if token expired then send email again and return page token is expired 
+        if (isTokenExpired(existsUser.getTokenExpiredAt())) {
+            User regenerateToken = regenerateVerificationToken(existsUser);
+            emailService.sendHtmlMessage(emailService.createVerifycationEmail(existsUser.getEmployee().getEmail(), regenerateToken.getToken()));
+            userRepository.save(regenerateToken);
+            return "token-expired";
+        }
+
 
       if (existsUser.getIsEnable()) {
         
@@ -119,6 +129,17 @@ public class AuthService {
       return "registration";
     }
 
+    public Boolean isTokenExpired(LocalDateTime tokenExpiredAt){
+        return tokenExpiredAt.isBefore(LocalDateTime.now());
+    }
+
+    public User regenerateVerificationToken(User user){
+        String newToken = UUID.randomUUID().toString();
+        user.setToken(newToken);
+        user.setTokenCreatedAt(LocalDateTime.now());
+        user.setTokenExpiredAt(user.getTokenCreatedAt().plusHours(1));
+        return user;
+    }
 
 
 

@@ -7,11 +7,28 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
 </head>
 <body>
-  <h1 class="text-3xl font-bold underline">
-  REGISTRATION
-  </h1>
-  <div class="p-4 mb-4 text-sm text-blue-800 rounded-lg bg-blue-50 dark:bg-gray-800 dark:text-blue-400" role="alert">
-    <span class="font-medium">Info alert!</span> Change a few things up and try submitting again.
+  <div class="container mx-auto py-8">
+    <h1 class="text-2xl font-bold mb-6 text-center">Registration User</h1>
+    <form  class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md" th:action="@{/register-user}" th:object="${registerRequest}" >
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
+        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+          type="text" id="name" name="name" placeholder="John Doe"th:field="*{name}" >
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
+        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+          type="password" id="password" name="password" placeholder="********" th:field="*{password}">
+      </div>
+      <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm-password">Confirm Password</label>
+        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+          type="password" id="confirm-password" name="confirm-password" placeholder="********" th:field="*{password}">
+      </div>
+      <button
+        class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
+        type="submit">Register</button>
+    </form>
   </div>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
 </body>
