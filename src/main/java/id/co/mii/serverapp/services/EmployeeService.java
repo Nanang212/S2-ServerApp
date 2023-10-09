@@ -1,27 +1,39 @@
 package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
+import id.co.mii.serverapp.models.dto.requests.NewEmployeeRequest;
+import id.co.mii.serverapp.models.dto.requests.VerifyRequest;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
+import id.co.mii.serverapp.repositories.RoleRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 @AllArgsConstructor
 public class EmployeeService {
     private final EmployeeRepository employeeRepository;
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
     private final Validator validator;
+    private final EmailService emailService;
+    private final PasswordEncoder passwordEncoder;
 
     public Employee create(EmployeeRequest request) {
         Set<ConstraintViolation<EmployeeRequest>> constraintViolations = validator.validate(request);
@@ -46,6 +58,12 @@ public class EmployeeService {
     public Employee getById(Integer employeeId) {
         return employeeRepository
             .findById(employeeId)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
+    }
+
+    public Employee getByToken(String token) {
+        return employeeRepository
+            .findByUserToken(token)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
     }
 
@@ -85,5 +103,60 @@ public class EmployeeService {
         employeeRepository.delete(employee);
 
         return employee;
+    }
+
+    @Transactional
+    public Employee register(NewEmployeeRequest request) {
+        Set<ConstraintViolation<NewEmployeeRequest>> constraintViolations = validator.validate(request);
+        if (!constraintViolations.isEmpty()) {
+            throw new ConstraintViolationException(constraintViolations);
+        }
+
+        Employee employee = new Employee();
+        employee.setName(request.getName());
+        employee.setEmail(request.getEmail());
+
+        Role role = roleRepository
+            .findByNameIgnoreCase("USER")
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found"));
+
+        User user = new User();
+        user.setEmployee(employee);
+        user.setToken(UUID.randomUUID().toString());
+        user.setRoles(Collections.singleton(role));
+        employee.setUser(user);
+
+        employee = employeeRepository.save(employee);
+
+        emailService.sendMessageWithHtml(
+            new HashMap<String, Object>() {{
+                put("token", user.getToken());
+                put("name", request.getName());
+            }},
+            "emails/employee_verification",
+            request.getEmail(),
+            "Verify and Update Your Data",
+            null
+        );
+
+        return employee;
+    }
+
+    @Transactional
+    public Employee verify(VerifyRequest request) {
+        Set<ConstraintViolation<VerifyRequest>> constraintViolations = validator.validate(request);
+        if (!constraintViolations.isEmpty()) {
+            throw new ConstraintViolationException(constraintViolations);
+        }
+
+        Employee employee = getByToken(request.getToken());
+        employee.getUser().setIsEnabled(true);
+        employee.getUser().setToken(null);
+        employee.setPhone(request.getPhone());
+
+        employee.getUser().setUsername(request.getUsername());
+        employee.getUser().setPassword(passwordEncoder.encode(request.getPassword()));
+
+        return employeeRepository.save(employee);
     }
 }

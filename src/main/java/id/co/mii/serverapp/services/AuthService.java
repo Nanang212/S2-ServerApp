@@ -54,7 +54,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(request.getPassword()));
 
         Role role = roleRepository
-            .findByNameIgnoreCase("USER")
+            .findByNameIgnoreCase("ADMIN")
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found"));
 
         user.setRoles(Collections.singleton(role));

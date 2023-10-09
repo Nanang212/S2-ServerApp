@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .antMatchers(HttpMethod.POST, "/registration", "/login").permitAll()
                 .antMatchers("/region/**", "/regions").permitAll()
                 .antMatchers("/country/**", "/countries").permitAll()
+                .antMatchers("/employee-verification").permitAll()
                 .anyRequest().authenticated()
             )
             .httpBasic();

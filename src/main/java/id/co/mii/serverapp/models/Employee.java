@@ -30,7 +30,7 @@ public class Employee {
     private String name;
     @Column(name = "email", unique = true, nullable = false)
     private String email;
-    @Column(name = "phone", unique = true, nullable = false)
+    @Column(name = "phone", unique = true)
     private String phone;
 
     @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)

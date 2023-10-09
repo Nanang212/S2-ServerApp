@@ -17,6 +17,8 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Set;
 
@@ -77,23 +79,37 @@ public class EmailService {
             throw new ConstraintViolationException(constraintViolations);
         }
 
+        sendMessageWithHtml(
+            new HashMap<String, Object>() {{
+                put("username", request.getTo().split("@")[0].replace(".", " "));
+                put("text", request.getText());
+            }},
+            "newsletter",
+            request.getTo(),
+            request.getSubject(),
+            request.getAttachment()
+        );
+
+        return request;
+    }
+
+    public void sendMessageWithHtml(Map<String, Object> variables, String template, String to, String subject, String attachment) {
         MimeMessage message = javaMailSender.createMimeMessage();
 
         try {
             MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED, StandardCharsets.UTF_8.name());
-            helper.setTo(request.getTo());
-            helper.setSubject(request.getSubject());
+            helper.setTo(to);
+            helper.setSubject(subject);
 
             Context context = new Context();
-            context.setVariable("username", request.getTo().split("@")[0].replace(".", " "));
-            context.setVariable("text", request.getText());
+            context.setVariables(variables);
 
-            String html = springTemplateEngine.process("newsletter", context);
+            String html = springTemplateEngine.process(template, context);
 
             helper.setText(html, true);
 
-            if (request.getAttachment() != null) {
-                FileSystemResource file = new FileSystemResource(new File(request.getAttachment()));
+            if (attachment != null) {
+                FileSystemResource file = new FileSystemResource(new File(attachment));
                 helper.addAttachment(Objects.requireNonNull(file.getFilename()), file);
             }
 
@@ -102,7 +118,5 @@ public class EmailService {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
-
-        return request;
     }
 }

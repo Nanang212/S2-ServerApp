@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.utils;
 
+import id.co.mii.serverapp.models.dto.responses.ErrorResponse;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -42,13 +43,5 @@ public class ErrorUtil {
         return ResponseEntity
             .status(HttpStatus.INTERNAL_SERVER_ERROR)
             .body(new ErrorResponse("Internal server error: " + exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()));
-    }
-
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Data
-    public static class ErrorResponse {
-        private String message;
-        private Integer code;
     }
 }
