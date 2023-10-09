@@ -57,7 +57,7 @@ public class AuthService {
     employee.setName(registrationRequest.getName());
     employee.setUuid(uuid.toString());
 
-    List<Role> roles = Collections.singletonList(roleService.getById(2));
+    List<Role> roles = Collections.singletonList(roleService.getById(1));
     user.setRoles(roles);
 
     employee.setUser(user);
@@ -69,7 +69,7 @@ public class AuthService {
           StandardCharsets.UTF_8.name());
       Context context = new Context();
       context.setVariable("message", emailRequest);
-      String htmlContent = springTemplateEngine.process("konfirmasiemail.html", context);
+      String htmlContent = springTemplateEngine.process("EmailConfirm.html", context);
       helper.setTo(registrationRequest.getEmail());
       helper.setSubject("Email Confirmation");
       helper.setText(htmlContent, true);

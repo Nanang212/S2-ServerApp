@@ -21,6 +21,11 @@ public class EmployeeService {
     private UserService userService;
     private UserRepository userRepository;
 
+    public Employee findByUuid(String uuid) {
+        return employeeRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
     public List<Employee> getAll() {
         return employeeRepository.findAll();
     }
@@ -30,7 +35,7 @@ public class EmployeeService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No Employee"));
     }
 
-    public Employee update(Integer id, EmployeeRequest employeeRequest){
+    public Employee update(Integer id, EmployeeRequest employeeRequest) {
 
         if (employeeRepository.existsByName(employeeRequest.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Name employee already taken");
@@ -51,7 +56,7 @@ public class EmployeeService {
         return employeeRepository.save(employee);
     }
 
-    public Employee delete(Integer id){
+    public Employee delete(Integer id) {
         User user = userService.getById(id);
         user.setEmployee(null);
         userRepository.save(user);
