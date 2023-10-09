@@ -2,6 +2,7 @@ package id.co.mii.serverapp.controllers;
 
 import java.util.List;
 
+import id.co.mii.serverapp.models.dto.request.RegistrationRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -30,9 +31,13 @@ public class UserController {
         return userService.getById(id);
     }
 
+    //    @PutMapping("/{id}")
+//    public User update(@PathVariable Integer id, @RequestBody User user) {
+//        return userService.update(id, user);
+//    }
     @PutMapping("/{id}")
-    public User update(@PathVariable Integer id, @RequestBody User user) {
-        return userService.update(id, user);
+    public User update(@PathVariable Integer id, @RequestBody RegistrationRequest registrationRequest) {
+        return userService.update(id, registrationRequest);
     }
 
     // add role

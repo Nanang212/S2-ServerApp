@@ -1,7 +1,6 @@
 package id.co.mii.serverapp.services;
 
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
@@ -39,9 +38,7 @@ public class AuthService {
         public Employee registration(RegistrationRequest registrationRequest) {
                 Employee employee = modelMapper.map(registrationRequest, Employee.class);
                 User user = modelMapper.map(registrationRequest, User.class);
-                if (user == null) {
-                        user = new User();
-                }
+
                 // set password
                 if (registrationRequest.getPassword() != null) {
                         user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
@@ -51,6 +48,7 @@ public class AuthService {
                 List<Role> roles = Collections.singletonList(roleService.getById(2));
                 // List<Role> roles = new ArrayList<>();
                 // roles.add(getById(2));
+                user.setToken(UUID.randomUUID().toString());
                 user.setRoles(roles);
 
                 employee.setUser(user);
@@ -61,6 +59,11 @@ public class AuthService {
                 emailRequest.setSubject("Verification Email");
                 emailRequest.setText("verification-email.html");
 
+                Map<String, Object> properties = new HashMap<>();
+                properties.put("token", user.getToken());
+                properties.put("employeeName", employee.getName());
+
+                emailRequest.setProperties(properties);
                 emailService.sendHtmlMessage(emailRequest);
 
                 return employeeRepository.save(employee);
