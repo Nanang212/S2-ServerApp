@@ -15,14 +15,14 @@ import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.models.dto.request.CountryRequest;
 import id.co.mii.serverapp.repositories.CountryRepository;
-import id.co.mii.serverapp.repositories.RegionRepositori;
+import id.co.mii.serverapp.repositories.RegionRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class CountryService {
 
-    private RegionRepositori regionRepository;
+    private RegionRepository regionRepository;
     private CountryRepository countryRepository;
     private RegionService regionService;
     private ModelMapper modelMapper;
@@ -134,7 +134,7 @@ public class CountryService {
             results.put("regionName", country.getRegion().getName());
             return results;
         })
-        .collect(Collectors.toList());
+                .collect(Collectors.toList());
     }
 
 }

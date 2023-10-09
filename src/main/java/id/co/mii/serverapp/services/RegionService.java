@@ -7,13 +7,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Region;
-import id.co.mii.serverapp.repositories.RegionRepositori;
+import id.co.mii.serverapp.repositories.RegionRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class RegionService {
-    private RegionRepositori regionRepository;
+    private RegionRepository regionRepository;
 
     public List<Region> getAll() {
         return regionRepository.findAll();
@@ -26,11 +26,11 @@ public class RegionService {
     }
 
     public Region insertRegion(Region region) {
-        if (regionRepository.existsByName(region.getName())){
+        if (regionRepository.existsByName(region.getName())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama wilayah sudah digunakan");
         }
 
-        if(region.getName().isEmpty()){
+        if (region.getName().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama wilayah harus diisi");
         }
         return regionRepository.save(region);
@@ -50,5 +50,4 @@ public class RegionService {
         regionRepository.delete(region);
         return region;
     }
-
 }
