@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.dto.request.EmployeeRequest;
+import id.co.mii.serverapp.models.dto.request.RegistrationRequest;
 import id.co.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
 
@@ -36,8 +37,8 @@ public class EmployeeController {
     }
 
     @PutMapping("/{id}")
-    public Employee update(@PathVariable Integer id, @RequestBody EmployeeRequest employeeRequest) {
-        return employeeService.update(id, employeeRequest);
+    public Employee update(@PathVariable Integer id, @RequestBody RegistrationRequest registrationRequest) {
+        return employeeService.update(id, registrationRequest);
     }
 
     @DeleteMapping("/{id}")
