@@ -2,23 +2,21 @@ package id.co.mii.serverapp.controllers;
 
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
+import id.co.mii.serverapp.models.dto.requests.NewEmployeeRequest;
+import id.co.mii.serverapp.models.dto.requests.VerifyRequest;
 import id.co.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class EmployeeController {
     private final EmployeeService employeeService;
 
@@ -63,5 +61,40 @@ public class EmployeeController {
     )
     public Employee delete(@PathVariable Integer employeeId) {
         return employeeService.delete(employeeId);
+    }
+
+    @PostMapping("/employee-registration")
+    public Employee register(@RequestBody NewEmployeeRequest request) {
+        return employeeService.register(request);
+    }
+
+    @GetMapping("/employee-verification")
+    public ModelAndView verify(@RequestParam(name = "token") String token) {
+        ModelAndView modelAndView;
+
+        try {
+            Employee employee = employeeService.getByToken(token);
+
+            if (employee.getUser().getIsEnabled()) {
+                modelAndView = new ModelAndView("views/employee_verification_not_found");
+            } else {
+                modelAndView = new ModelAndView("views/employee_verification_form");
+                modelAndView.addObject("token", token);
+            }
+        } catch (Exception exception) {
+            modelAndView = new ModelAndView("views/employee_verification_not_found");
+        }
+
+        return modelAndView;
+    }
+
+    @PostMapping("/employee-verification")
+    public ModelAndView verify(@ModelAttribute VerifyRequest request) {
+        try {
+            employeeService.verify(request);
+            return new ModelAndView("views/employee_verification_success");
+        } catch (Exception e) {
+            return new ModelAndView("views/employee_verification_not_found");
+        }
     }
 }

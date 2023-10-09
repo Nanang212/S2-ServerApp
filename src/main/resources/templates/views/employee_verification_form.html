@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Users</title>
+</head>
+<body>
+<main>
+    <h1>Create user</h1>
+    <form th:action="@{/employee-verification}" method="post">
+        <div>
+            <label for="username">Username</label>
+            <input name="username" id="username" type="text">
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input name="password" id="password" type="password">
+        </div>
+        <div>
+            <label for="phone">Phone</label>
+            <input name="phone" id="phone" type="text">
+        </div>
+        <div>
+            <label for="token">Token</label>
+            <input name="token" id="token" type="text" th:value="${token}"/>
+        </div>
+        <button type="submit">Confirm and Update</button>
+    </form>
+</main>
+
+</body>
+</html>
