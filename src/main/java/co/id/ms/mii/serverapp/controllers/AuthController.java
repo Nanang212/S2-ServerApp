@@ -1,17 +1,19 @@
 package co.id.ms.mii.serverapp.controllers;
 
-import co.id.ms.mii.serverapp.dto.request.EmployeeRequest;
-import co.id.ms.mii.serverapp.dto.request.LoginRequest;
-import co.id.ms.mii.serverapp.dto.request.RegistrationRequest;
-import co.id.ms.mii.serverapp.dto.request.UserRequest;
+import co.id.ms.mii.serverapp.dto.request.*;
 import co.id.ms.mii.serverapp.dto.response.LoginResponse;
 import co.id.ms.mii.serverapp.models.Employee;
 import co.id.ms.mii.serverapp.services.AuthService;
+import co.id.ms.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
+import org.springframework.web.servlet.ModelAndView;
 
+import javax.websocket.server.PathParam;
 import java.util.Map;
 
 @Controller
@@ -19,6 +21,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class AuthController {
     private AuthService authService;
+    private EmployeeService employeeService;
 
     @PostMapping("/registration")
     public Employee registration(
@@ -36,15 +39,27 @@ public class AuthController {
         return authService.signup(registrationRequest);
     }
 
-    @PutMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, String> formData) {
-            // Extract form fields from 'formData' map
-            String username = formData.get("username");
-            String phone = formData.get("phone");
-            String password = formData.get("password");
-            String token = formData.get("token");
+    @GetMapping("/verify")
+    public ModelAndView verify(@PathParam("token") String token) {
+        ModelAndView modelAndView = new ModelAndView();
+//        modelAndView.setViewName("PageForm");
+//        return modelAndView;
+            Employee findemployee = employeeService.getByUserToken(token);
 
-            authService.register(username,password,phone,token);
+            if(findemployee.getUser().getIsEnabled()){
+                modelAndView.setViewName("404notfound");
+            } else {
+                modelAndView.setViewName("PageForm");
+                modelAndView.addObject("token",token);
+            }
+        return modelAndView;
+    }
+
+    @PutMapping("/register")
+    public ResponseEntity<String> register(@RequestBody SignupRequest request) {
+            // Extract form fields from 'formData' map
+
+            authService.saveregister(request);
 
             // You can return a success message or other data as needed
             return ResponseEntity.ok("Registration successful");

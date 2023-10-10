@@ -28,6 +28,12 @@ public class EmployeeService {
         );
     }
 
+    public Employee getByUserToken(String token){
+        return employeeRepository.findByUserToken(token).orElseThrow(
+                () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
+        );
+    }
+
     public Employee update(Integer id, Employee employee) {
         getById(id);
         employee.setId(id);
