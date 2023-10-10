@@ -9,7 +9,11 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   </head>
   <body class="bg-gray-50 dark:bg-gray-900 mx-auto">
     <main class="flex min-h-screen overflow-y-hidden">
@@ -21,12 +25,18 @@
         />
       </section>
       <section class="flex-1 mx-auto">
-        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+        <div
+          class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0"
+          data-aos="fade-up"
+          data-aos-duration="1800"
+        >
           <div
             class="w-full bg-white rounded-lg shadow-2xl dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
           >
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+              <h1
+                class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
+              >
                 Verify your account
               </h1>
               <div
@@ -51,7 +61,11 @@
                   </svg>
                   <span class="sr-only">Error icon</span>
                 </div>
-                <div class="ml-3 text-sm font-normal" th:if="${param.message != null}" th:text="${param.message}">
+                <div
+                  class="ml-3 text-sm font-normal"
+                  th:if="${param.message != null}"
+                  th:text="${param.message}"
+                >
                   Item has been deleted.
                 </div>
                 <button
@@ -78,9 +92,15 @@
                   </svg>
                 </button>
               </div>
-              <form class="space-y-4 md:space-y-6" th:action="@{/employee-verification}" method="post">
+              <form
+                class="space-y-4 md:space-y-6"
+                th:action="@{/employee-verification}"
+                method="post"
+              >
                 <div>
-                  <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label
+                    for="email"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your email</label
                   >
                   <input
@@ -94,7 +114,9 @@
                   />
                 </div>
                 <div>
-                  <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label
+                    for="name"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your Name</label
                   >
                   <input
@@ -108,7 +130,9 @@
                   />
                 </div>
                 <div>
-                  <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label
+                    for="username"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your Username</label
                   >
                   <input
@@ -121,7 +145,9 @@
                   />
                 </div>
                 <div>
-                  <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label
+                    for="password"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your Password</label
                   >
                   <input
@@ -134,7 +160,9 @@
                   />
                 </div>
                 <div>
-                  <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label
+                    for="phone"
+                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your Phone Number</label
                   >
                   <input
@@ -148,7 +176,11 @@
                 </div>
                 <div class="hidden">
                   <label for="token"></label>
-                  <input id="token" name="token" th:value="${employee.user.token}" />
+                  <input
+                    id="token"
+                    name="token"
+                    th:value="${employee.user.token}"
+                  />
                 </div>
                 <button
                   type="submit"
@@ -162,7 +194,10 @@
         </div>
       </section>
     </main>
-
+    <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
+    <script>
+      AOS.init();
+    </script>
   </body>
 </html>
