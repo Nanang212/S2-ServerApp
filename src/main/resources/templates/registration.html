@@ -9,11 +9,11 @@
 <body>
   <div class="container mx-auto py-8">
     <h1 class="text-2xl font-bold mb-6 text-center">Registration User</h1>
-    <form  class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md" th:action="@{/register-user}" th:object="${registerRequest}" >
+    <form  class="w-full max-w-sm mx-auto bg-white p-8 rounded-md shadow-md" th:object="${registerRequest}" th:action="@{/auth/register-user/{id}(id=${id})}"  method="post">
       <div class="mb-4">
-        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Name</label>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Username</label>
         <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-          type="text" id="name" name="name" placeholder="John Doe"th:field="*{name}" >
+          type="text" id="name" name="name" placeholder="John Doe" th:field="*{username}" >
       </div>
       <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="password">Password</label>
@@ -21,10 +21,15 @@
           type="password" id="password" name="password" placeholder="********" th:field="*{password}">
       </div>
       <div class="mb-4">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">Phone</label>
+        <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+          type="text" id="name" name="name" placeholder="John Doe"th:field="*{phone}" >
+      </div>
+      <!-- <div class="mb-4">
         <label class="block text-gray-700 text-sm font-bold mb-2" for="confirm-password">Confirm Password</label>
         <input class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
           type="password" id="confirm-password" name="confirm-password" placeholder="********" th:field="*{password}">
-      </div>
+      </div> -->
       <button
         class="w-full bg-indigo-500 text-white text-sm font-bold py-2 px-4 rounded-md hover:bg-indigo-600 transition duration-300"
         type="submit">Register</button>

@@ -27,9 +27,11 @@ import id.co.mii.serverapp.models.dto.responses.LoginResponse;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
+@Slf4j
 public class AuthService {
     
     private ModelMapper modelMapper;
@@ -67,6 +69,24 @@ public class AuthService {
         return employeeRepository.save(employee);
 
     } 
+
+    public Employee registerUser(RegistrationRequest registrationRequest, String token){
+        User validUser = userService.findByToken(token).get();
+        Employee employee = modelMapper.map(registrationRequest, Employee.class );
+
+        validUser.setId(validUser.getId());
+        validUser.setUsername(registrationRequest.getUsername());
+        validUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        validUser.setIsEnable(true);
+        
+        employee.setId(validUser.getId());
+        employee.setUser(validUser);
+        employee.setName(validUser.getEmployee().getName());
+        employee.setEmail(validUser.getEmployee().getEmail());
+        validUser.setEmployee(employee);
+      
+        return employeeRepository.save(employee);
+    }
 
     public LoginResponse login(LoginRequest loginRequest){
         //set login
@@ -124,8 +144,8 @@ public class AuthService {
         
         return "page-404";
       } 
-      existsUser.setIsEnable(true);
-      userRepository.save(existsUser);
+      
+    
       return "registration";
     }
 
