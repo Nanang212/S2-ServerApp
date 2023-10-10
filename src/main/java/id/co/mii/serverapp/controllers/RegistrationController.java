@@ -20,10 +20,11 @@ public class RegistrationController {
     EmployeeService employeeService;
 
     @GetMapping("/register")
-    public String createView(RegistrationRequest registrationRequest, @RequestParam(name = "uuid", required = false) String uuid, Model model) {
+    public String createView(RegistrationRequest registrationRequest,
+            @RequestParam(name = "uuid", required = false) String uuid, Model model) {
         Employee employee = employeeService.findByUuid(uuid);
         if (employee.getUser().getIsEnabled()) {
-            return "not-found";
+            return "404";
         }
         model.addAttribute("id", employee.getUser().getId());
         return "form";
@@ -35,9 +36,4 @@ public class RegistrationController {
         return "success";
     }
 
-    @GetMapping("/login")
-    public String viewLogin(Model model){
-        return "login";
-    }
-    
 }

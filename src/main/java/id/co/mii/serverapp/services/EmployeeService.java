@@ -24,9 +24,8 @@ public class EmployeeService {
     private BCryptPasswordEncoder passwordEncoder;
 
     public Employee findByUuid(String uuid) {
-        return employeeRepository
-                .findByUuid(uuid)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
+        return employeeRepository.findByUuid(uuid)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
 
     public List<Employee> getAll() {
@@ -54,14 +53,13 @@ public class EmployeeService {
 
         Employee employee = getById(id);
         employee.getUser().setIsEnabled(true);
-        employee.setUuid("");
-        employee.getUser().setUsername(registrationRequest.getUsername());;
+        // employee.setUuid("");
+        employee.getUser().setUsername(registrationRequest.getUsername());
         employee.getUser().setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         employee.setPhone(registrationRequest.getPhone());
         return employeeRepository.save(employee);
     }
 
-    
     public Employee delete(Integer id) {
         User user = userService.getById(id);
         user.setEmployee(null);

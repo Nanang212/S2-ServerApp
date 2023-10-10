@@ -55,7 +55,7 @@ public class AuthService {
     employee.setName(registrationRequest.getName());
     employee.setUuid(uuid.toString());
 
-    List<Role> roles = Collections.singletonList(roleService.getById(2));
+    List<Role> roles = Collections.singletonList(roleService.getById(1));
     user.setRoles(roles);
 
     employee.setUser(user);
