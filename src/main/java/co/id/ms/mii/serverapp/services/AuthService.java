@@ -107,10 +107,13 @@ public class AuthService {
         Employee employee = new Employee();
         employee.setName(registrationRequest.getName());
         employee.setEmail(registrationRequest.getEmail());
-//        employee.setUser(new User());
 
         User user = new User();
         user.setToken(UUID.randomUUID().toString());
+
+        // jika di set true maka pada saat verifikasi akan terjadi page 404
+//        user.setIsEnabled(true);
+
         user.setEmployee(employee);
         employee.setUser(user);
 

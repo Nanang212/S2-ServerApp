@@ -56,13 +56,12 @@ public class AuthController {
     }
 
     @PutMapping("/register")
-    public ResponseEntity<String> register(@RequestBody SignupRequest request) {
-            // Extract form fields from 'formData' map
-
+    public ModelAndView register(@RequestBody SignupRequest request) {
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("PageForm");
             authService.saveregister(request);
 
-            // You can return a success message or other data as needed
-            return ResponseEntity.ok("Registration successful");
+        return modelAndView;
     }
 
 }
