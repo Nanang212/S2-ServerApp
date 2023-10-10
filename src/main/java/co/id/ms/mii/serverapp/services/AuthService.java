@@ -132,6 +132,7 @@ public class AuthService {
             List<Role> roles = new ArrayList<>();
             roles.add(roleService.getById(2));
             findemployee.getUser().setRoles(roles);
+            findemployee.getUser().setToken(null);
 
             employeeRepository.save(findemployee);
 

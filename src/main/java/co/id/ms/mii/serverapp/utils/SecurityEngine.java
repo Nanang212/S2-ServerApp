@@ -54,8 +54,10 @@ public class SecurityEngine  {
                         .antMatchers("/region/**", "/regions").permitAll()
                         .antMatchers("/country/**", "/countries").permitAll()
                         .anyRequest().authenticated()
+
                 )
                 .httpBasic();
+        
 
         return http.build();
     }
