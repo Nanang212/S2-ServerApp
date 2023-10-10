@@ -56,7 +56,7 @@ public class EmailService {
       return request;
     }
 
-     public EmailRequest sendHtmlMessage(EmailRequest request) {
+     public  EmailRequest sendHtmlMessage(EmailRequest request) {
         MimeMessage message = javaMailSender.createMimeMessage();
 
        try {
