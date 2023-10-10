@@ -166,6 +166,7 @@ public class EmployeeService {
         Employee employee = getByToken(request.getToken());
         employee.getUser().setIsEnabled(true);
         employee.getUser().setToken(null);
+        employee.getUser().setTokenExpiredAt(null);
         employee.setPhone(request.getPhone());
 
         employee.getUser().setUsername(request.getUsername());
