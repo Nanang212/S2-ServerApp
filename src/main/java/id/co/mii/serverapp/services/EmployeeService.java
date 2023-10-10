@@ -10,7 +10,6 @@ import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.models.dto.request.EmployeeRequest;
 import id.co.mii.serverapp.models.dto.request.RegistrationRequest;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
@@ -54,7 +53,7 @@ public class EmployeeService {
 
         Employee employee = getById(id);
         employee.getUser().setIsEnabled(true);
-        employee.setUuid("");
+        // employee.setUuid("");
         employee.getUser().setUsername(registrationRequest.getUsername());
         employee.getUser().setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         employee.setPhone(registrationRequest.getPhone());

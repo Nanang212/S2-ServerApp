@@ -1,9 +1,5 @@
 package id.co.mii.serverapp.controllers;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -35,14 +31,9 @@ public class RegistrationController {
     }
 
     @PostMapping("/register/{id}")
-    public ResponseEntity<String> create(@ModelAttribute RegistrationRequest registrationRequest,
-            @PathVariable String id) {
-        // Proses form dan data yang diterima dari form di sini
-        // Jika berhasil, kirim respons yang sesuai
-        // Misalnya:
-
-        employeeService.update(Integer.parseInt(id), registrationRequest);
-
-        return ResponseEntity.ok("Registration successful!"); // Pesan sukses yang akan ditampilkan di halaman
+    public String create(@ModelAttribute RegistrationRequest registrationRequest, @PathVariable Integer id) {
+        employeeService.update(id, registrationRequest);
+        return "success";
     }
+
 }

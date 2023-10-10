@@ -12,7 +12,6 @@
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Form Data</title>
   </head>
   <body>
@@ -78,7 +77,6 @@
               name="username"
               placeholder="Username"
               th:field="*{username}"
-              onblur="validateUsername()"
             />
             <div class="relative">
               <input
@@ -87,7 +85,6 @@
                 name="password"
                 placeholder="Password"
                 th:field="*{password}"
-                onblur="validatePassword()"
               />
               <button
                 type="button"
@@ -107,12 +104,9 @@
               name="phone"
               placeholder="Phone"
               th:field="*{phone}"
-              onblur="validatePhone()"
             />
             <button
-              type="button"
               class="bg-[#2cb061] rounded-xl text-black py-2 hover:scale-105 duration-300"
-              onclick="submitForm()"
             >
               Submit
             </button>
@@ -140,123 +134,6 @@
           passwordInput.type = "password";
           passwordToggleIcon.setAttribute("name", "eye-off-outline");
         }
-      }
-
-      function showToast(type, text) {
-        Swal.fire({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          icon: type,
-          title: text,
-        });
-      }
-
-      function validateUsername() {
-        const usernameInput = document.querySelector('input[name="username"]');
-        const username = usernameInput.value;
-
-        if (username.length > 20) {
-          showToast("error", "Username should not exceed 20 characters!");
-          usernameInput.value = ""; // Clear input
-          usernameInput.focus(); // Focus on the input for correction
-        } else if (username.length === 0) {
-          showToast("error", "Username is required!");
-          usernameInput.focus();
-        }
-      }
-
-      function validatePassword() {
-        const passwordInput = document.querySelector('input[name="password"]');
-        const password = passwordInput.value;
-
-        if (password.length === 0) {
-          showToast("error", "Password is required!");
-          passwordInput.value = "";
-          passwordInput.focus();
-        }
-      }
-
-      function validatePhone() {
-        const phoneInput = document.querySelector('input[name="phone"]');
-        const phone = phoneInput.value;
-
-        if (phone.length > 13) {
-          showToast("error", "Phone number should not exceed 13 digits!");
-          phoneInput.value = ""; // Clear input
-          phoneInput.focus(); // Focus on the input for correction
-        } else if (phone.length === 0) {
-          showToast("error", "Phone number is required!");
-          phoneInput.focus();
-        }
-      }
-
-      function submitForm() {
-        const usernameInput = document.querySelector('input[name="username"]');
-        const passwordInput = document.querySelector('input[name="password"]');
-        const phoneInput = document.querySelector('input[name="phone"]');
-        const successMessage = document.getElementById("successMessage");
-
-        if (usernameInput.value.trim() === "") {
-          showToast("error", "Username is required!");
-          usernameInput.focus();
-          return;
-        }
-
-        if (passwordInput.value.trim() === "") {
-          showToast("error", "Password is required!");
-          passwordInput.focus();
-          return;
-        }
-
-        if (phoneInput.value.trim() === "") {
-          showToast("error", "Phone number is required!");
-          phoneInput.focus();
-          return;
-        }
-
-        validateUsername();
-        validatePassword();
-        validatePhone();
-
-        // Check if all validations are successful
-        if (
-          usernameInput.classList.contains("is-invalid") ||
-          passwordInput.classList.contains("is-invalid") ||
-          phoneInput.classList.contains("is-invalid")
-        ) {
-          return;
-        }
-
-        const currentURL = window.location.href;
-        const urlParts = currentURL.split("/");
-        const id = urlParts[urlParts.length - 1];
-        // Simpan data
-        const formData = new FormData();
-        formData.append("username", usernameInput.value);
-        formData.append("password", passwordInput.value);
-        formData.append("phone", phoneInput.value);
-
-        fetch(`/register/${id}`, {
-          // id harus berada di luar FormData
-          method: "POST",
-          body: formData,
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log("Response Data:", data);
-            if (data.message === "Registration successful!") {
-              showToast("success", "Registration successful!");
-              successMessage.innerText = "Registration successful!";
-              successMessage.style.display = "block";
-              document.querySelector("form").style.display = "none";
-            }
-          })
-          .catch((error) => {
-            console.error("Error:", error);
-            showToast("error", "An error occurred during registration.");
-          });
       }
     </script>
 
