@@ -63,6 +63,8 @@ public class EmployeeController {
             } else {
                 modelAndView = new ModelAndView("views/employee_verification_form");
                 modelAndView.addObject("token", token);
+                modelAndView.addObject("name", employee.getName());
+                modelAndView.addObject("email", employee.getEmail());
             }
         } catch (Exception exception) {
             modelAndView = new ModelAndView("views/employee_verification_not_found");
