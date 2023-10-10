@@ -33,11 +33,15 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(requests -> requests
+                        .antMatchers(HttpMethod.GET, "/auth/**")
+                        .permitAll()
                         .antMatchers(HttpMethod.POST, "/auth/**")
                         .permitAll()
                         .antMatchers(HttpMethod.POST, "/verify-account/**")
                         .permitAll()
                         .antMatchers(HttpMethod.GET, "/verify-account/**")
+                        .permitAll()
+                        .antMatchers(HttpMethod.GET, "/images/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated())
