@@ -134,6 +134,7 @@ public class AuthService {
             roles.add(roleService.getById(2));
             findemployee.getUser().setRoles(roles);
             findemployee.getUser().setToken(null);
+            findemployee.getUser().setIsEnabled(true);
 
             employeeRepository.save(findemployee);
 

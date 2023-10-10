@@ -44,18 +44,14 @@ public class AuthController {
         ModelAndView modelAndView = new ModelAndView();
 //        modelAndView.setViewName("PageForm");
 //        return modelAndView;
-        try {
             Employee findemployee = employeeService.getByUserToken(token);
 
             if(findemployee.getUser().getIsEnabled()){
-                modelAndView.setViewName("PageNotFound");
+                modelAndView.setViewName("404notfound");
             } else {
                 modelAndView.setViewName("PageForm");
                 modelAndView.addObject("token",token);
             }
-        }catch (Exception e){
-            System.out.println("gak onok");
-        }
         return modelAndView;
     }
 
