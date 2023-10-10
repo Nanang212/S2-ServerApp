@@ -32,34 +32,6 @@ public class UserService {
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "No User"));
     }
 
-    // public User create(UserRequest userRequest) {
-    // if (userRequest.getUsername().isEmpty() ||
-    // userRequest.getPassword().isEmpty()) {
-    // throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Both should not be
-    // empty");
-    // }
-
-    // if (userRepository.existsByUsername(userRequest.getUsername())) {
-    // throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already
-    // taken");
-    // }
-
-    // // User user = modelMapper.map(userRequest, User.class);
-    // // List<Role> roles = mapsToRoles(userRequest.getRolesId());
-    // // user.setRoles(roles);
-    // // userRepository.save(user);
-    // // return user;
-
-    // User user = new User();
-    // user.setUsername(userRequest.getUsername().toLowerCase());
-    // user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
-    // List<Role> roles = mapsToRoles(userRequest.getRolesId());
-    // user.setRoles(roles);
-    // userRepository.save(user);
-    // return user;
-
-    // }
-
     public User update(Integer id, UserRequest userRequest) {
         if (userRequest.getUsername().isEmpty() || userRequest.getPassword().isEmpty()) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Both should not be empty");

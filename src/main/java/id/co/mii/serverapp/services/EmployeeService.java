@@ -1,8 +1,8 @@
 package id.co.mii.serverapp.services;
 
 import java.util.List;
+import java.util.Optional;
 
-// import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -23,10 +23,9 @@ public class EmployeeService {
     private UserRepository userRepository;
     private BCryptPasswordEncoder passwordEncoder;
 
-    public Employee findByUuid(String uuid) {
-        return employeeRepository.findByUuid(uuid)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
-    }
+    public Optional<Employee> findByUuid(String uuid) {
+        return employeeRepository.findByUuid(uuid);
+      }
 
     public List<Employee> getAll() {
         return employeeRepository.findAll();
@@ -53,8 +52,8 @@ public class EmployeeService {
 
         Employee employee = getById(id);
         employee.getUser().setIsEnabled(true);
-        // employee.setUuid("");
         employee.getUser().setUsername(registrationRequest.getUsername());
+        employee.setUuid("");
         employee.getUser().setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         employee.setPhone(registrationRequest.getPhone());
         return employeeRepository.save(employee);
