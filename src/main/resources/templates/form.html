@@ -76,7 +76,8 @@
               type="text"
               name="username"
               placeholder="Username"
-              th:field="*{username}"
+              field="*{username}"
+              onblur="validateUsername()"
             />
             <div class="relative">
               <input
@@ -84,7 +85,8 @@
                 type="password"
                 name="password"
                 placeholder="Password"
-                th:field="*{password}"
+                field="*{password}"
+                onblur="validatePassword()"
               />
               <button
                 type="button"
@@ -103,7 +105,9 @@
               type="text"
               name="phone"
               placeholder="Phone"
-              th:field="*{phone}"
+              field="*{phone}"
+              onblur="validatePhone()"
+
             />
             <button
               class="bg-[#2cb061] rounded-xl text-black py-2 hover:scale-105 duration-300"
@@ -121,7 +125,12 @@
       </div>
     </section>
 
+    
+
+    
     <script>
+
+
       function togglePasswordVisibility() {
         const passwordInput = document.querySelector('input[name="password"]');
         const passwordToggleIcon =
@@ -133,6 +142,56 @@
         } else {
           passwordInput.type = "password";
           passwordToggleIcon.setAttribute("name", "eye-off-outline");
+        }
+      }
+
+      function showToast(type, text) {
+        Swal.fire({
+          toast: true,
+          position: "top-end",
+          showConfirmButton: false,
+          timer: 3000,
+          icon: type,
+          title: text,
+        });
+      }
+
+      function validateUsername() {
+        const usernameInput = document.querySelector('input[name="username"]');
+        const username = usernameInput.value;
+
+        if (username.length > 20) {
+          showToast("error", "Username should not exceed 20 characters!");
+          usernameInput.value = ""; // Clear input
+          usernameInput.focus(); // Focus on the input for correction
+        } else if (username.length === 0) {
+          showToast("error", "Username is required!");
+          usernameInput.focus();
+        }
+      }
+
+      function validatePassword() {
+        const passwordInput = document.querySelector('input[name="password"]');
+        const password = passwordInput.value;
+
+        if (password.length === 0) {
+          showToast("error", "Password is required!");
+          passwordInput.value = "";
+          passwordInput.focus();
+        }
+      }
+
+      function validatePhone() {
+        const phoneInput = document.querySelector('input[name="phone"]');
+        const phone = phoneInput.value;
+
+        if (phone.length > 13) {
+          showToast("error", "Phone number should not exceed 13 digits!");
+          phoneInput.value = ""; // Clear input
+          phoneInput.focus(); // Focus on the input for correction
+        } else if (phone.length === 0) {
+          showToast("error", "Phone number is required!");
+          phoneInput.focus();
         }
       }
     </script>

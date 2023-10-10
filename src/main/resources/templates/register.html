@@ -55,25 +55,25 @@
             Policy, and our default Notification Settings.
           </p>
 
-          <form action="" class="flex flex-col gap-4">
+          <form th:object="${registrationRequest}" th:action="@{/adduser}" method="post"class="flex flex-col gap-4">
             <input
               class="p-2 mt-8 rounded-xl border"
               type="name"
               name="name"
               placeholder="Name"
               onblur="validateName()"
+              field ="*{name}"
             />
             <input
               class="p-2 rounded-xl border w-full"
               type="email"
               name="email"
               placeholder="Email"
+              field ="*{email}"
               onblur="validateEmail()"
             />
             <button
-              type="button"
               class="bg-[#2cb061] rounded-xl text-black py-2 hover:scale-105 duration-300"
-              onclick="submitRegister()"
             >
               Register
             </button>
