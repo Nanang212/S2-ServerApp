@@ -24,4 +24,5 @@ public class AppUserDetailService implements UserDetailsService {
 
         return new AppUserDetail(user);
     }
+    
 }

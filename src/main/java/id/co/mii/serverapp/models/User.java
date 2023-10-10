@@ -22,6 +22,7 @@ import com.fasterxml.jackson.annotation.JsonProperty.Access;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import net.bytebuddy.utility.RandomString;
 
 @Data
 @Entity
@@ -32,12 +33,14 @@ public class User {
     @Id
     private Integer id;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String username;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String password;
 
-    private Boolean isEnabled = true;
+    private Boolean isEnabled = false;
+
+    private String token = RandomString.make(64);
 
     @OneToOne
     @MapsId
