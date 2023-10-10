@@ -2,25 +2,27 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
 public class UserService {
-    
+
     private UserRepository userRepository;
     private RoleService roleService;
-
+    private PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         return userRepository
-            .findAll();
+                .findAll();
     }
 
     public User getById(Integer id) {
@@ -30,14 +32,30 @@ public class UserService {
     }
 
     // update
-    public User update(Integer id, User user) {
-        getById(id);
-        user.setId(id);
+    public User update(Integer id, RegistrationRequest registrationRequest) {
+        User user = getById(id);
+        user.setUsername(registrationRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+        user.getEmployee().setPhone(registrationRequest.getPhone());
+        user.setIsEnabled(true);
+        user.setToken(null);
         return userRepository.save(user);
     }
 
+
+    public boolean verify(String token) {
+        User user = userRepository.findByTokenJPQL(token);
+         
+        if (user == null || user.getIsEnabled()) {
+            return false;
+        } else {
+            return true;
+        }
+         
+    }
+
     // add role
-    public User addRole(Integer id, Role role){
+    public User addRole(Integer id, Role role) {
         // untuk cek user
         User user = getById(id);
 
@@ -46,5 +64,11 @@ public class UserService {
         roles.add(roleService.getById(role.getId()));
         user.setRoles(roles);
         return userRepository.save(user);
+    }
+
+    public User findByToken(String token) {
+        return userRepository
+                .findByToken(token)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid token!!!"));
     }
 }

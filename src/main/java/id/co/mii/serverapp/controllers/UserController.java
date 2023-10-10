@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
+import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.services.UserService;
 import lombok.AllArgsConstructor;
 
@@ -30,14 +31,19 @@ public class UserController {
     }
 
     @PutMapping("/{id}")
-    public User update(@PathVariable Integer id, @RequestBody User user) {
-        return userService.update(id, user);
+    public User update(@PathVariable Integer id, @RequestBody RegistrationRequest registrationRequest) {
+        return userService.update(id, registrationRequest);
     }
 
     // add role
     @PutMapping("/add-role/{id}")
     public User addRole(@PathVariable Integer id, @RequestBody Role role) {
         return userService.addRole(id, role);
+    }
+
+    @GetMapping("/{token}")
+    public User findByToken(@PathVariable String token){
+        return userService.findByToken(token);
     }
 
 }

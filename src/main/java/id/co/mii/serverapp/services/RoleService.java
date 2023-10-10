@@ -12,7 +12,6 @@ import lombok.AllArgsConstructor;
 
 @Service
 @AllArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
 public class RoleService {
 
     private RoleRepository roleRepository;

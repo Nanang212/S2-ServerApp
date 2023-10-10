@@ -2,6 +2,7 @@ package id.co.mii.serverapp.services;
 
 import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import java.io.File;
+import java.nio.charset.StandardCharsets;
 
 import javax.mail.internet.MimeMessage;
 import lombok.AllArgsConstructor;
@@ -12,7 +13,6 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
-
 
 @Service
 @AllArgsConstructor
@@ -51,15 +51,28 @@ public class EmailService {
     }
 
     public EmailRequest sendHtmlMessage(EmailRequest emailRequest) {
-        Context context = new Context();
-        context.setVariable("nameSended", emailRequest.getNameSended());
-        String htmlContent = templateEngine.process("email.html", context);
+
+        // Context context = new Context();
+        // context.setVariable("nameSended", emailRequest.getNameSended());
+        // String htmlContent = templateEngine.process("email.html", context);
         try {
+            // MimeMessage message = javaMailSender.createMimeMessage();
+            // MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            // helper.setTo(emailRequest.getTo());
+            // helper.setSubject(emailRequest.getSubject());
+            // helper.setText(htmlContent, true);
+            // javaMailSender.send(message);
             MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, true);
+            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
+                    StandardCharsets.UTF_8.name());
+            Context context = new Context();
+            context.setVariables(emailRequest.getProperties());
+
             helper.setTo(emailRequest.getTo());
             helper.setSubject(emailRequest.getSubject());
+            String htmlContent = templateEngine.process(emailRequest.getText(), context);
             helper.setText(htmlContent, true);
+
             javaMailSender.send(message);
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -67,4 +80,3 @@ public class EmailService {
         return emailRequest;
     }
 }
-
