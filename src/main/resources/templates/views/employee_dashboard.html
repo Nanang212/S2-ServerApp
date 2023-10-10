@@ -60,6 +60,7 @@
         const handleCloseModal = () => {
           setOpenModal(false)
           setNewEmployee({ name: '', email: '' })
+          console.log('close please')
         }
 
         const handleInputName = (ev) => setNewEmployee((prev) => ({ ...prev, name: ev.target.value }))
@@ -216,13 +217,15 @@
           try {
             const res = await axios.post(`/api/v1/employee-registration`, request)
             setEmployees((prev) => [res.data, ...prev])
+
+            return res.data
           } catch (error) {
             throw error
           } finally {
             setIsLoading(false)
           }
 
-          return res.data
+          return null
         }
 
         const deleteEmployee = async (employeeId) => {
@@ -231,13 +234,15 @@
           try {
             const res = await axios.delete(`/api/v1/employee/${employeeId}`)
             setEmployees((prev) => prev.filter((employee) => employee.id !== employeeId))
+
+            return res.data
           } catch (error) {
             throw error
           } finally {
             setIsLoading(false)
           }
 
-          return res.data
+          return null
         }
 
         return {
