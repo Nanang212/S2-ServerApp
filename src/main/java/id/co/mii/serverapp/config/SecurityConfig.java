@@ -39,6 +39,8 @@ public class SecurityConfig {
                         .permitAll()
                         .antMatchers(HttpMethod.GET, "/verify-account/**")
                         .permitAll()
+                        .antMatchers(HttpMethod.GET, "/images/**")
+                        .permitAll()
                         .anyRequest()
                         .authenticated())
                 .csrf()
