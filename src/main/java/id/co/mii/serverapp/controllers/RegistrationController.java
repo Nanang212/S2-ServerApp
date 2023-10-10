@@ -25,15 +25,15 @@ public class RegistrationController {
         if (userService.verify(token)) {
             User user = userService.findByToken(token);
             model.addAttribute("id", user.getId());
-            return "registration";
+            return "login";
         }
-        return "not-found";
+        return "status404";
     }
 
     @PostMapping("/registration/{id}")
     public String registration(@ModelAttribute RegistrationRequest registrationRequest, @PathVariable Integer id) {
         userService.update(id, registrationRequest);
-        return "success";
+        return "status200";
     }
     
 }
