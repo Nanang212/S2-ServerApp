@@ -3,6 +3,7 @@ package co.id.ms.mii.serverapp.services;
 
 import co.id.ms.mii.serverapp.dto.request.LoginRequest;
 import co.id.ms.mii.serverapp.dto.request.RegistrationRequest;
+import co.id.ms.mii.serverapp.dto.request.SignupRequest;
 import co.id.ms.mii.serverapp.dto.request.UserRequest;
 import co.id.ms.mii.serverapp.dto.response.LoginResponse;
 import co.id.ms.mii.serverapp.models.Employee;
@@ -120,14 +121,14 @@ public class AuthService {
         return employee;
     }
 
-    public void saveregister(String username,String password,String phone,String token){
+    public void saveregister(SignupRequest request){
         try {
-            Employee findemployee = employeeRepository.findByUserToken(token).orElseThrow(
+            Employee findemployee = employeeRepository.findByUserToken(request.getToken()).orElseThrow(
                     () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
             );
-            findemployee.setPhone(phone);
-            findemployee.getUser().setUsername(username);
-            findemployee.getUser().setPassword(passwordEncoder.encode(password));
+            findemployee.setPhone(request.getPhone());
+            findemployee.getUser().setUsername(request.getUsername());
+            findemployee.getUser().setPassword(passwordEncoder.encode(request.getPassword()));
 
             List<Role> roles = new ArrayList<>();
             roles.add(roleService.getById(2));

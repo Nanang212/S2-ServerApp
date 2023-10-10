@@ -1,9 +1,6 @@
 package co.id.ms.mii.serverapp.controllers;
 
-import co.id.ms.mii.serverapp.dto.request.EmployeeRequest;
-import co.id.ms.mii.serverapp.dto.request.LoginRequest;
-import co.id.ms.mii.serverapp.dto.request.RegistrationRequest;
-import co.id.ms.mii.serverapp.dto.request.UserRequest;
+import co.id.ms.mii.serverapp.dto.request.*;
 import co.id.ms.mii.serverapp.dto.response.LoginResponse;
 import co.id.ms.mii.serverapp.models.Employee;
 import co.id.ms.mii.serverapp.services.AuthService;
@@ -63,14 +60,10 @@ public class AuthController {
     }
 
     @PutMapping("/register")
-    public ResponseEntity<String> register(@RequestBody Map<String, String> formData) {
+    public ResponseEntity<String> register(@RequestBody SignupRequest request) {
             // Extract form fields from 'formData' map
-            String username = formData.get("username");
-            String phone = formData.get("phone");
-            String password = formData.get("password");
-            String token = formData.get("token");
 
-            authService.saveregister(username,password,phone,token);
+            authService.saveregister(request);
 
             // You can return a success message or other data as needed
             return ResponseEntity.ok("Registration successful");
