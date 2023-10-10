@@ -19,6 +19,7 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -127,6 +128,7 @@ public class EmployeeService {
         User user = new User();
         user.setEmployee(employee);
         user.setToken(UUID.randomUUID().toString());
+        user.setTokenExpiredAt(LocalDateTime.now().plusMinutes(30));
         user.setRoles(Collections.singleton(role));
         employee.setUser(user);
 

@@ -12,6 +12,7 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @RestController
@@ -58,7 +59,7 @@ public class EmployeeController {
         try {
             Employee employee = employeeService.getByToken(token);
 
-            if (employee.getUser().getIsEnabled()) {
+            if (employee.getUser().getIsEnabled() || LocalDateTime.now().isAfter(employee.getUser().getTokenExpiredAt())) {
                 modelAndView = new ModelAndView("views/employee_verification_not_found");
             } else {
                 modelAndView = new ModelAndView("views/employee_verification_form");
