@@ -64,6 +64,7 @@ public class AuthService {
         employee.setUser(user);
         user.setEmployee(employee);
 
+        
        emailService.sendHtmlMessage(emailService.createVerifycationEmail(employee.getEmail(), user.getToken()));
 
         return employeeRepository.save(employee);
