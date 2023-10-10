@@ -68,7 +68,7 @@
           </div>
           <form
             th:object="${registrationRequest}"
-            th:action="@{/form}"
+            th:action="@{/register/{id}(id=${id})}"
             method="post"
             class="flex flex-col gap-4"
           >
@@ -77,6 +77,7 @@
               type="text"
               name="username"
               placeholder="Username"
+              th:field="*{username}"
               onblur="validateUsername()"
             />
             <div class="relative">
@@ -85,6 +86,7 @@
                 type="password"
                 name="password"
                 placeholder="Password"
+                th:field="*{password}"
                 onblur="validatePassword()"
               />
               <button
@@ -104,6 +106,7 @@
               type="text"
               name="phone"
               placeholder="Phone"
+              th:field="*{phone}"
               onblur="validatePhone()"
             />
             <button
@@ -113,6 +116,12 @@
             >
               Submit
             </button>
+            <div
+              id="successMessage"
+              class="hidden bg-green-200 text-green-800 py-2 px-4 rounded-md mt-4"
+            >
+              Registration successful!
+            </div>
           </form>
         </div>
       </div>
@@ -187,6 +196,7 @@
         const usernameInput = document.querySelector('input[name="username"]');
         const passwordInput = document.querySelector('input[name="password"]');
         const phoneInput = document.querySelector('input[name="phone"]');
+        const successMessage = document.getElementById("successMessage");
 
         if (usernameInput.value.trim() === "") {
           showToast("error", "Username is required!");
@@ -219,8 +229,34 @@
           return;
         }
 
-        // If all validations are successful, submit the form
-        showToast("success", "Form submitted successfully!");
+        const currentURL = window.location.href;
+        const urlParts = currentURL.split("/");
+        const id = urlParts[urlParts.length - 1];
+        // Simpan data
+        const formData = new FormData();
+        formData.append("username", usernameInput.value);
+        formData.append("password", passwordInput.value);
+        formData.append("phone", phoneInput.value);
+
+        fetch(`/register/${id}`, {
+          // id harus berada di luar FormData
+          method: "POST",
+          body: formData,
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log("Response Data:", data);
+            if (data.message === "Registration successful!") {
+              showToast("success", "Registration successful!");
+              successMessage.innerText = "Registration successful!";
+              successMessage.style.display = "block";
+              document.querySelector("form").style.display = "none";
+            }
+          })
+          .catch((error) => {
+            console.error("Error:", error);
+            showToast("error", "An error occurred during registration.");
+          });
       }
     </script>
 

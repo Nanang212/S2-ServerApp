@@ -1,5 +1,9 @@
 package id.co.mii.serverapp.controllers;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,21 +28,21 @@ public class RegistrationController {
             @RequestParam(name = "uuid", required = false) String uuid, Model model) {
         Employee employee = employeeService.findByUuid(uuid);
         if (employee.getUser().getIsEnabled()) {
-            return "not-found";
+            return "404";
         }
         model.addAttribute("id", employee.getUser().getId());
         return "form";
     }
 
     @PostMapping("/register/{id}")
-    public String create(@ModelAttribute RegistrationRequest registrationRequest, @PathVariable Integer id) {
-        employeeService.update(id, registrationRequest);
-        return "success";
-    }
+    public ResponseEntity<String> create(@ModelAttribute RegistrationRequest registrationRequest,
+            @PathVariable String id) {
+        // Proses form dan data yang diterima dari form di sini
+        // Jika berhasil, kirim respons yang sesuai
+        // Misalnya:
 
-    @GetMapping("/login")
-    public String viewLogin(Model model) {
-        return "login";
-    }
+        employeeService.update(Integer.parseInt(id), registrationRequest);
 
+        return ResponseEntity.ok("Registration successful!"); // Pesan sukses yang akan ditampilkan di halaman
+    }
 }
