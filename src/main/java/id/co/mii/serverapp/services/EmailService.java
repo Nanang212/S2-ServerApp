@@ -74,7 +74,7 @@ public class EmailService {
         context.setVariable("token",request.getToken());
         context.setVariable("text", request.getText());
 
-        String html = templateEngine.process("coba", context);
+        String html = templateEngine.process("verify-email", context);
 
         helper.setTo(request.getTo());
         helper.setSubject(request.getSubject());
