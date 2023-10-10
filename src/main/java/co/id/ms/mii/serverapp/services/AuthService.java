@@ -107,12 +107,15 @@ public class AuthService {
         Employee employee = new Employee();
         employee.setName(registrationRequest.getName());
         employee.setEmail(registrationRequest.getEmail());
-//        employee.setUser(new User());
 
         
 
         User user = new User();
         user.setToken(UUID.randomUUID().toString());
+
+        // jika di set true maka pada saat verifikasi akan terjadi page 404
+//        user.setIsEnabled(true);
+
         user.setEmployee(employee);
         // user.setIsEnabled(true);
         employee.setUser(user);
@@ -125,7 +128,6 @@ public class AuthService {
     }
 
     public void saveregister(SignupRequest request){
-        try {
             Employee findemployee = employeeRepository.findByUserToken(request.getToken()).orElseThrow(
                     () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
             );
@@ -140,9 +142,5 @@ public class AuthService {
             findemployee.getUser().setIsEnabled(true);
 
             employeeRepository.save(findemployee);
-
-        }catch (Exception e){
-            System.out.println(e);
-        }
     }
 }

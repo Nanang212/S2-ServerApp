@@ -53,8 +53,11 @@ public class SecurityEngine  {
                         .antMatchers(HttpMethod.GET,"/verify").permitAll()
                         .antMatchers("/region/**", "/regions").permitAll()
                         .antMatchers("/country/**", "/countries").permitAll()
-                        .anyRequest().authenticated()
-
+                        .antMatchers("/css/**").permitAll()
+                        .antMatchers("/assets/**").permitAll()
+                        .antMatchers("/js/**").permitAll()
+//                        .antMatchers(HttpMethod.POST,"/regi").permitAll()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic();
         
