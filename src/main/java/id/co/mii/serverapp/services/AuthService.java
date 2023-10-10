@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -22,82 +23,86 @@ import id.co.mii.serverapp.models.dto.responses.LoginResponse;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.web.server.ResponseStatusException;
 
 @Service
 @AllArgsConstructor
 public class AuthService {
-        private EmployeeRepository employeeRepository;
-        private ModelMapper modelMapper;
-        private RoleService roleService;
-        private PasswordEncoder passwordEncoder;
-        private AuthenticationManager authManager;
-        private UserRepository userRepository;
-        private AppUserDetailService appUserDetailService;
-        private EmailService emailService;
+    private EmployeeRepository employeeRepository;
+    private ModelMapper modelMapper;
+    private RoleService roleService;
+    private PasswordEncoder passwordEncoder;
+    private AuthenticationManager authManager;
+    private UserRepository userRepository;
+    private AppUserDetailService appUserDetailService;
+    private EmailService emailService;
 
-        public Employee registration(RegistrationRequest registrationRequest) {
-                Employee employee = modelMapper.map(registrationRequest, Employee.class);
-                User user = modelMapper.map(registrationRequest, User.class);
+    public Employee registration(RegistrationRequest registrationRequest) {
+        Employee employee = modelMapper.map(registrationRequest, Employee.class);
+        User user = modelMapper.map(registrationRequest, User.class);
 
-                // set password
-                if (registrationRequest.getPassword() != null) {
-                        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-                }
-
-                // set default role
-                List<Role> roles = Collections.singletonList(roleService.getById(2));
-                // List<Role> roles = new ArrayList<>();
-                // roles.add(getById(2));
-                user.setToken(UUID.randomUUID().toString());
-                user.setRoles(roles);
-
-                employee.setUser(user);
-                user.setEmployee(employee);
-
-                EmailRequest emailRequest = new EmailRequest();
-                emailRequest.setTo(registrationRequest.getEmail());
-                emailRequest.setSubject("Verification Email");
-                emailRequest.setText("verification-email.html");
-
-                Map<String, Object> properties = new HashMap<>();
-                properties.put("token", user.getToken());
-                properties.put("employeeName", employee.getName());
-
-                emailRequest.setProperties(properties);
-                emailService.sendHtmlMessage(emailRequest);
-
-                return employeeRepository.save(employee);
+        if (employeeRepository.existsByEmail(registrationRequest.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already used by another user");
+        }
+        // set password
+        if (registrationRequest.getPassword() != null) {
+            user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         }
 
-        public LoginResponse login(LoginRequest loginRequest) {
-                // set login
-                UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
-                                loginRequest.getUsername(),
-                                loginRequest.getPassword());
+        // set default role
+        List<Role> roles = Collections.singletonList(roleService.getById(2));
+        // List<Role> roles = new ArrayList<>();
+        // roles.add(getById(2));
+        user.setToken(UUID.randomUUID().toString());
+        user.setRoles(roles);
 
-                // set principle
-                Authentication auth = authManager.authenticate(authReq);
-                SecurityContextHolder.getContext().setAuthentication(auth);
+        employee.setUser(user);
+        user.setEmployee(employee);
 
-                // set response
-                User user = userRepository
-                                .findByUsernameOrEmployeeEmail(
-                                                loginRequest.getUsername(),
-                                                loginRequest.getUsername())
-                                .get();
+        EmailRequest emailRequest = new EmailRequest();
+        emailRequest.setTo(registrationRequest.getEmail());
+        emailRequest.setSubject("Verification Email");
+        emailRequest.setText("verification-email.html");
 
-                UserDetails userDetails = appUserDetailService.loadUserByUsername(
-                                loginRequest.getUsername());
+        Map<String, Object> properties = new HashMap<>();
+        properties.put("token", user.getToken());
+        properties.put("employeeName", employee.getName());
 
-                List<String> authorities = userDetails
-                                .getAuthorities()
-                                .stream()
-                                .map(authority -> authority.getAuthority())
-                                .collect(Collectors.toList());
+        emailRequest.setProperties(properties);
+        emailService.sendHtmlMessage(emailRequest);
 
-                return new LoginResponse(
-                                user.getUsername(),
-                                user.getEmployee().getEmail(),
-                                authorities);
-        }
+        return employeeRepository.save(employee);
+    }
+
+    public LoginResponse login(LoginRequest loginRequest) {
+        // set login
+        UsernamePasswordAuthenticationToken authReq = new UsernamePasswordAuthenticationToken(
+                loginRequest.getUsername(),
+                loginRequest.getPassword());
+
+        // set principle
+        Authentication auth = authManager.authenticate(authReq);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+
+        // set response
+        User user = userRepository
+                .findByUsernameOrEmployeeEmail(
+                        loginRequest.getUsername(),
+                        loginRequest.getUsername())
+                .get();
+
+        UserDetails userDetails = appUserDetailService.loadUserByUsername(
+                loginRequest.getUsername());
+
+        List<String> authorities = userDetails
+                .getAuthorities()
+                .stream()
+                .map(authority -> authority.getAuthority())
+                .collect(Collectors.toList());
+
+        return new LoginResponse(
+                user.getUsername(),
+                user.getEmployee().getEmail(),
+                authorities);
+    }
 }

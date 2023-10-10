@@ -29,7 +29,7 @@
                     <form th:object="${registrationRequest}" th:action="@{/registration/{id}(id=${id})}" method="post">
                         <input type="text" placeholder="Username" th:field="*{username}">
                         <input type="password" placeholder="Password" th:field="*{password}">
-                        <input type="phone" placeholder="Phone Number" th:field="*{phone}">
+                        <input type="text" placeholder="Phone Number" th:field="*{phone}">
 
                         <button type="submit">Verify Now</button>
 
