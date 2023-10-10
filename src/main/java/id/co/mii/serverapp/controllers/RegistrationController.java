@@ -15,14 +15,14 @@ public class RegistrationController {
 
     @GetMapping("/page/registration")
     public String registrationView(RegistrationRequest registrationRequest,
-                                   @RequestParam(name = "token", required = false) String token,
-                                   Model model) {
+            @RequestParam(name = "token", required = false) String token,
+            Model model) {
         User user = userService.findByToken(token);
         if (user == null) {
             return "not-found";
         }
         model.addAttribute("id", user.getId());
-        return "registration";
+        return "verif-page";
     }
 
     @PostMapping("/registration/{id}")
@@ -30,4 +30,5 @@ public class RegistrationController {
         userService.update(id, registrationRequest);
         return "success";
     }
+
 }
