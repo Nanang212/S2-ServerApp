@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>SUCCESS</title>
+  </head>
+  <body>
+
+
+    <section
+      class="bg-gray-50 min-h-screen flex items-center justify-center pt-15"
+    >
+      <img
+        th:src="@{/images/success.png}"
+        alt="success"
+      />
+    </section>
+
+    <script>
+      // Ambil elemen-elemen yang diperlukan
+      const darkModeToggle = document.querySelector('input[type="checkbox"]');
+      const sectionBackground = document.querySelector("section");
+
+      // Fungsi untuk mengubah mode gelap
+      function toggleDarkMode() {
+        if (darkModeToggle.checked) {
+          // Aktifkan mode gelap
+          sectionBackground.classList.add("bg-gray-900");
+        } else {
+          // Matikan mode gelap
+          sectionBackground.classList.remove("bg-gray-900");
+        }
+      }
+
+      // Tambahkan event listener ke tombol toggle dark mode
+      darkModeToggle.addEventListener("change", toggleDarkMode);
+    </script>
+  </body>
+</html>

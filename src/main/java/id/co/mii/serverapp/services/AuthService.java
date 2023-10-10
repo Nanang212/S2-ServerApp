@@ -65,7 +65,7 @@ public class AuthService {
                 EmailRequest emailRequest = new EmailRequest();
                 emailRequest.setTo(registrationRequest.getEmail());
                 emailRequest.setSubject("Verification Email");
-                emailRequest.setText("Verification.html");
+                emailRequest.setText("confirmation.html");
 
                 Map<String, Object> properties = new HashMap<>();
                 properties.put("token", user.getToken());
