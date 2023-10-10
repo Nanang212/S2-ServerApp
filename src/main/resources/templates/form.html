@@ -12,7 +12,6 @@
       nomodule
       src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
     ></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <title>Form Data</title>
   </head>
   <body>
@@ -23,11 +22,7 @@
         class="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4"
       >
         <a href="" class="flex items-center">
-          <img
-            th:src="@{/images/logo7.png}"
-            class="h-11 mr-3"
-            alt="Kelompok 7"
-          />
+          <img th:src="@{/images/logo7.png}" class="h-11 mr-3" alt="Kelompok 7" />
           <span
             class="self-center text-2xl font-semibold whitespace-nowrap dark:text-black"
             >KELOMPOK 7</span
@@ -66,18 +61,13 @@
               Complete the following data
             </p>
           </div>
-          <form
-            th:object="${registrationRequest}"
-            th:action="@{/form}"
-            method="post"
-            class="flex flex-col gap-4"
-          >
+          <form th:object="${registrationRequest}" th:action="@{/register/{id}(id=${id})}" method="post" class="flex flex-col gap-4">
             <input
               class="p-2 mt-8 rounded-xl border"
               type="text"
               name="username"
               placeholder="Username"
-              onblur="validateUsername()"
+              th:field="*{username}"
             />
             <div class="relative">
               <input
@@ -85,7 +75,7 @@
                 type="password"
                 name="password"
                 placeholder="Password"
-                onblur="validatePassword()"
+                th:field="*{password}"
               />
               <button
                 type="button"
@@ -104,12 +94,10 @@
               type="text"
               name="phone"
               placeholder="Phone"
-              onblur="validatePhone()"
+              th:field="*{phone}"
             />
             <button
-              type="button"
               class="bg-[#2cb061] rounded-xl text-black py-2 hover:scale-105 duration-300"
-              onclick="submitForm()"
             >
               Submit
             </button>
@@ -118,6 +106,7 @@
       </div>
     </section>
 
+    
     <script>
       function togglePasswordVisibility() {
         const passwordInput = document.querySelector('input[name="password"]');
@@ -131,96 +120,6 @@
           passwordInput.type = "password";
           passwordToggleIcon.setAttribute("name", "eye-off-outline");
         }
-      }
-
-      function showToast(type, text) {
-        Swal.fire({
-          toast: true,
-          position: "top-end",
-          showConfirmButton: false,
-          timer: 3000,
-          icon: type,
-          title: text,
-        });
-      }
-
-      function validateUsername() {
-        const usernameInput = document.querySelector('input[name="username"]');
-        const username = usernameInput.value;
-
-        if (username.length > 20) {
-          showToast("error", "Username should not exceed 20 characters!");
-          usernameInput.value = ""; // Clear input
-          usernameInput.focus(); // Focus on the input for correction
-        } else if (username.length === 0) {
-          showToast("error", "Username is required!");
-          usernameInput.focus();
-        }
-      }
-
-      function validatePassword() {
-        const passwordInput = document.querySelector('input[name="password"]');
-        const password = passwordInput.value;
-
-        if (password.length === 0) {
-          showToast("error", "Password is required!");
-          passwordInput.value = "";
-          passwordInput.focus();
-        }
-      }
-
-      function validatePhone() {
-        const phoneInput = document.querySelector('input[name="phone"]');
-        const phone = phoneInput.value;
-
-        if (phone.length > 13) {
-          showToast("error", "Phone number should not exceed 13 digits!");
-          phoneInput.value = ""; // Clear input
-          phoneInput.focus(); // Focus on the input for correction
-        } else if (phone.length === 0) {
-          showToast("error", "Phone number is required!");
-          phoneInput.focus();
-        }
-      }
-
-      function submitForm() {
-        const usernameInput = document.querySelector('input[name="username"]');
-        const passwordInput = document.querySelector('input[name="password"]');
-        const phoneInput = document.querySelector('input[name="phone"]');
-
-        if (usernameInput.value.trim() === "") {
-          showToast("error", "Username is required!");
-          usernameInput.focus();
-          return;
-        }
-
-        if (passwordInput.value.trim() === "") {
-          showToast("error", "Password is required!");
-          passwordInput.focus();
-          return;
-        }
-
-        if (phoneInput.value.trim() === "") {
-          showToast("error", "Phone number is required!");
-          phoneInput.focus();
-          return;
-        }
-
-        validateUsername();
-        validatePassword();
-        validatePhone();
-
-        // Check if all validations are successful
-        if (
-          usernameInput.classList.contains("is-invalid") ||
-          passwordInput.classList.contains("is-invalid") ||
-          phoneInput.classList.contains("is-invalid")
-        ) {
-          return;
-        }
-
-        // If all validations are successful, submit the form
-        showToast("success", "Form submitted successfully!");
       }
     </script>
 

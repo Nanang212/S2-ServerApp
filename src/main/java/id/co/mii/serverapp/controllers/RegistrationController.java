@@ -24,7 +24,7 @@ public class RegistrationController {
             @RequestParam(name = "uuid", required = false) String uuid, Model model) {
         Employee employee = employeeService.findByUuid(uuid);
         if (employee.getUser().getIsEnabled()) {
-            return "not-found";
+            return "404";
         }
         model.addAttribute("id", employee.getUser().getId());
         return "form";
@@ -34,11 +34,6 @@ public class RegistrationController {
     public String create(@ModelAttribute RegistrationRequest registrationRequest, @PathVariable Integer id) {
         employeeService.update(id, registrationRequest);
         return "success";
-    }
-
-    @GetMapping("/login")
-    public String viewLogin(Model model) {
-        return "login";
     }
 
 }
