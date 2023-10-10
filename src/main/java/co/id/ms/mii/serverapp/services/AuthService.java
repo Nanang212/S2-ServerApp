@@ -125,7 +125,6 @@ public class AuthService {
     }
 
     public void saveregister(SignupRequest request){
-        try {
             Employee findemployee = employeeRepository.findByUserToken(request.getToken()).orElseThrow(
                     () -> new ResponseStatusException(HttpStatus.NOT_FOUND)
             );
@@ -140,9 +139,5 @@ public class AuthService {
             findemployee.getUser().setIsEnabled(true);
 
             employeeRepository.save(findemployee);
-
-        }catch (Exception e){
-            System.out.println(e);
-        }
     }
 }

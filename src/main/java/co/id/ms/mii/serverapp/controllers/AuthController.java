@@ -9,6 +9,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.ModelAndView;
@@ -44,6 +45,7 @@ public class AuthController {
         ModelAndView modelAndView = new ModelAndView();
 //        modelAndView.setViewName("PageForm");
 //        return modelAndView;
+        try {
             Employee findemployee = employeeService.getByUserToken(token);
 
             if(findemployee.getUser().getIsEnabled()){
@@ -52,15 +54,20 @@ public class AuthController {
                 modelAndView.setViewName("PageForm");
                 modelAndView.addObject("token",token);
             }
+        } catch (Exception e){
+            modelAndView.setViewName("404notfound");
+            return  modelAndView;
+        }
         return modelAndView;
     }
 
-    @PutMapping("/register")
-    public ModelAndView register(@RequestBody SignupRequest request) {
+    @PostMapping("/register")
+    public ModelAndView register(@ModelAttribute("SignupRequest") SignupRequest request) {
         ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("PageForm");
-            authService.saveregister(request);
+        modelAndView.setViewName("regisSucces");
 
+        // Process the request data and perform registration logic here
+        authService.saveregister(request);
         return modelAndView;
     }
 

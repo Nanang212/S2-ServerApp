@@ -3,116 +3,148 @@
 }
 
 html,
-body,
-.wrapper {
+body {
     height: 100%;
-}
-
-@keyframes rotate {
-    100% {
-        background-position: 0% 50%;
-    }
 }
 
 body {
     display: grid;
     place-items: center;
     margin: 0;
-    background: #001d35;
-    font-family: "Euclid Circular A", "Poppins";
-    color: #063d6c;
-    animation: rotate 1s infinite alternate linear;
+    padding: 0 20px;
+    background: #3284ce;
+    font-family: "Euclid Circular A";
 }
 
-button {
-    background: transparent;
+button,
+input {
     border: 0;
-    cursor: pointer;
-}
-
-.control {
-    border: 0;
-    outline: none;
     width: 100%;
-    height: 56px;
-    padding: 0 56px 0 16px;
-    border-radius: 6px;
-    background: #ced2d9;
-    color: #5a4f79;
+    height: 60px;
+    background: transparent;
     font-family: inherit;
-    font-size: 18px;
-    transition: 0.4s;
+    font-size: 16px;
+    outline: none;
 }
 
-.control:focus {
-    border-color: rgb(0 0 0 / 30%);
+@keyframes clouds {
+    100% {
+        translate: -50vw -55%;
+        scale: 1 1.1;
+    }
 }
 
-.card {
-    width: 400px;
-    padding: 60px 30px 38px;
-    border-radius: 1.25rem;
-    background: #ffffff;
-    text-align: center;
+.clouds {
+    position: fixed;
+    top: 30%;
+    left: 0;
+    width: 3000px;
+    height: 1500px;
+    translate: 0% -50%;
+    animation: clouds 15s infinite alternate linear;
 }
 
-.card > img {
-    width: 240px;
-    margin-bottom: 20px;
+.signup {
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 70%;
+    max-width: 460px;
+    padding: 200px 90px;
+    background: #111820;
 }
 
-.card > h2 {
-    font-size: 36px;
+.signup > h2 {
+    font-size: 32px;
     font-weight: 600;
+    margin: 0 0 6px;
+    color: rgb(255 255 255 / 96%);
+}
+
+.signup > h3 {
+    font-size: 16px;
+    font-weight: 400;
     margin: 0 0 30px;
+    color: rgb(255 255 255 / 40%);
 }
 
 .form {
-    width: 100%;
     margin: 0;
     display: grid;
     gap: 16px;
 }
 
-.form input.control::placeholder {
-    color: #aaa7bc;
-}
-
-.form > button.control {
-    cursor: pointer;
-    width: 100%;
-    height: 56px;
-    padding: 0 16px;
-    background: #062d4d;
-    color: #f9f9f9;
-    border: 0;
-    border-radius: 6px;
-    font-family: inherit;
-    font-size: 16px;
-    font-weight: 600;
-    text-align: center;
-    text-transform: uppercase;
-    letter-spacing: 2px;
-    transition: all 0.375s;
-}
-
-.password {
+.textbox {
     position: relative;
+    margin-bottom: 16px;
 }
 
-.toggle {
+.textbox span {
     position: absolute;
     top: 50%;
-    right: 16px;
     translate: 0 -50%;
-    width: 30px;
-    height: 30px;
-    background-image: url("../assets/show.svg");
-    background-size: 85%;
-    background-position: center;
-    background-repeat: no-repeat;
+    left: 0;
+    font-size: 22px;
+    pointer-events: none;
+    color: rgb(255 255 255 / 40%);
 }
 
-.toggle.showing {
-    background-image: url("../assets/hide.svg");
+.textbox input {
+    padding: 0 24px 0 36px;
+    border-bottom: 2px solid #2b3442;
+    color: rgb(255 255 255 / 96%);
+    height: 72px;
+}
+
+:is(input:focus, input:valid) ~ label {
+    translate: -40px -40px;
+    scale: 0.875;
+}
+
+input:focus ~ label {
+    color: #216ce7;
+}
+
+input:focus {
+    border-color: #216ce7;
+}
+
+:is(input:focus, input:valid) ~ span {
+    color: rgb(255 255 255 / 96%);
+}
+
+.textbox label {
+    position: absolute;
+    top: 50%;
+    left: 36px;
+    translate: 0 -50%;
+    color: rgb(255 255 255 / 40%);
+    pointer-events: none;
+    transition: 0.4s;
+}
+
+.form button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 0 24px;
+    border-radius: 6px;
+    background: #216ce7;
+    color: #f9f9f9;
+    border: 0;
+    font-family: inherit;
+    font-weight: 600;
+}
+
+.signup p {
+    margin: 0 0 22px;
+    color: #778395;
+}
+
+.signup p > a {
+    color: #216ce7;
+    text-decoration: none;
 }
