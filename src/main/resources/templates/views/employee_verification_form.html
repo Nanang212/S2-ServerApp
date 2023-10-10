@@ -1,120 +1,116 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
   <head>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"
-      rel="stylesheet"
-    />
     <meta charset="UTF-8" />
-    <title>Users</title>
-    <style>
-      @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
-      * {
-        font-family: Montserrat;
-        /* color: white; */
-      }
-      h1 {
-        font-weight: bolder;
-        font-size: 40px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 5px;
-      }
-    </style>
+    <meta
+      name="viewport"
+      content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Document</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
   </head>
-  <body>
-    <main>
-      <h1>Create user</h1>
-      <form th:action="@{/employee-verification}" method="post">
-        <!-- username -->
-        <label for="username" class="mb-2 dark:text-white">Your Name</label>
-        <input
-          name="username"
-          type="username"
-          id="username"
-          aria-describedby="helper-text-explanation"
-          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="Tuh Bagus"
+  <body class="bg-gray-50 dark:bg-gray-900 mx-auto">
+    <main class="flex min-h-screen overflow-y-hidden">
+      <section class="hidden lg:flex flex justify-center items-center relative">
+        <img
+          src="https://gist.githubusercontent.com/bagus2x/22938fed393058686f2ed542061f26e3/raw/0ef8830e3863ecf1c77da1efa1e6dde7285485c4/hello.svg"
+          class="scale-[2] relative -z-10"
         />
-        <!-- username end -->
-
-        <!-- Email -->
-        <label for="email" class="mb-2 dark:text-white">Your Email</label>
-        <input
-          name="email"
-          type="email"
-          id="email"
-          aria-describedby="helper-text-explanation"
-          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="name@gmail.com"
-        />
-        <!-- Email end -->
-
-        <!-- Password -->
-        <label for="Password" class="mb-2 dark:text-white">Your Password</label>
-        <input
-          name="Password"
-          type="Password"
-          id="Password"
-          aria-describedby="helper-text-explanation"
-          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-        />
-        <!-- Password end -->
-
-        <!-- Phone -->
-        <label for="Phone" class="mb-2 dark:text-white"
-          >Your Phone Number</label
-        >
-        <input
-          name="phone"
-          type="text"
-          id="phone"
-          aria-describedby="helper-text-explanation"
-          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          placeholder="081545xxx "
-        />
-        <!-- Phone end -->
-
-        <!-- Token -->
-        <label for="token" class="mb-2 dark:text-white">Your Token </label>
-        <input
-          name="token"
-          type="text"
-          id="token"
-          class="bg-gray-50 border border-gray-300 text-gray-900 rounded-lg focus:ring-blue-500 focus:border-blue-500 w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-          th:value="${token}"
-        />
-        <!-- Token end -->
-        <!-- 
-        <div>
-          <label for="username">Username</label>
-          <input name="username" id="username" type="text" />
-        </div>
-        <div>
-          <label for="password">Password</label>
-          <input name="password" id="password" type="password" />
-        </div>
-        <div>
-          <label for="phone">Phone</label>
-          <input name="phone" id="phone" type="text" />
-        </div>
-        <div>
-          <label for="token">Token</label>
-          <input name="token" id="token" type="text" th:value="${token}" />
-        </div> -->
-        <button
-          type="submit"
-          class="relative inline-flex items-center justify-center p-0.5 mb-2 mr-2 overflow-hidden font-medium text-gray-900 rounded-lg group bg-gradient-to-br from-cyan-500 to-blue-500 group-hover:from-cyan-500 group-hover:to-blue-500 hover:text-white dark:text-white focus:ring-4 focus:outline-none focus:ring-cyan-200 dark:focus:ring-cyan-800"
-        >
-          <span
-            class="relative px-5 py-2.5 transition-all ease-in duration-75 bg-white dark:bg-gray-900 rounded-md group-hover:bg-opacity-0"
+      </section>
+      <section class="flex-1 mx-auto">
+        <div class="flex flex-col items-center justify-center px-6 py-8 mx-auto md:h-screen lg:py-0">
+          <div
+            class="w-full bg-white rounded-lg shadow-2xl dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
           >
-            Confirm and Update
-          </span>
-        </button>
-        <!-- <button type="submit">Confirm and Update</button> -->
-      </form>
+            <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
+              <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
+                Verify your account
+              </h1>
+              <form class="space-y-4 md:space-y-6" th:action="@{/employee-verification}" method="post">
+                <div>
+                  <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Your email</label
+                  >
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="tubagus.sflh@gmail.com"
+                    readonly="true"
+                    th:value="${email}"
+                  />
+                </div>
+                <div>
+                  <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Your Name</label
+                  >
+                  <input
+                    name="name"
+                    id="name"
+                    type="text"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    placeholder="name"
+                    readonly="true"
+                    th:value="${name}"
+                  />
+                </div>
+                <div>
+                  <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Your Username</label
+                  >
+                  <input
+                    name="username"
+                    type="text"
+                    id="username"
+                    placeholder="username"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                  />
+                </div>
+                <div>
+                  <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Your Password</label
+                  >
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="••••••••"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                  />
+                </div>
+                <div>
+                  <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                    >Your Phone Number</label
+                  >
+                  <input
+                    type="number"
+                    name="phone"
+                    id="phone"
+                    placeholder="087672626•••"
+                    class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                    required=""
+                  />
+                </div>
+                <div class="hidden">
+                  <label for="token"></label>
+                  <input id="token" name="token" th:value="${token}" />
+                </div>
+                <button
+                  type="submit"
+                  class="w-full text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                >
+                  Verify and Update
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
