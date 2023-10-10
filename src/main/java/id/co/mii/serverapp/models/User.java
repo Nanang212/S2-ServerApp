@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -28,6 +29,8 @@ public class User {
     private Boolean isEnabled = false;
     @Column(name = "token")
     private String token;
+    @Column(name = "token_expired_at")
+    private LocalDateTime tokenExpiredAt;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(
