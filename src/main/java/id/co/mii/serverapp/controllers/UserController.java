@@ -36,8 +36,8 @@ public class UserController {
 //        return userService.update(id, user);
 //    }
     @PutMapping("/{id}")
-    public User update(@PathVariable Integer id, @RequestBody RegistrationRequest registrationRequest) {
-        return userService.update(id, registrationRequest);
+    public User update(@PathVariable Integer id, @RequestBody User user) {
+        return userService.update(id, user);
     }
 
     // add role
