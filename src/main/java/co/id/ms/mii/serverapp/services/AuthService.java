@@ -108,6 +108,8 @@ public class AuthService {
         employee.setName(registrationRequest.getName());
         employee.setEmail(registrationRequest.getEmail());
 
+        
+
         User user = new User();
         user.setToken(UUID.randomUUID().toString());
 
@@ -115,6 +117,7 @@ public class AuthService {
 //        user.setIsEnabled(true);
 
         user.setEmployee(employee);
+        // user.setIsEnabled(true);
         employee.setUser(user);
 
         employeeRepository.save(employee);

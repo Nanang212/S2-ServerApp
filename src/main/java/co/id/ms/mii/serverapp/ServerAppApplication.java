@@ -11,6 +11,6 @@ public class ServerAppApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(ServerAppApplication.class, args);
 
-		System.out.println("\n Server Is Running \n");
+		System.out.println("\n Alhamdulillah Lancar Ya Allah \n");
 	}
 }
