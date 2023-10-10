@@ -112,6 +112,10 @@ public class EmployeeService {
             throw new ConstraintViolationException(constraintViolations);
         }
 
+        if (employeeRepository.existsByEmailIgnoreCase(request.getEmail())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already exists");
+        }
+
         Employee employee = new Employee();
         employee.setName(request.getName());
         employee.setEmail(request.getEmail());
@@ -147,6 +151,14 @@ public class EmployeeService {
         Set<ConstraintViolation<VerifyRequest>> constraintViolations = validator.validate(request);
         if (!constraintViolations.isEmpty()) {
             throw new ConstraintViolationException(constraintViolations);
+        }
+
+        if (employeeRepository.existsByPhoneIgnoreCase(request.getPhone())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone already exists");
+        }
+
+        if (userRepository.existsByUsernameIgnoreCase(request.getUsername())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already exists");
         }
 
         Employee employee = getByToken(request.getToken());

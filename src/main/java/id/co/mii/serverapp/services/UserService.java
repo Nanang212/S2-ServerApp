@@ -30,7 +30,7 @@ public class UserService {
             throw new ConstraintViolationException(constraintViolations);
         }
 
-        if (userRepository.existsByUsername(request.getUsername())) {
+        if (userRepository.existsByUsernameIgnoreCase(request.getUsername())) {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "User already exists");
         }
 

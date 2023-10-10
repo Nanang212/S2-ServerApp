@@ -13,5 +13,7 @@ public interface EmployeeRepository extends JpaRepository<Employee, Integer> {
 
     boolean existsByUserId(Integer userId);
 
+    boolean existsByPhoneIgnoreCase(String phone);
+
     Optional<Employee> findByUserToken(String token);
 }

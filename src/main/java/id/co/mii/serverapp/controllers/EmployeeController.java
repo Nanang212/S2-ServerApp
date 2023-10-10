@@ -62,9 +62,7 @@ public class EmployeeController {
                 modelAndView = new ModelAndView("views/employee_verification_not_found");
             } else {
                 modelAndView = new ModelAndView("views/employee_verification_form");
-                modelAndView.addObject("token", token);
-                modelAndView.addObject("name", employee.getName());
-                modelAndView.addObject("email", employee.getEmail());
+                modelAndView.addObject("employee", employee);
             }
         } catch (Exception exception) {
             modelAndView = new ModelAndView("views/employee_verification_not_found");
@@ -75,12 +73,17 @@ public class EmployeeController {
 
     @PostMapping("/employee-verification")
     public ModelAndView verify(@ModelAttribute VerifyRequest request) {
+        ModelAndView modelAndView;
+
         try {
             employeeService.verify(request);
-            return new ModelAndView("views/employee_verification_success");
-        } catch (Exception e) {
-            return new ModelAndView("views/employee_verification_not_found");
+            modelAndView = new ModelAndView("views/employee_verification_success");
+        } catch (Exception exception) {
+            modelAndView = new ModelAndView("redirect:/employee-verification?token=" + request.getToken());
+            modelAndView.addObject("message", exception.getMessage());
         }
+
+        return modelAndView;
     }
 
     @GetMapping("/employee-dashboard")
