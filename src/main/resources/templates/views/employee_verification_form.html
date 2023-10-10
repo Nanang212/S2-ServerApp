@@ -9,10 +9,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Document</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css"
-      rel="stylesheet"
-    />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
   </head>
   <body class="bg-gray-50 dark:bg-gray-900 mx-auto">
@@ -34,9 +32,7 @@
             class="w-full bg-white rounded-lg shadow-2xl dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700"
           >
             <div class="p-6 space-y-4 md:space-y-6 sm:p-8">
-              <h1
-                class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white"
-              >
+              <h1 class="text-xl font-bold leading-tight tracking-tight text-gray-900 md:text-2xl dark:text-white">
                 Verify your account
               </h1>
               <div
@@ -61,12 +57,8 @@
                   </svg>
                   <span class="sr-only">Error icon</span>
                 </div>
-                <div
-                  class="ml-3 text-sm font-normal"
-                  th:if="${param.message != null}"
-                  th:text="${param.message}"
-                >
-                  Item has been deleted.
+                <div class="ml-3 text-sm font-normal" th:if="${param.message != null}" th:text="${param.message}">
+                  Error has occurred!
                 </div>
                 <button
                   type="button"
@@ -96,11 +88,10 @@
                 class="space-y-4 md:space-y-6"
                 th:action="@{/employee-verification}"
                 method="post"
+                onsubmit="validateForm"
               >
                 <div>
-                  <label
-                    for="email"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your email</label
                   >
                   <input
@@ -114,9 +105,7 @@
                   />
                 </div>
                 <div>
-                  <label
-                    for="name"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label for="name" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your Name</label
                   >
                   <input
@@ -130,9 +119,7 @@
                   />
                 </div>
                 <div>
-                  <label
-                    for="username"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label for="username" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your Username</label
                   >
                   <input
@@ -141,13 +128,10 @@
                     id="username"
                     placeholder="username"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
                   />
                 </div>
                 <div>
-                  <label
-                    for="password"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label for="password" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your Password</label
                   >
                   <input
@@ -156,13 +140,10 @@
                     id="password"
                     placeholder="••••••••"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
                   />
                 </div>
                 <div>
-                  <label
-                    for="phone"
-                    class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                  <label for="phone" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                     >Your Phone Number</label
                   >
                   <input
@@ -171,16 +152,11 @@
                     id="phone"
                     placeholder="087672626•••"
                     class="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-600 focus:border-blue-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    required=""
                   />
                 </div>
                 <div class="hidden">
                   <label for="token"></label>
-                  <input
-                    id="token"
-                    name="token"
-                    th:value="${employee.user.token}"
-                  />
+                  <input id="token" name="token" th:value="${employee.user.token}" />
                 </div>
                 <button
                   type="submit"
@@ -197,7 +173,74 @@
     <script src="https://unpkg.com/aos@next/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/flowbite/1.8.1/flowbite.min.js"></script>
     <script>
-      AOS.init();
+      AOS.init()
+    </script>
+    <script>
+      document.getElementsByTagName('form')[0].onsubmit = (ev) => {
+        const inputUsername = document.getElementById('username')
+        const inputPassword = document.getElementById('password')
+        const inputPhone = document.getElementById('phone')
+
+        if (!inputUsername.value) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Username must be filled!',
+          })
+
+          return ev.preventDefault()
+        }
+
+        if (inputUsername.value.length < 4 || inputUsername.value.length > 32) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Username must be at least 4 characters and less than 32 characters',
+          })
+
+          return ev.preventDefault()
+        }
+
+        if (!inputPassword.value) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Password must be filled!',
+          })
+
+          return ev.preventDefault()
+        }
+
+        if (inputPassword.value.length < 8 || inputPassword.value.length > 32) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Password must be at least 8 characters and less than 32 characters',
+          })
+
+          return ev.preventDefault()
+        }
+
+        if (!inputPhone.value) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Phone must be filled!',
+          })
+
+          return ev.preventDefault()
+        }
+
+        if (inputPhone.value.length < 8 || inputPhone.value.length > 32) {
+          Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Phone must be at least 3 characters and less than 16 characters',
+          })
+
+          return ev.preventDefault()
+        }
+      }
     </script>
   </body>
 </html>
