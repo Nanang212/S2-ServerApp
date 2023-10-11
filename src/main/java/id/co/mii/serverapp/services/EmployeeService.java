@@ -98,6 +98,13 @@ public class EmployeeService {
         }
 
         Employee employee = getByToken(request.getToken());
+
+        boolean isExpired = LocalDateTime.now().isAfter(employee.getUser().getTokenExpiredAt());
+
+        if (employee.getUser().getIsEnabled() || isExpired) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Token has been expired");
+        }
+
         employee.getUser().setIsEnabled(true);
         employee.getUser().setToken(null);
         employee.getUser().setTokenExpiredAt(null);
