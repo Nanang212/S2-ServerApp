@@ -51,7 +51,7 @@ public class RegistrationController {
     public String registration(
             @ModelAttribute RegistrationRequest registrationRequest) {
         authService.registration(registrationRequest);
-        return "success";
+        return "EmailRegistered";
     }
 
 }
