@@ -9,18 +9,9 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>HR Dashboard</title>
     <!-- WARNING SPAGHETTI - Mungkin alangkah lebih baiknya jika menggunakan React + Vite, NPM dan babel transformer 😴😴😴 -->
-    <script
-      crossorigin
-      src="https://unpkg.com/react@18/umd/react.production.min.js"
-    ></script>
-    <script
-      crossorigin
-      src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"
-    ></script>
-    <script
-      src="https://unpkg.com/@babel/standalone@7.10.3/babel.min.js"
-      crossorigin
-    ></script>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone@7.10.3/babel.min.js" crossorigin></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script
@@ -29,10 +20,7 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <link
-      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-      rel="stylesheet"
-    />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" rel="stylesheet" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -41,30 +29,29 @@
     />
     <style>
       * {
-        font-family: "Montserrat", sans-serif;
+        font-family: 'Montserrat', sans-serif;
       }
     </style>
     <script>
       tailwind.config = {
-        darkMode: "class",
+        darkMode: 'class',
         theme: {
           extend: {
             colors: {
-              clifford: "#da373d",
+              clifford: '#da373d',
             },
           },
         },
-      };
+      }
     </script>
     <script>
       if (
-        localStorage.getItem("color-theme") === "dark" ||
-        (!("color-theme" in localStorage) &&
-          window.matchMedia("(prefers-color-scheme: dark)").matches)
+        localStorage.getItem('color-theme') === 'dark' ||
+        (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)
       ) {
-        document.documentElement.classList.add("dark");
+        document.documentElement.classList.add('dark')
       } else {
-        document.documentElement.classList.remove("dark");
+        document.documentElement.classList.remove('dark')
       }
     </script>
   </head>
@@ -73,143 +60,129 @@
 
     <script type="text/babel" data-presets="react,stage-3">
       const DashboardPage = () => {
-        const {
-          employees,
-          isLoading,
-          addEmployee,
-          deleteEmployee,
-          query,
-          setQuery,
-        } = useEmployees();
+        const { employees, isLoading, addEmployee, deleteEmployee, query, setQuery } = useEmployees()
         const [newEmployee, setNewEmployee] = React.useState({
-          name: "",
-          email: "",
-        });
-        const [openModal, setOpenModal] = React.useState(false);
-        const [darkMode, setDarkMode] = React.useState(
-          localStorage.getItem("color-theme" === "dark")
-        );
-        const { employee } = useEmployee();
+          name: '',
+          email: '',
+        })
+        const [openModal, setOpenModal] = React.useState(false)
+        const [darkMode, setDarkMode] = React.useState(localStorage.getItem('color-theme' === 'dark'))
+        const { employee } = useEmployee()
 
         const handleAddNewEmployee = async () => {
           try {
-            await addEmployee(newEmployee);
-            handleCloseModal();
+            await addEmployee(newEmployee)
+            handleCloseModal()
           } catch (error) {
             if (error.response.data.message) {
-              alert(error.response.data.message);
+              alert(error.response.data.message)
             } else {
-              alert(error);
+              alert(error)
             }
           }
-        };
+        }
 
         const handleDeleteEmployee = (employeeId) => async () => {
           try {
-            await deleteEmployee(employeeId);
+            await deleteEmployee(employeeId)
           } catch (error) {
-            console.log(error);
+            console.log(error)
           }
-        };
+        }
 
         const handleSetOpenModal = () => {
-          setOpenModal(true);
-        };
+          setOpenModal(true)
+        }
 
         const handleCloseModal = () => {
-          setOpenModal(false);
-          setNewEmployee({ name: "", email: "" });
-          console.log("close please");
-        };
+          setOpenModal(false)
+          setNewEmployee({ name: '', email: '' })
+          console.log('close please')
+        }
 
-        const handleInputName = (ev) =>
-          setNewEmployee((prev) => ({ ...prev, name: ev.target.value }));
+        const handleInputName = (ev) => setNewEmployee((prev) => ({ ...prev, name: ev.target.value }))
 
-        const handleInputEmail = (ev) =>
-          setNewEmployee((prev) => ({ ...prev, email: ev.target.value }));
+        const handleInputEmail = (ev) => setNewEmployee((prev) => ({ ...prev, email: ev.target.value }))
 
-        const handleQueryChange = (ev) => setQuery(ev.target.value);
+        const handleQueryChange = (ev) => setQuery(ev.target.value)
 
         const handleToggleDarkMode = () => {
-          if (localStorage.getItem("color-theme")) {
-            if (localStorage.getItem("color-theme") === "light") {
-              document.documentElement.classList.add("dark");
-              localStorage.setItem("color-theme", "dark");
-              setDarkMode(true);
+          if (localStorage.getItem('color-theme')) {
+            if (localStorage.getItem('color-theme') === 'light') {
+              document.documentElement.classList.add('dark')
+              localStorage.setItem('color-theme', 'dark')
+              setDarkMode(true)
             } else {
-              document.documentElement.classList.remove("dark");
-              localStorage.setItem("color-theme", "light");
-              setDarkMode(false);
+              document.documentElement.classList.remove('dark')
+              localStorage.setItem('color-theme', 'light')
+              setDarkMode(false)
             }
           } else {
-            if (document.documentElement.classList.contains("dark")) {
-              document.documentElement.classList.remove("dark");
-              localStorage.setItem("color-theme", "light");
-              setDarkMode(false);
+            if (document.documentElement.classList.contains('dark')) {
+              document.documentElement.classList.remove('dark')
+              localStorage.setItem('color-theme', 'light')
+              setDarkMode(false)
             } else {
-              document.documentElement.classList.add("dark");
-              localStorage.setItem("color-theme", "dark");
-              setDarkMode(true);
+              document.documentElement.classList.add('dark')
+              localStorage.setItem('color-theme', 'dark')
+              setDarkMode(true)
             }
           }
-        };
+        }
 
         return (
-          <div className="flex flex-col mx-auto dark:bg-gray-900">
-            <nav className="border-gray-200">
-              <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
-                <a href="#" className="flex items-center">
+          <div className='flex flex-col mx-auto dark:bg-gray-900'>
+            <nav className='border-gray-200'>
+              <div className='max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4'>
+                <a href='#' className='flex items-center'>
                   <img
-                    src="https://gist.githubusercontent.com/bagus2x/1c9c9ba8fc1bd097ed1e191dd1d2e0d9/raw/710227e873d7abb6734aa922e02e09bb392efc7d/serverapp-logo.svg"
-                    className="h-8 mr-3"
-                    alt="Server App Logo"
+                    src='https://gist.githubusercontent.com/bagus2x/1c9c9ba8fc1bd097ed1e191dd1d2e0d9/raw/710227e873d7abb6734aa922e02e09bb392efc7d/serverapp-logo.svg'
+                    className='h-8 mr-3'
+                    alt='Server App Logo'
                   />
-                  <span className="self-center text-2xl font-semibold whitespace-nowrap dark:text-white">
+                  <span className='self-center text-2xl font-semibold whitespace-nowrap dark:text-white'>
                     ServerApp
                   </span>
                 </a>
                 <button
-                  data-collapse-toggle="navbar-default"
-                  type="button"
-                  className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                  aria-controls="navbar-default"
-                  aria-expanded="false"
+                  data-collapse-toggle='navbar-default'
+                  type='button'
+                  className='inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600'
+                  aria-controls='navbar-default'
+                  aria-expanded='false'
                 >
-                  <span className="sr-only">Open main menu</span>
+                  <span className='sr-only'>Open main menu</span>
                   <svg
-                    className="w-5 h-5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 17 14"
+                    className='w-5 h-5'
+                    aria-hidden='true'
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 17 14'
                   >
                     <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M1 1h15M1 7h15M1 13h15"
+                      stroke='currentColor'
+                      stroke-linecap='round'
+                      stroke-linejoin='round'
+                      stroke-width='2'
+                      d='M1 1h15M1 7h15M1 13h15'
                     />
                   </svg>
                 </button>
-                <div
-                  className="hidden w-full md:block md:w-auto"
-                  id="navbar-default"
-                >
-                  <ul className="font-medium flex flex-col justify-center items-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700">
+                <div className='hidden w-full md:block md:w-auto' id='navbar-default'>
+                  <ul className='font-medium flex flex-col justify-center items-center p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700'>
                     <li>
                       <button onClick={handleToggleDarkMode}>
                         {darkMode ? (
-                          <i className="fa-solid fa-moon text-white"></i>
+                          <i className='fa-solid fa-moon text-white'></i>
                         ) : (
-                          <i className="fa-solid fa-sun"></i>
+                          <i className='fa-solid fa-sun'></i>
                         )}
                       </button>
                     </li>
                     <li>
                       <a
-                        href="#"
-                        className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent"
+                        href='#'
+                        className='block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent'
                       >
                         {employee?.name}
                       </a>
@@ -218,131 +191,130 @@
                 </div>
               </div>
             </nav>
-            <main className="flex flex-col gap-4 max-w-screen-xl mx-auto w-full sm:px-4">
-              <div className="relative">
-                <div className="relative shadow-2xl sm:rounded-2xl overflow-hidden dark:bg-gray-800">
-                  <div className="flex justify-between items-center p-4 flex-col sm:flex-row">
-                    <div className="flex justify-between items-center">
+            <main className='flex flex-col gap-4 max-w-screen-xl mx-auto w-full sm:px-4'>
+              <div className='relative'>
+                <div className='relative shadow-2xl sm:rounded-2xl overflow-hidden dark:bg-gray-800'>
+                  <div className='flex justify-between items-center p-4 flex-col sm:flex-row'>
+                    <div className='flex justify-between items-center'>
                       <button
-                        type="button"
-                        className="py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                        type='button'
+                        className='py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'
                         onClick={handleSetOpenModal}
                       >
-                        <i className="fa-solid fa-plus"></i> &nbsp; Add an
-                        Employee
+                        <i className='fa-solid fa-plus'></i> &nbsp; Add an Employee
                       </button>
                       <ReactModal
                         isOpen={openModal}
                         ariaHideApp={false}
-                        className="backdrop-blur-sm w-screen min-h-screen px-4 py-8 dark:bg-gray-800"
+                        className='backdrop-blur-sm w-screen min-h-screen px-4 py-8 dark:bg-gray-800'
                       >
-                        <div className="flex flex-col max-w-screen-sm mx-auto py-8 px-4 rounded-lg shadow bg-white dark:bg-gray-500">
-                          <div className="relative">
-                            <div className="mb-6">
+                        <div className='flex flex-col max-w-screen-sm mx-auto py-8 px-4 rounded-lg shadow bg-white dark:bg-gray-500'>
+                          <div className='relative'>
+                            <div className='mb-6'>
                               <label
-                                for="email"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                for='email'
+                                className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
                               >
                                 Name
                               </label>
                               <input
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                                 onChange={handleInputName}
                                 value={newEmployee.name}
                                 required
                               />
                             </div>
-                            <div className="mb-6">
+                            <div className='mb-6'>
                               <label
-                                for="password"
-                                className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+                                for='password'
+                                className='block mb-2 text-sm font-medium text-gray-900 dark:text-white'
                               >
                                 Email
                               </label>
                               <input
-                                type="email"
-                                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                type='email'
+                                className='bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
                                 onChange={handleInputEmail}
-                                placeholder="tubagus.sflh@gmail.com"
+                                placeholder='tubagus.sflh@gmail.com'
                                 value={newEmployee.email}
                                 required
                               />
                             </div>
-                            <div className="flex justify-end">
+                            <div className='flex justify-end'>
                               <button
-                                type="button"
-                                className="py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                                type='button'
+                                className='py-2.5 px-5 mr-2 mb-2 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-full border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-200 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700'
                                 disabled={isLoading}
                                 onClick={handleCloseModal}
                               >
                                 Cancel
                               </button>
                               <button
-                                type="button"
-                                className="text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                                type='button'
+                                className='text-white bg-blue-700 hover:bg-blue-800 focus:outline-none focus:ring-4 focus:ring-blue-300 font-medium rounded-full text-sm px-5 py-2.5 text-center mr-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800'
                                 disabled={isLoading}
                                 onClick={handleAddNewEmployee}
                               >
-                                {isLoading ? "Loading" : "Save"}
+                                {isLoading ? 'Loading' : 'Save'}
                               </button>
                             </div>
                             {isLoading && (
-                              <i className="fa-solid fa-spinner absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 fa-2xl fa-spin"></i>
+                              <i className='fa-solid fa-spinner absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 fa-2xl fa-spin'></i>
                             )}
                           </div>
                         </div>
                       </ReactModal>
                     </div>
-                    <div className="flex items-center justify-end py-4">
-                      <div className="relative">
-                        <label for="table-search" className="sr-only">
+                    <div className='flex items-center justify-end py-4'>
+                      <div className='relative'>
+                        <label for='table-search' className='sr-only'>
                           Search
                         </label>
-                        <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <div className='absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none'>
                           <svg
-                            className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                            aria-hidden="true"
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="none"
-                            viewBox="0 0 20 20"
+                            className='w-4 h-4 text-gray-500 dark:text-gray-400'
+                            aria-hidden='true'
+                            xmlns='http://www.w3.org/2000/svg'
+                            fill='none'
+                            viewBox='0 0 20 20'
                           >
                             <path
-                              stroke="currentColor"
-                              stroke-linecap="round"
-                              stroke-linejoin="round"
-                              stroke-width="2"
-                              d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
+                              stroke='currentColor'
+                              stroke-linecap='round'
+                              stroke-linejoin='round'
+                              stroke-width='2'
+                              d='m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z'
                             />
                           </svg>
                         </div>
                         <input
                           value={query}
                           onChange={handleQueryChange}
-                          type="text"
-                          id="table-search-users"
-                          className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                          placeholder="Search for users"
+                          type='text'
+                          id='table-search-users'
+                          className='block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                          placeholder='Search for users'
                         />
                       </div>
                     </div>
                   </div>
-                  <div className="w-full overflow-x-auto">
-                    <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 overflow-x-auto">
-                      <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                  <div className='w-full overflow-x-auto'>
+                    <table className='w-full text-sm text-left text-gray-500 dark:text-gray-400 overflow-x-auto'>
+                      <thead className='text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400'>
                         <tr>
-                          <th scope="col" className="px-6 py-3">
+                          <th scope='col' className='px-6 py-3'>
                             Name
                           </th>
-                          <th scope="col" className="px-6 py-3">
+                          <th scope='col' className='px-6 py-3'>
                             Role
                           </th>
-                          <th scope="col" className="px-6 py-3">
+                          <th scope='col' className='px-6 py-3'>
                             Phone
                           </th>
-                          <th scope="col" className="px-6 py-3">
+                          <th scope='col' className='px-6 py-3'>
                             Status
                           </th>
-                          <th scope="col" className="px-6 py-3">
+                          <th scope='col' className='px-6 py-3'>
                             Action
                           </th>
                         </tr>
@@ -351,52 +323,41 @@
                         {employees.map((employee) => (
                           <tr
                             key={employee.id}
-                            className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600"
+                            className='bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600'
                           >
                             <th
-                              scope="row"
-                              className="flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                              scope='row'
+                              className='flex items-center px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white'
                             >
                               <img
-                                className="w-10 h-10 rounded-full"
+                                className='w-10 h-10 rounded-full'
                                 src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${employee.id}`}
                                 alt={employee.name}
                               />
-                              <div className="pl-3">
-                                <div className="text-base font-semibold">
-                                  {employee.name}
-                                </div>
-                                <div className="font-normal text-gray-500">
-                                  {employee.email}{" "}
-                                  {employee.user.username
-                                    ? `• ${employee.user.username}`
-                                    : ""}
+                              <div className='pl-3'>
+                                <div className='text-base font-semibold'>{employee.name}</div>
+                                <div className='font-normal text-gray-500'>
+                                  {employee.email} {employee.user.username ? `• ${employee.user.username}` : ''}
                                 </div>
                               </div>
                             </th>
-                            <td className="px-6 py-4">
-                              {employee.user.roles
-                                .map((role) => role.name)
-                                .join(", ")}
-                            </td>
-                            <td className="px-6 py-4">{employee.phone}</td>
-                            <td className="px-6 py-4">
+                            <td className='px-6 py-4'>{employee.user.roles.map((role) => role.name).join(', ')}</td>
+                            <td className='px-6 py-4'>{employee.phone}</td>
+                            <td className='px-6 py-4'>
                               {employee.user.isEnabled ? (
-                                <div className="flex items-center">
-                                  <div className="h-2.5 w-2.5 rounded-full bg-green-500 mr-2"></div>{" "}
-                                  Verified
+                                <div className='flex items-center'>
+                                  <div className='h-2.5 w-2.5 rounded-full bg-green-500 mr-2'></div> Verified
                                 </div>
                               ) : (
-                                <div className="flex items-center">
-                                  <div className="h-2.5 w-2.5 rounded-full bg-red-500 mr-2"></div>{" "}
-                                  Not Verified
+                                <div className='flex items-center'>
+                                  <div className='h-2.5 w-2.5 rounded-full bg-red-500 mr-2'></div> Not Verified
                                 </div>
                               )}
                             </td>
-                            <td className="px-6 py-4">
+                            <td className='px-6 py-4'>
                               <button
-                                type="button"
-                                className="font-medium text-red-600 dark:text-red-500 hover:underline"
+                                type='button'
+                                className='font-medium text-red-600 dark:text-red-500 hover:underline'
                                 onClick={handleDeleteEmployee(employee.id)}
                               >
                                 Delete
@@ -411,83 +372,92 @@
               </div>
             </main>
           </div>
-        );
-      };
+        )
+      }
 
       const useEmployees = () => {
-        const [employees, setEmployees] = React.useState([]);
-        const [isLoading, setIsLoading] = React.useState(false);
-        const [query, setQuery] = React.useState("");
+        const [employees, setEmployees] = React.useState([])
+        const [isLoading, setIsLoading] = React.useState(false)
+        const [query, setQuery] = React.useState('')
         const result = React.useMemo(
           () =>
             employees.filter(
               (employee) =>
                 employee.name.toLowerCase().includes(query.toLowerCase()) ||
                 employee.email.toLowerCase().includes(query.toLowerCase()) ||
-                employee.user.username
-                  ?.toLowerCase()
-                  ?.includes(query.toLowerCase()) ||
-                employee.user.phone
-                  ?.toLowerCase()
-                  ?.includes(query.toLowerCase())
+                employee.user.username?.toLowerCase()?.includes(query.toLowerCase()) ||
+                employee.user.phone?.toLowerCase()?.includes(query.toLowerCase())
             ),
           [query, employees]
-        );
+        )
 
         React.useEffect(() => {
-          (async () => {
+          ;(async () => {
             try {
-              const data = await getEmployees();
-              setEmployees(data);
+              const data = await getEmployees()
+              setEmployees(data)
             } catch (error) {
-              console.error(error);
+              console.error(error)
             }
-          })();
-        }, []);
+          })()
+        }, [])
+
+        React.useEffect(() => {
+          const listener = () => {
+            ;(async () => {
+              try {
+                const data = await getEmployees()
+                setEmployees(data)
+              } catch (error) {
+                console.error(error)
+              }
+            })()
+          }
+          window.addEventListener('focus', listener)
+
+          return () => {
+            window.removeEventListener('focus', listener)
+          }
+        }, [])
 
         const getEmployees = async () => {
-          const res = await axios.get("/api/v1/employees");
-          return res.data;
-        };
+          const res = await axios.get('/api/v1/employees')
+          return res.data
+        }
 
         const addEmployee = async (request) => {
-          setIsLoading(true);
+          setIsLoading(true)
 
           try {
-            const res = await axios.post(
-              `/api/v1/employee-registration`,
-              request
-            );
-            setEmployees((prev) => [res.data, ...prev]);
+            const res = await axios.post(`/api/v1/employee-registration`, request)
+            setEmployees((prev) => [res.data, ...prev])
 
-            return res.data;
+            return res.data
           } catch (error) {
-            throw error;
+            throw error
           } finally {
-            setIsLoading(false);
+            setIsLoading(false)
           }
 
-          return null;
-        };
+          return null
+        }
 
         const deleteEmployee = async (employeeId) => {
-          setIsLoading(true);
+          setIsLoading(true)
 
           try {
-            const res = await axios.delete(`/api/v1/employee/${employeeId}`);
-            setEmployees((prev) =>
-              prev.filter((employee) => employee.id !== employeeId)
-            );
+            const res = await axios.delete(`/api/v1/employee/${employeeId}`)
+            setEmployees((prev) => prev.filter((employee) => employee.id !== employeeId))
 
-            return res.data;
+            return res.data
           } catch (error) {
-            throw error;
+            throw error
           } finally {
-            setIsLoading(false);
+            setIsLoading(false)
           }
 
-          return null;
-        };
+          return null
+        }
 
         return {
           employees: result,
@@ -496,31 +466,31 @@
           deleteEmployee,
           query,
           setQuery,
-        };
-      };
+        }
+      }
 
       const useEmployee = () => {
-        const [employee, setEmployee] = React.useState(null);
+        const [employee, setEmployee] = React.useState(null)
 
         const getEmployee = async () => {
-          const res = await axios.get("/api/v1/employee");
-          return res.data;
-        };
+          const res = await axios.get('/api/v1/employee')
+          return res.data
+        }
 
         React.useEffect(() => {
-          (async () => {
-            setEmployee(await getEmployee());
-          })();
-        }, []);
+          ;(async () => {
+            setEmployee(await getEmployee())
+          })()
+        }, [])
 
         return {
           employee,
           setEmployee,
-        };
-      };
+        }
+      }
 
-      const root = ReactDOM.createRoot(document.getElementById("root"));
-      root.render(<DashboardPage />);
+      const root = ReactDOM.createRoot(document.getElementById('root'))
+      root.render(<DashboardPage />)
     </script>
   </body>
 </html>
