@@ -21,7 +21,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-// import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -41,19 +40,6 @@ public class AuthService {
                 Employee employee = modelMapper.map(registrationRequest, Employee.class);
                 User user = modelMapper.map(registrationRequest, User.class);
                 
-                // set your password
-                // user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-
-                // if (user.getUsername() == null) {
-                //         user.setUsername("");
-                // }
-                // if (user.getPassword() == null) {
-                //         user.setPassword("");
-                // }
-                // user.setIsEnabled(true);
-                // if (employee.getPhone() == null) {
-                //         employee.setPhone("");
-                // }
                 // set default role
                 List<Role> roles = Collections.singletonList(roleService.getById(2));
 

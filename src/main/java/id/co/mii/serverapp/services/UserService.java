@@ -2,13 +2,13 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 import org.springframework.http.HttpStatus;
-//import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
-//import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
+
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 
@@ -18,7 +18,6 @@ public class UserService {
 
     private UserRepository userRepository;
     private RoleService roleService;
-    //private PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         return userRepository
@@ -29,6 +28,17 @@ public class UserService {
         return userRepository
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+    }
+
+    public boolean verify(String token) {
+        User user = userRepository.findByTokenJPQL(token);
+         
+        if (user == null || user.getIsEnabled()) {
+            return false;
+        } else {
+            return true;
+        }
+         
     }
 
     // add role
@@ -46,36 +56,8 @@ public class UserService {
     public User findByToken(String token) {
         return userRepository
         .findByToken(token)
-        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Token is not valid"));
-    }
-
-    public boolean verify(String token) {
-        User user = userRepository.findByTokenJPQL(token);
-         
-        if (user == null || user.getIsEnabled()) {
-            return false;
-        } else {
-            return true;
-        }
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid Token!!"));
     }
     
-//     public User update(Integer id, RegistrationRequest registrationRequest) {
-//        User updatedUser = getById(id);
-//        if (registrationRequest.getUsername().isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username harus diisi");
-//        }
-//        if (registrationRequest.getPassword().isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password harus diisi");
-//        }
-//        if (registrationRequest.getPhone().isEmpty()) {
-//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone harus diisi");
-//        }
-//        updatedUser.setUsername(registrationRequest.getUsername());
-//        updatedUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-//        updatedUser.getEmployee().setPhone(registrationRequest.getPhone());
-//        updatedUser.setIsEnabled(true);
-//        updatedUser.setToken(null);
-//        return userRepository.save(updatedUser);
-//    }
     
 }

@@ -63,8 +63,7 @@ public class EmailService {
             // helper.setText(htmlContent, true);
             // javaMailSender.send(message);
             MimeMessage message = javaMailSender.createMimeMessage();
-            MimeMessageHelper helper = new MimeMessageHelper(message, MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
-                    StandardCharsets.UTF_8.name());
+            MimeMessageHelper helper = new MimeMessageHelper(message);
             Context context = new Context();
             context.setVariables(emailRequest.getProperties());
 
