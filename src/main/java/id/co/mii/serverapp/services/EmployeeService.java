@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.services;
 
+import id.co.mii.serverapp.models.AppUserDetail;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
@@ -11,6 +12,8 @@ import id.co.mii.serverapp.repositories.RoleRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
@@ -47,9 +50,9 @@ public class EmployeeService {
         }
 
         if (employeeRepository.existsByUserId(request.getUserId())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "User with id " + request.getUserId() + " already associate with an employee");
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "User with id " + request.getUserId() + " already associate with an employee");
         }
-
 
         Employee employee = new Employee();
 
@@ -58,14 +61,14 @@ public class EmployeeService {
 
     public Employee getById(Integer employeeId) {
         return employeeRepository
-            .findById(employeeId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
+                .findById(employeeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
     }
 
     public Employee getByToken(String token) {
         return employeeRepository
-            .findByUserToken(token)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
+                .findByUserToken(token)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
     }
 
     public List<Employee> getAll() {
@@ -85,8 +88,8 @@ public class EmployeeService {
 
     private Employee save(EmployeeRequest request, Employee employee) {
         User user = userRepository
-            .findById(request.getUserId())
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+                .findById(request.getUserId())
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         employee.setName(request.getName());
         employee.setEmail(request.getEmail());
@@ -98,8 +101,8 @@ public class EmployeeService {
 
     public Employee delete(Integer employeeId) {
         Employee employee = employeeRepository
-            .findById(employeeId)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
+                .findById(employeeId)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
 
         employeeRepository.delete(employee);
 
@@ -122,8 +125,8 @@ public class EmployeeService {
         employee.setEmail(request.getEmail());
 
         Role role = roleRepository
-            .findByNameIgnoreCase("USER")
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found"));
+                .findByNameIgnoreCase("USER")
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role not found"));
 
         User user = new User();
         user.setEmployee(employee);
@@ -135,15 +138,16 @@ public class EmployeeService {
         employee = employeeRepository.save(employee);
 
         emailService.sendMessageWithHtml(
-            new HashMap<String, Object>() {{
-                put("token", user.getToken());
-                put("name", request.getName());
-            }},
-            "emails/employee_verification",
-            request.getEmail(),
-            "Verify and Update Your Data",
-            null
-        );
+                new HashMap<String, Object>() {
+                    {
+                        put("token", user.getToken());
+                        put("name", request.getName());
+                    }
+                },
+                "emails/employee_verification",
+                request.getEmail(),
+                "Verify and Update Your Data",
+                null);
 
         return employee;
     }
@@ -173,5 +177,11 @@ public class EmployeeService {
         employee.getUser().setPassword(passwordEncoder.encode(request.getPassword()));
 
         return employeeRepository.save(employee);
+    }
+
+    public Employee getEmployeeBySession() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        AppUserDetail appUserDetail = (AppUserDetail) authentication.getPrincipal();
+        return appUserDetail.getUser().getEmployee();
     }
 }
