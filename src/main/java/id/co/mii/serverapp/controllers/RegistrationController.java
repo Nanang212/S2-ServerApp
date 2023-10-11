@@ -29,7 +29,7 @@ public class RegistrationController {
             model.addAttribute("id", user.getId());
             return "registration";
         }
-        return "not-found";
+        return "notfound";
     }
 
     @PostMapping("/registration/{id}")
@@ -37,5 +37,5 @@ public class RegistrationController {
         employeeService.update(id, registrationRequest);
         return "success";
     }
-    
+
 }

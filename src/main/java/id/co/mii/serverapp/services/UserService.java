@@ -51,11 +51,41 @@ public class UserService {
         roles.add(roleService.getById(role.getId()));
         user.setRoles(roles);
         return userRepository.save(user);
-    }
+    } 
 
     public User findByToken(String token) {
         return userRepository
-                .findByToken(token)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Invalid token!!!"));
+        .findByToken(token)
+        .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Token is not valid"));
     }
+
+    public boolean verify(String token) {
+        User user = userRepository.findByTokenJPQL(token);
+         
+        if (user == null || user.getIsEnabled()) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+    
+//     public User update(Integer id, RegistrationRequest registrationRequest) {
+//        User updatedUser = getById(id);
+//        if (registrationRequest.getUsername().isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username harus diisi");
+//        }
+//        if (registrationRequest.getPassword().isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password harus diisi");
+//        }
+//        if (registrationRequest.getPhone().isEmpty()) {
+//            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone harus diisi");
+//        }
+//        updatedUser.setUsername(registrationRequest.getUsername());
+//        updatedUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
+//        updatedUser.getEmployee().setPhone(registrationRequest.getPhone());
+//        updatedUser.setIsEnabled(true);
+//        updatedUser.setToken(null);
+//        return userRepository.save(updatedUser);
+//    }
+    
 }

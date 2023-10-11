@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
@@ -15,7 +16,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class EmployeeService {
     private EmployeeRepository employeeRepository;
-     private PasswordEncoder passwordEncoder;
 
     public List<Employee> getAll() {
         return employeeRepository.findAll();
@@ -39,10 +39,21 @@ public class EmployeeService {
         return employee;
     }
 
-    // update
-    public Employee update(Integer id, RegistrationRequest registrationRequest) {
-        Employee employee  = getById(id);
+    // update emplotee
+
+     public Employee update(Integer id, RegistrationRequest registrationRequest) {
+
+        Employee employee = getById(id);
         User user = employee.getUser();
+        if (registrationRequest.getUsername().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Username harus diisi");
+        }
+        if (registrationRequest.getPassword().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password harus diisi");
+        }
+        if (registrationRequest.getPhone().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Phone harus diisi");
+        }
         user.setUsername(registrationRequest.getUsername());
         user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
         user.getEmployee().setPhone(registrationRequest.getPhone());

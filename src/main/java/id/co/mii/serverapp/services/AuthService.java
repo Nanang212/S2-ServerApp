@@ -40,7 +40,7 @@ public class AuthService {
         public Employee registration(RegistrationRequest registrationRequest) {
                 Employee employee = modelMapper.map(registrationRequest, Employee.class);
                 User user = modelMapper.map(registrationRequest, User.class);
-
+                
                 // set your password
                 // user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
 
@@ -65,7 +65,7 @@ public class AuthService {
                 EmailRequest emailRequest = new EmailRequest();
                 emailRequest.setTo(registrationRequest.getEmail());
                 emailRequest.setSubject("Verification Email");
-                emailRequest.setText("verification-email.html");
+                emailRequest.setText("confirmation.html");
 
                 Map<String, Object> properties = new HashMap<>();
                 properties.put("token", user.getToken());
@@ -85,7 +85,7 @@ public class AuthService {
                 // set principle
                 Authentication auth = authManager.authenticate(authReq);
                 SecurityContextHolder.getContext().setAuthentication(auth);
-
+                               
                 User user = userRepository
                                 .findByUsernameOrEmployeeEmail(loginRequest.getUsername(), loginRequest.getUsername())
                                 .get();
@@ -97,7 +97,7 @@ public class AuthService {
                                 .stream()
                                 .map(authority -> authority.getAuthority())
                                 .collect(Collectors.toList());
-
+               
                 return new LoginResponse(
                                 user.getUsername(),
                                 user.getEmployee().getEmail(),
