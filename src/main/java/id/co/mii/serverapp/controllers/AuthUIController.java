@@ -10,8 +10,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import id.co.mii.serverapp.models.Employee;
+import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.services.AuthService;
+import id.co.mii.serverapp.services.UserService;
 import lombok.AllArgsConstructor;
 
 @Controller
@@ -20,6 +22,8 @@ import lombok.AllArgsConstructor;
 public class AuthUIController {
 
     private AuthService authService;
+
+    private UserService userService;
     
     @GetMapping("/verify")
     String verify(@RequestParam(name = "token", required = false)  String token, Model model){
@@ -31,8 +35,14 @@ public class AuthUIController {
     @PostMapping("/register-user/{id}")
     String registerUser(@ModelAttribute RegistrationRequest registrationRequest ,Model model, @PathVariable String id){
         Employee registerUser = authService.registerUser(registrationRequest, id);
-        
         model.addAttribute("registerRequest", registerUser);  
         return "success";
+    }
+
+    @GetMapping("/coba")
+    public String percobaan(Model model){
+       User user =  userService.getById(42);
+        model.addAttribute("x", user);
+        return "dashboard";
     }
 }

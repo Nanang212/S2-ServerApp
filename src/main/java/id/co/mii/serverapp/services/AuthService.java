@@ -20,18 +20,15 @@ import org.springframework.web.server.ResponseStatusException;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.models.dto.requests.EmailRequest;
 import id.co.mii.serverapp.models.dto.requests.LoginRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.models.dto.responses.LoginResponse;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
 @AllArgsConstructor
-@Slf4j
 public class AuthService {
     
     private ModelMapper modelMapper;
@@ -73,8 +70,8 @@ public class AuthService {
 
     public Employee registerUser(RegistrationRequest registrationRequest, String token){
         User validUser = userService.findByToken(token).get();
-        Employee employee = modelMapper.map(registrationRequest, Employee.class );
-
+        Employee employee = new Employee();
+        
         validUser.setId(validUser.getId());
         validUser.setUsername(registrationRequest.getUsername());
         validUser.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
@@ -112,41 +109,27 @@ public class AuthService {
 
    public RegistrationRequest setNullField(RegistrationRequest registrationRequest){
         if (registrationRequest.getUsername() == null || registrationRequest.getUsername().isEmpty()) {
-            registrationRequest.setUsername(UUID.randomUUID().toString());
+            registrationRequest.setUsername(registrationRequest.getName() + registrationRequest.getEmail());
         }
         if (registrationRequest.getPassword() == null || registrationRequest.getPassword().isEmpty()) {
-            registrationRequest.setPassword(UUID.randomUUID().toString());
-        }
-        if (registrationRequest.getName() == null || registrationRequest.getName().isEmpty()) {
-            registrationRequest.setName(UUID.randomUUID().toString());
-        }
-        if (registrationRequest.getEmail() == null || registrationRequest.getEmail().isEmpty()) {
-            registrationRequest.setEmail(UUID.randomUUID().toString());
-        }
-        if (registrationRequest.getPhone() == null || registrationRequest.getPhone().isEmpty()) {
-            registrationRequest.setPhone("081");
-        }
-
+            registrationRequest.setPassword(registrationRequest.getName() + registrationRequest.getEmail());
+        }          
         return registrationRequest;
     }
 
     public String isVerifyUser(String token){
       User existsUser = userService.findByToken(token).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Token gak cocok"));
-        // if token expired then send email again and return page token is expired 
+
         if (isTokenExpired(existsUser.getTokenExpiredAt())) {
             User regenerateToken = regenerateVerificationToken(existsUser);
             emailService.sendHtmlMessage(emailService.createVerifycationEmail(existsUser.getEmployee().getEmail(), regenerateToken.getToken()));
             userRepository.save(regenerateToken);
             return "token-expired";
         }
-
-
       if (existsUser.getIsEnable()) {
         
         return "page-404";
       } 
-      
-    
       return "registration";
     }
 
@@ -154,7 +137,7 @@ public class AuthService {
         return tokenExpiredAt.isBefore(LocalDateTime.now());
     }
 
-    public User regenerateVerificationToken(User user){
+    public User  regenerateVerificationToken(User user){
         String newToken = UUID.randomUUID().toString();
         user.setToken(newToken);
         user.setTokenCreatedAt(LocalDateTime.now());
