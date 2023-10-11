@@ -2,7 +2,6 @@ package id.co.mii.serverapp.controllers;
 
 import java.util.Optional;
 
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +18,6 @@ import lombok.AllArgsConstructor;
 
 @Controller
 @AllArgsConstructor
-@PreAuthorize("hasRole('ADMIN')")
 public class RegistrationController {
 
     private EmployeeService employeeService;
@@ -44,7 +42,6 @@ public class RegistrationController {
         return "success";
     }
 
-    @PreAuthorize("hasAuthority('READ_ADMIN')")
     @GetMapping("/adduser")
     public String registerView() {
         return "register";
