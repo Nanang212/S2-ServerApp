@@ -1,5 +1,7 @@
 package id.co.mii.serverapp.controllers;
 
+import java.util.Map;
+
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,16 +21,15 @@ import id.co.mii.serverapp.models.dto.responses.LoginResponse;
 import id.co.mii.serverapp.services.AuthService;
 import lombok.AllArgsConstructor;
 
-// @RestController
-@Controller
+@RestController
 @RequestMapping("/auth")
 @AllArgsConstructor
 public class AuthController {
 
     private AuthService authService;
 
-    @PostMapping(value = "/registration", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public Employee registration(@ModelAttribute RegistrationRequest registrationRequest) {
+    @PostMapping("/registration")
+    public Employee registration(@RequestBody RegistrationRequest registrationRequest) {
         return authService.registration(registrationRequest);
     }
 
@@ -39,7 +40,7 @@ public class AuthController {
         return mv;
     }
 
-    @PostMapping(value = "/login", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest loginRequest) {
         return authService.login(loginRequest);
     }
@@ -49,6 +50,12 @@ public class AuthController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("login");
         return mv;
+    }
+
+    @GetMapping("/registration-validate")
+    public Map<String, Object> validation(
+            @RequestParam(name = "name") String name, @RequestParam(name = "email") String email) {
+        return authService.validation(name, email);
     }
 
 }
