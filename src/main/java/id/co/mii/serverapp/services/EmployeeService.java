@@ -61,7 +61,7 @@ public class EmployeeService {
         User user = new User();
         user.setEmployee(employee);
         user.setToken(UUID.randomUUID().toString());
-        user.setTokenExpiredAt(LocalDateTime.now().plusMinutes(30));
+        user.setTokenExpiredAt(LocalDateTime.now().plusMinutes(60));
         user.setRoles(Collections.singleton(role));
         employee.setUser(user);
 
