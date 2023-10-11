@@ -52,9 +52,9 @@ public class RegistrationController {
 
     @PostMapping("/adduser")
     public String registration(
-        @ModelAttribute RegistrationRequest registrationRequest) {
+            @ModelAttribute RegistrationRequest registrationRequest) {
         authService.registration(registrationRequest);
-      return "success";
+        return "success";
     }
 
 }
