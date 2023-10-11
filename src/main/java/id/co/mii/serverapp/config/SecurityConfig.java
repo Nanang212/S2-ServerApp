@@ -44,6 +44,8 @@ public class SecurityConfig {
                 .antMatchers("/employee-verification").permitAll()
                 .anyRequest().authenticated()
             )
+            .httpBasic()
+            .and()
             .formLogin()
             .loginPage("/login-form");
 
