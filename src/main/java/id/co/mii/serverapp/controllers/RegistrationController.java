@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
+import id.co.mii.serverapp.services.EmployeeService;
 import id.co.mii.serverapp.services.UserService;
 import lombok.AllArgsConstructor;
 
@@ -17,6 +18,7 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class RegistrationController {
     private UserService userService;
+    private EmployeeService employeeService;
 
     @GetMapping("page/registration")
     public String registrationView(RegistrationRequest registrationRequest,
@@ -32,7 +34,7 @@ public class RegistrationController {
 
     @PostMapping("/registration/{id}")
     public String registration(@ModelAttribute RegistrationRequest registrationRequest, @PathVariable Integer id) {
-        userService.update(id, registrationRequest);
+        employeeService.update(id, registrationRequest);
         return "success";
     }
     

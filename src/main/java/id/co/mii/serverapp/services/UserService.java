@@ -2,13 +2,13 @@ package id.co.mii.serverapp.services;
 
 import java.util.List;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.crypto.password.PasswordEncoder;
+
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
-import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
+
 import id.co.mii.serverapp.repositories.UserRepository;
 import lombok.AllArgsConstructor;
 
@@ -18,7 +18,6 @@ public class UserService {
 
     private UserRepository userRepository;
     private RoleService roleService;
-    private PasswordEncoder passwordEncoder;
 
     public List<User> getAll() {
         return userRepository
@@ -30,18 +29,6 @@ public class UserService {
                 .findById(id)
                 .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
     }
-
-    // update
-    public User update(Integer id, RegistrationRequest registrationRequest) {
-        User user = getById(id);
-        user.setUsername(registrationRequest.getUsername());
-        user.setPassword(passwordEncoder.encode(registrationRequest.getPassword()));
-        user.getEmployee().setPhone(registrationRequest.getPhone());
-        user.setIsEnabled(true);
-        user.setToken(null);
-        return userRepository.save(user);
-    }
-
 
     public boolean verify(String token) {
         User user = userRepository.findByTokenJPQL(token);
