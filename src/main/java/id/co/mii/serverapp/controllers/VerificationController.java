@@ -45,17 +45,18 @@ public class VerificationController {
 
         ModelAndView mv = new ModelAndView();
 
-        if (!token.isEmpty()) {
+        try {
+            userService.findByToken(token);
 
-            User user = authService.verification(registrationRequest, token);
+            authService.verification(registrationRequest, token);
 
             mv.setViewName("verify-success");
-            mv.getModel().put("name", user.getEmployee().getName());
 
+            return mv;
+        } catch (Exception e) {
+            mv.setViewName("404");
             return mv;
         }
 
-        mv.setViewName("404");
-        return mv;
     }
 }

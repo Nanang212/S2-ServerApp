@@ -40,6 +40,7 @@ public class AuthService {
         private PasswordEncoder passwordEncoder;
 
         public Employee registration(RegistrationRequest registrationRequest) {
+
                 Employee employee = modelMapper.map(registrationRequest, Employee.class);
                 User user = modelMapper.map(registrationRequest, User.class);
 
@@ -112,5 +113,29 @@ public class AuthService {
                 user.getEmployee().setPhone(registrationRequest.getPhone());
 
                 return userRepository.save(user);
+        }
+
+        public Map<String, Object> validation(String name, String email) {
+
+                Map<String, Object> errors = new HashMap<>();
+
+                if (name.isEmpty()) {
+                        errors.put("name", "Name cant be empty!");
+                }
+
+                if (email.isEmpty()) {
+                        errors.put("email", "Email cant be empty!");
+                }
+
+                if (employeeRepository.findByName(name) != null) {
+                        errors.put("name", "Name Already Exists!");
+                }
+
+                if (employeeRepository.findByEmail(email) != null) {
+                        errors.put("email", "Email Already Exists!");
+                }
+
+                return errors;
+
         }
 }

@@ -2,6 +2,7 @@ package id.co.mii.serverapp.controllers;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,6 +17,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @RequestMapping("/employee")
 @AllArgsConstructor
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class EmployeeController {
 
     private EmployeeService employeeService;

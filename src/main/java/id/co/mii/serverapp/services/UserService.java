@@ -72,7 +72,7 @@ public class UserService {
         return user;
     }
 
-    public User findByToken(String token){
+    public User findByToken(String token) {
         return userRepository.findByToken(token);
     }
 }
