@@ -42,13 +42,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         .hasRole("ADMIN")
         .antMatchers(HttpMethod.POST, "/login")
         .permitAll()
-        .antMatchers(HttpMethod.GET, "/register")
+        .antMatchers(HttpMethod.GET, "/register/**")
         .permitAll()
+        .antMatchers(HttpMethod.POST, "/register/**")
+        .permitAll()
+        .antMatchers("/images/**")
+        .permitAll()
+        .antMatchers("/js/**")
+        .permitAll()
+        .antMatchers(HttpMethod.GET, "/adduser")
+        .hasRole("ADMIN")
+        .antMatchers(HttpMethod.POST, "/adduser")
+        .hasRole("ADMIN")
         .anyRequest()
         .authenticated()
-        // .permitAll()
         .and()
-        // .formLogin();
         .httpBasic();
   }
 
