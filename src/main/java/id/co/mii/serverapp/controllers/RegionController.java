@@ -4,7 +4,7 @@ import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.services.RegionService;
 import java.util.List;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
+// import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController // json
 @AllArgsConstructor
 @RequestMapping("/region")
-@PreAuthorize("hasRole('ADMIN')")
+// @PreAuthorize("hasRole('ADMIN')")
 public class RegionController {
 
   private RegionService regionService;
