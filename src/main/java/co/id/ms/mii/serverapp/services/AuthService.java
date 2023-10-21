@@ -50,7 +50,7 @@ public class AuthService {
         user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
         user.setIsEnabled(true);
         // set default role
-        List<Role> roles = Collections.singletonList(roleService.getById(1));
+        List<Role> roles = Collections.singletonList(roleService.getById(2));
         user.setRoles(roles);
         // set isEnable to true
         user.setIsEnabled(true);

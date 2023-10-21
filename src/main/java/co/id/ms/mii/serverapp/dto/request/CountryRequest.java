@@ -10,5 +10,5 @@ import lombok.NoArgsConstructor;
 public class CountryRequest {
     private String code;
     private String name;
-    private Integer region_id;
+    private Integer regionId;
 }

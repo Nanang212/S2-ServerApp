@@ -6,18 +6,23 @@ import co.id.ms.mii.serverapp.models.Region;
 import co.id.ms.mii.serverapp.repositories.CountryRepository;
 import co.id.ms.mii.serverapp.repositories.RegionRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
 public class CountryService {
     private final CountryRepository countryRepository;
     private final RegionRepository regionRepository;
-
+    private ModelMapper modelMapper;
     /*
      * 1. Autowired on properties
      * 2. Autowired on setter
@@ -34,6 +39,71 @@ public class CountryService {
         );
     }
 
+    // custom manual
+    public Map<String, Object> getByIdCustom(Integer id) {
+        Map<String, Object> result = new HashMap<>();
+        Country country = countryRepository.findById(id).get();
+
+        result.put("countryId", country.getId());
+        result.put("countryCode", country.getCode());
+        result.put("countryName", country.getName());
+        result.put("regionId", country.getRegion().getId());
+        result.put("regionName", country.getRegion().getName());
+
+        return result;
+    }
+
+    public List<Map<String, Object>> getAllCustom() {
+        List<Map<String, Object>> results = new ArrayList<>();
+        List<Country> countries = countryRepository.findAll();
+
+        for (Country country : countries) {
+            Map<String, Object> result = new HashMap<>();
+            result.put("countryId", country.getId());
+            result.put("countryCode", country.getCode());
+            result.put("countryName", country.getName());
+            result.put("regionId", country.getRegion().getId());
+            result.put("regionName", country.getRegion().getName());
+            results.add(result);
+        }
+        return results;
+    }
+
+    public List<Map<String, Object>> getAllCustomStream() {
+        return countryRepository
+                .findAll()
+                .stream()
+                .map(country -> {
+                    Map<String, Object> result = new HashMap<>();
+                    result.put("countryId", country.getId());
+                    result.put("countryCode", country.getCode());
+                    result.put("countryName", country.getName());
+                    result.put("regionId", country.getRegion().getId());
+                    result.put("regionName", country.getRegion().getName());
+                    return result;
+                })
+                .collect(Collectors.toList());
+    }
+
+
+    // without dto
+    public Country create(Country country) {
+        if (countryRepository.existsByName(country.getName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Name Country is already exists!!!"
+            );
+        }
+
+        if (regionRepository.existsByName(country.getName())) {
+            throw new ResponseStatusException(
+                    HttpStatus.CONFLICT,
+                    "Name Region is already exists!!!"
+            );
+        }
+
+        return countryRepository.save(country);
+    }
 
     public Country insert(CountryRequest countryDto) {
 
@@ -58,7 +128,7 @@ public class CountryService {
         }
 
         // checking jika ada region yang ada dengan parameter region_id di countrydto
-        Region setregion = regionRepository.findById(countryDto.getRegion_id()).orElseThrow(
+        Region setregion = regionRepository.findById(countryDto.getRegionId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region ID is not Found")
         );
 
@@ -79,14 +149,21 @@ public class CountryService {
 //        country.setId(id);
 //        return countryRepository.save(country);
 //    }
-    public Country update(CountryRequest countrydto, Integer id) {
+
+    public Country update(Integer id, Country country) {
+        GetById(id);
+        country.setId(id);
+        return countryRepository.save(country);
+    }
+
+    public Country updateDto(CountryRequest countrydto, Integer id) {
 
         //find id
         Country country = countryRepository.findById(id).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Country ID Not Found!!!")
         );
 
-        Region setregion = regionRepository.findById(countrydto.getRegion_id()).orElseThrow(
+        Region setregion = regionRepository.findById(countrydto.getRegionId()).orElseThrow(
                 () -> new ResponseStatusException(HttpStatus.BAD_REQUEST, "Region ID is not Found")
         );
 
