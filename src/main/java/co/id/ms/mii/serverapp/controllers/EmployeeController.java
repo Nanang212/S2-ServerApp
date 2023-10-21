@@ -16,7 +16,6 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/employee")
-@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class EmployeeController {
     private EmployeeService employeeService;
 
@@ -31,7 +30,6 @@ public class EmployeeController {
     }
 
     @DeleteMapping("/{id}")
-    @PreAuthorize("hasAuthority('DELETE_ADMIN')")
     public Employee delete(@PathVariable Integer id) {
         return employeeService.delete(id);
     }

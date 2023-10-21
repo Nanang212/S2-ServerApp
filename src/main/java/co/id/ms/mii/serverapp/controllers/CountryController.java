@@ -14,7 +14,6 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/country")
-@PreAuthorize("hasRole('USER')")
 public class CountryController {
     private CountryService countryService;
 

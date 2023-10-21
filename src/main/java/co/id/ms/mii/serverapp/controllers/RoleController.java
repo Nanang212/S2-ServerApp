@@ -13,18 +13,18 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/role")
-@PreAuthorize("hasAnyRole('ADMIN','USER')")
+//@PreAuthorize("hasAnyRole('ADMIN','USER')")
 public class RoleController {
     private RoleService roleService;
 
     @GetMapping
-    @PreAuthorize("hasAnyAuthority('VIEW_USER')")
+//    @PreAuthorize("hasAnyAuthority('VIEW_USER')")
     public List<Role> findAll() {
         return roleService.getall();
     }
 
     @GetMapping("/{Id}")
-    @PreAuthorize("hasAnyAuthority('VIEW_ADMIN')")
+//    @PreAuthorize("hasAnyAuthority('VIEW_ADMIN')")
     public Role findById(@PathVariable Integer Id){
         return roleService.getById(Id);
     }
