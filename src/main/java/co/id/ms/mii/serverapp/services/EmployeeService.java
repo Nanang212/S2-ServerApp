@@ -1,12 +1,15 @@
 package co.id.ms.mii.serverapp.services;
 
 import co.id.ms.mii.serverapp.dto.request.EmployeeRequest;
+import co.id.ms.mii.serverapp.dto.request.UserRequest;
 import co.id.ms.mii.serverapp.models.Country;
 import co.id.ms.mii.serverapp.models.Employee;
 import co.id.ms.mii.serverapp.models.User;
 import co.id.ms.mii.serverapp.repositories.EmployeeRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,6 +20,8 @@ import java.util.List;
 public class EmployeeService {
     private EmployeeRepository employeeRepository;
     private UserService userService;
+    private ModelMapper modelMapper;
+    private PasswordEncoder passwordEncoder;
 
     public List<Employee> getall(){
         return employeeRepository.findAll();
@@ -38,6 +43,22 @@ public class EmployeeService {
         getById(id);
         employee.setId(id);
         return employeeRepository.save(employee);
+    }
+
+    public Employee update(Integer id, UserRequest userRequest) {
+        Employee employeefind = getById(id);
+        User user = userService.getById(id);
+        employeefind.setName(userRequest.getName());
+        employeefind.setEmail(userRequest.getEmail());
+        employeefind.setPhone(userRequest.getPhone());
+
+        user.setUsername(userRequest.getUsername());
+        user.setPassword(passwordEncoder.encode(userRequest.getPassword()));
+
+        employeefind.setUser(user);
+        user.setEmployee(employeefind);
+
+        return employeeRepository.save(employeefind);
     }
 
     public Employee delete(Integer id) {

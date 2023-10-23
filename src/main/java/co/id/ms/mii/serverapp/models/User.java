@@ -16,7 +16,6 @@ import java.util.List;
 @Table(name = "user")
 public class User {
     @Id
-    @JsonIgnore
     private Integer id;
     private String username;
     private String password;
