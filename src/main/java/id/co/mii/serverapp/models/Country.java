@@ -15,12 +15,12 @@ import javax.persistence.*;
 @Entity
 @Table(name = "countries")
 public class Country extends BaseEntity {
-    @Column(length = 2, unique = true)
-    private String code;
+  @Column(length = 2, unique = true)
+  private String code;
 
-    private String name;
+  private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "region_id")
-    private Region region;
+  @ManyToOne
+  @JoinColumn(name = "region_id")
+  private Region region;
 }

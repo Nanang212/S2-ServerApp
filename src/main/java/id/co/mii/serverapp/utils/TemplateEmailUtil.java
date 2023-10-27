@@ -9,18 +9,19 @@ import org.thymeleaf.templateresolver.ITemplateResolver;
 
 @Configuration
 public class TemplateEmailUtil {
-    @Bean
-    public SpringTemplateEngine templateEngine() {
-        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
-        templateEngine.addTemplateResolver(htmlTemplateResolver());
-        return templateEngine;
-    }
-    public ITemplateResolver htmlTemplateResolver() {
-        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
-        templateResolver.setPrefix("templates/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML");
-        templateResolver.setCharacterEncoding("UTF-8");
-        return templateResolver;
-    }
+  @Bean
+  public SpringTemplateEngine templateEngine() {
+    SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+    templateEngine.addTemplateResolver(htmlTemplateResolver());
+    return templateEngine;
+  }
+
+  public ITemplateResolver htmlTemplateResolver() {
+    ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+    templateResolver.setPrefix("templates/");
+    templateResolver.setSuffix(".html");
+    templateResolver.setTemplateMode("HTML");
+    templateResolver.setCharacterEncoding("UTF-8");
+    return templateResolver;
+  }
 }

@@ -15,55 +15,70 @@ import java.util.Map;
 @RequestMapping("/countries")
 @AllArgsConstructor
 public class CountryController {
-    private CountryService countryService;
-    @PostMapping
-    public ResponseEntity<Country> create(@RequestBody CountryRequest countryRequest) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(countryService.create(countryRequest));
-    }
+  private CountryService countryService;
 
-    @GetMapping
-    public ResponseEntity<List<Country>> getAllBy(@RequestParam(name = "keyword", required = false) String keyword) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(countryService.getAll(keyword));
-    }
+  @PostMapping
+  public ResponseEntity<Country> create(@RequestBody Country country) {
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(countryService.create(country));
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Country> getById(@PathVariable Integer id) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(countryService.getById(id));
-    }
+  @PostMapping("/dto")
+  public ResponseEntity<Country> createWithDto(@RequestBody CountryRequest countryRequest) {
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(countryService.create(countryRequest));
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Country> update(@PathVariable Integer id, @RequestBody Country entity) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(countryService.update(id, entity));
-    }
+  @GetMapping
+  public ResponseEntity<List<Country>> getAllBy(@RequestParam(name = "keyword", required = false) String keyword) {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(countryService.getAll(keyword));
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Country> delete(@PathVariable Integer id) {
+  @GetMapping("/{id}")
+  public ResponseEntity<Country> getById(@PathVariable Integer id) {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(countryService.getById(id));
+  }
 
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(countryService.delete(id));
-    }
+  @PutMapping("/{id}")
+  public ResponseEntity<Country> update(@PathVariable Integer id, @RequestBody Country country) {
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(countryService.update(id, country));
+  }
 
-    @GetMapping("/custom/{id}")
-    public Map<String, Object> getByIdCustom(@PathVariable Integer id) {
-        return countryService.getByIdCustom(id);
-    }
+//  @PutMapping("/dto/{id}")
+//  public ResponseEntity<Country> updateWithDto(@PathVariable Integer id, @RequestBody CountryRequest countryRequest) {
+//    return ResponseEntity
+//            .status(HttpStatus.CREATED)
+//            .body(countryService.update(id, countryRequest));
+//  }
 
-    @GetMapping("/all")
-    public List<Map<String, Object>> getAllCustom() {
-        return countryService.getAllCustom();
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Country> delete(@PathVariable Integer id) {
 
-    @GetMapping("/all/stream")
-    public List<Map<String, Object>> getAllCustomStream() {
-        return countryService.getAllCustomStream();
-    }
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(countryService.delete(id));
+  }
+
+  @GetMapping("/custom/{id}")
+  public Map<String, Object> getByIdCustom(@PathVariable Integer id) {
+    return countryService.getByIdCustom(id);
+  }
+
+  @GetMapping("/all")
+  public List<Map<String, Object>> getAllCustom() {
+    return countryService.getAllCustom();
+  }
+
+  @GetMapping("/all/stream")
+  public List<Map<String, Object>> getAllCustomStream() {
+    return countryService.getAllCustomStream();
+  }
 }

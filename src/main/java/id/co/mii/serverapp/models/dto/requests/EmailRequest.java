@@ -10,9 +10,9 @@ import java.util.Map;
 @AllArgsConstructor
 @NoArgsConstructor
 public class EmailRequest {
-    private String to;
-    private String subject;
-    private String body;
-    private String attachment;
-    private Map<String, Object> properties;
+  private String to;
+  private String subject;
+  private String body;
+  private String attachment;
+  private Map<String, Object> properties;
 }

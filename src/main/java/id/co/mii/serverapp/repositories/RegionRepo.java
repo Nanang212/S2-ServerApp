@@ -9,5 +9,5 @@ import java.util.List;
 
 @Repository
 public interface RegionRepo extends BaseRepository<Region> {
-    Boolean existsByName(String regionName);
+  Boolean existsByName(String regionName);
 }

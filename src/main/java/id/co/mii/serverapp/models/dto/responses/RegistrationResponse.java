@@ -4,13 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class LoginResponse {
-  private String username;
+public class RegistrationResponse {
+  private String name;
   private String email;
-  private List<String> authorities;
+  private String phone;
+  private String username;
 }

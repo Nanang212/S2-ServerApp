@@ -17,41 +17,41 @@ import java.util.List;
 @RequestMapping("/users")
 @AllArgsConstructor
 public class UserController {
-    private UserService userService;
+  private UserService userService;
 
-    @GetMapping
-    public ResponseEntity<List<User>> getAll() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userService.getAll());
-    }
+  @GetMapping
+  public ResponseEntity<List<User>> getAll() {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(userService.getAll());
+  }
 
-    @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/{id}")
-    public ResponseEntity<User> getById(@PathVariable Integer id) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userService.getById(id));
-    }
+//  @PreAuthorize("hasRole('ADMIN')")
+  @GetMapping("/{id}")
+  public ResponseEntity<User> getById(@PathVariable Integer id) {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(userService.getById(id));
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody UserRequest userRequest) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(userService.update(id, userRequest));
-    }
+  @PutMapping("/{id}")
+  public ResponseEntity<User> update(@PathVariable Integer id, @RequestBody UserRequest userRequest) {
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(userService.update(id, userRequest));
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<User> delete(@PathVariable Integer id) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(userService.delete(id));
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<User> delete(@PathVariable Integer id) {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(userService.delete(id));
+  }
 
-    @PutMapping("/{id}/add-role")
-    public ResponseEntity<User> addRole(@PathVariable Integer id, @RequestBody Role role) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(userService.addRole(id, role));
-    }
+  @PutMapping("/{id}/add-role")
+  public ResponseEntity<User> addRole(@PathVariable Integer id, @RequestBody Role role) {
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(userService.addRole(id, role));
+  }
 }

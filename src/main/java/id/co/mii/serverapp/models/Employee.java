@@ -12,14 +12,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "employees")
 public class Employee extends BaseEntity {
-    @Column(nullable = false, length = 50)
-    private String name;
-    @Column(unique = true, nullable = false, length = 50)
-    private String email;
-    @Column(unique = true, length = 15)
-    private String phone;
+  @Column(nullable = false, length = 50)
+  private String name;
+  @Column(unique = true, nullable = false, length = 50)
+  private String email;
+  @Column(unique = true, length = 15)
+  private String phone;
 
-    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
-    @PrimaryKeyJoinColumn
-    private User user;
+  @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+  @PrimaryKeyJoinColumn
+  private User user;
 }

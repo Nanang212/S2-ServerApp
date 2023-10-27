@@ -18,9 +18,9 @@ import java.util.List;
 @Entity
 @Table(name = "privileges")
 public class Privilege extends BaseEntity {
-    @Column(nullable = false, length = 25)
-    private String name;
-    @ManyToMany(mappedBy = "privileges")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Role> roles;
+  @Column(nullable = false, length = 25)
+  private String name;
+  @ManyToMany(mappedBy = "privileges")
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private List<Role> roles;
 }

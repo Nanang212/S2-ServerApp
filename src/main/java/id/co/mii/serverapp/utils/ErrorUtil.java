@@ -1,0 +1,46 @@
+package id.co.mii.serverapp.utils;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.server.ResponseStatusException;
+
+@RestControllerAdvice
+public class ErrorUtil {
+
+  @ExceptionHandler(ResponseStatusException.class)
+  public ResponseEntity<ErrorResponse> error(ResponseStatusException exception) {
+    return ResponseEntity
+            .status(exception.getStatus())
+            .body(new ErrorResponse(exception.getStatus().getReasonPhrase(), exception.getReason(), exception.getStatus().value()));
+  }
+
+  @ExceptionHandler(AccessDeniedException.class)
+  public ResponseEntity<ErrorResponse> error(AccessDeniedException exception) {
+    return ResponseEntity
+            .status(HttpStatus.FORBIDDEN)
+            .body(new ErrorResponse("Forbidden", exception.getMessage(), HttpStatus.FORBIDDEN.value()));
+  }
+
+  @ExceptionHandler(Exception.class)
+  public ResponseEntity<ErrorResponse> error(Exception exception) {
+    exception.printStackTrace();
+    return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.getReasonPhrase(), "Internal server error: " + exception.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR.value()));
+  }
+
+  @NoArgsConstructor
+  @AllArgsConstructor
+  @Data
+  public static class ErrorResponse {
+    private String error;
+    private String message;
+    private Integer code;
+  }
+}

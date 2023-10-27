@@ -13,40 +13,40 @@ import java.util.List;
 @RequestMapping("/regions")
 @AllArgsConstructor
 public class RegionController {
-    private RegionService regionService;
+  private RegionService regionService;
 
-    @PostMapping
-    public ResponseEntity<Region> create(@RequestBody Region region) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(regionService.create(region));
-    }
+  @PostMapping
+  public ResponseEntity<Region> create(@RequestBody Region region) {
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(regionService.create(region));
+  }
 
-    @GetMapping
-    public ResponseEntity<List<Region>> getAll() {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(regionService.getAll());
-    }
+  @GetMapping
+  public ResponseEntity<List<Region>> getAll() {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(regionService.getAll());
+  }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Region> getById(@PathVariable Integer id) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(regionService.getById(id));
-    }
+  @GetMapping("/{id}")
+  public ResponseEntity<Region> getById(@PathVariable Integer id) {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(regionService.getById(id));
+  }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Region> update(@PathVariable Integer id, @RequestBody Region region) {
-        return ResponseEntity
-                .status(HttpStatus.CREATED)
-                .body(regionService.update(id, region));
-    }
+  @PutMapping("/{id}")
+  public ResponseEntity<Region> update(@PathVariable Integer id, @RequestBody Region region) {
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(regionService.update(id, region));
+  }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Region> delete(@PathVariable Integer id) {
-        return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(regionService.delete(id));
-    }
+  @DeleteMapping("/{id}")
+  public ResponseEntity<Region> delete(@PathVariable Integer id) {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(regionService.delete(id));
+  }
 }

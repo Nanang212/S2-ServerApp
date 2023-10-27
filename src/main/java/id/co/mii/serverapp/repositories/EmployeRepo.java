@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface EmployeRepo extends BaseRepository<Employee> {
-    Boolean existsByEmail(String email);
-    Boolean existsByPhone(String phone);
+  Boolean existsByEmail(String email);
+
+  Boolean existsByPhone(String phone);
 }

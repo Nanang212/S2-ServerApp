@@ -12,13 +12,16 @@ import java.util.List;
 
 @Repository
 public interface CountryRepo extends BaseRepository<Country> {
-    Boolean existsByName(String name);
-    Boolean existsByCode(String code);
-    @Query("SELECT c FROM Country c " +
-            "WHERE LOWER(c.code) LIKE %:keyword% " +
-            "OR LOWER(c.name) LIKE %:keyword% " +
-            "OR LOWER(c.region.name) LIKE %:keyword% " +
-            "ORDER BY c.name")
-    List<Country> findALlBy(@Param("keyword") String keyword);
-    public List<Country> findByNameOrRegionName(String name, String regionName);
+  Boolean existsByName(String name);
+
+  Boolean existsByCode(String code);
+
+  @Query("SELECT c FROM Country c " +
+          "WHERE LOWER(c.code) LIKE %:keyword% " +
+          "OR LOWER(c.name) LIKE %:keyword% " +
+          "OR LOWER(c.region.name) LIKE %:keyword% " +
+          "ORDER BY c.name")
+  List<Country> findALlBy(@Param("keyword") String keyword);
+
+  public List<Country> findByNameOrRegionName(String name, String regionName);
 }

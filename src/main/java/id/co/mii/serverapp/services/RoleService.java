@@ -11,20 +11,20 @@ import org.springframework.web.server.ResponseStatusException;
 @Service
 @AllArgsConstructor
 public class RoleService extends BaseService<Role> {
-    private RoleRepo roleRepo;
+  private RoleRepo roleRepo;
 
-    @Override
-    public Role getById(Integer id) {
-        return roleRepo
-                .findById(id)
-                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role is not found"));
-    }
+  @Override
+  public Role getById(Integer id) {
+    return roleRepo
+            .findById(id)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Role is not found"));
+  }
 
-    @Override
-    public Role delete(Integer id) {
-        Role role = getById(id);
-        role.getUsers().forEach(user -> user.getRoles().remove(role));
-        roleRepo.delete(role);
-        return role;
-    }
+  @Override
+  public Role delete(Integer id) {
+    Role role = getById(id);
+    role.getUsers().forEach(user -> user.getRoles().remove(role));
+    roleRepo.delete(role);
+    return role;
+  }
 }

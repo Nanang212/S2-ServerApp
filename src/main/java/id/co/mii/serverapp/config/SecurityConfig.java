@@ -21,40 +21,42 @@ import org.springframework.security.web.SecurityFilterChain;
 @AllArgsConstructor
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
-    private AppUserDetailService userDetailService;
-    private PasswordEncoder passwordEncoder;
+  private AppUserDetailService userDetailService;
+  private PasswordEncoder passwordEncoder;
 
-    @Bean
-    public AuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        daoAuthenticationProvider.setUserDetailsService(userDetailService);
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
-        return daoAuthenticationProvider;
-    }
+  @Bean
+  public AuthenticationProvider authenticationProvider() {
+    DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
+    daoAuthenticationProvider.setUserDetailsService(userDetailService);
+    daoAuthenticationProvider.setPasswordEncoder(passwordEncoder);
+    return daoAuthenticationProvider;
+  }
 
-    @Bean
-    public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception{
-        return configuration.getAuthenticationManager();
-    }
+  @Bean
+  public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
+    return configuration.getAuthenticationManager();
+  }
 
-    @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors()
-                .and()
-                .csrf()
-                .disable()
-                .authorizeHttpRequests()
-                .antMatchers(HttpMethod.POST, "/auth/**")
-                    .permitAll()
-                .antMatchers("/registration/**")
-                    .permitAll()
-                .anyRequest()
-                .authenticated()
-                .and()
-                .httpBasic()
-                .and()
-                .authenticationProvider(authenticationProvider());
-        return http.build();
-    }
+  @Bean
+  public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    http
+            .cors()
+            .and()
+            .csrf()
+            .disable()
+            .authorizeHttpRequests()
+            .antMatchers(HttpMethod.POST, "/auth/**")
+            .permitAll()
+            .antMatchers("/registration/**")
+            .permitAll()
+            .antMatchers("/css/**", "/image/**", "/js/**")
+            .permitAll()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .httpBasic()
+            .and()
+            .authenticationProvider(authenticationProvider());
+    return http.build();
+  }
 }

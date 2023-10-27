@@ -16,10 +16,10 @@ import java.util.List;
 @Entity
 @Table(name = "regions")
 public class Region extends BaseEntity {
-    @Column(nullable = false, length = 20, unique = true)
-    private String name;
+  @Column(nullable = false, length = 20, unique = true)
+  private String name;
 
-    @OneToMany(mappedBy = "region", cascade = CascadeType.REMOVE)
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<Country> countries;
+  @OneToMany(mappedBy = "region", cascade = CascadeType.REMOVE)
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private List<Country> countries;
 }

@@ -16,15 +16,15 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Role extends BaseEntity {
-    private String name;
-    @ManyToMany(mappedBy = "roles")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private List<User> users;
-    @ManyToMany(fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "role_privilege",
-            joinColumns = @JoinColumn(name = "role_id"),
-            inverseJoinColumns = @JoinColumn(name = "privilege_id")
-    )
-    private List<Privilege> privileges;
+  private String name;
+  @ManyToMany(mappedBy = "roles")
+  @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+  private List<User> users;
+  @ManyToMany(fetch = FetchType.EAGER)
+  @JoinTable(
+          name = "role_privilege",
+          joinColumns = @JoinColumn(name = "role_id"),
+          inverseJoinColumns = @JoinColumn(name = "privilege_id")
+  )
+  private List<Privilege> privileges;
 }

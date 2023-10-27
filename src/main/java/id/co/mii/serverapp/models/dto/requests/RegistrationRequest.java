@@ -10,10 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class RegistrationRequest {
-    private String username;
-    private String password;
-    private String name;
-    private String email;
-    private String phone;
-    private List<Integer> roleIds;
+  private String username;
+  private String password;
+  private String name;
+  private String email;
+  private String phone;
+  private List<Integer> roleIds;
 }

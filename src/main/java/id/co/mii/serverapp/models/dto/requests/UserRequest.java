@@ -10,7 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequest {
-    private String username;
-    private String password;
-    private List<Integer> roleIds;
+  private String username;
+  private String password;
+  private List<Integer> roleIds;
 }
