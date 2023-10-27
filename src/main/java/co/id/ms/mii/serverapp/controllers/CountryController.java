@@ -14,6 +14,7 @@ import java.util.Map;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/country")
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class CountryController {
     private CountryService countryService;
 

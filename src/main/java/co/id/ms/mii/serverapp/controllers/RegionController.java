@@ -21,6 +21,7 @@ import co.id.ms.mii.serverapp.services.RegionServices;
 @RestController // json
 @AllArgsConstructor
 @RequestMapping("/regions")
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class RegionController {
     private RegionServices regionServices;
 

@@ -50,17 +50,16 @@ public class SecurityEngine  {
                 .authorizeHttpRequests(auth -> auth
                         .antMatchers(HttpMethod.POST, "/registration", "/login","/signup").permitAll()
                         .antMatchers(HttpMethod.PUT,"/register").permitAll()
-                        .antMatchers(HttpMethod.GET,"/verify").permitAll()
+                        .antMatchers(HttpMethod.GET,"/verify","/profile").permitAll()
                         .antMatchers("/region/**", "/regions").permitAll()
                         .antMatchers("/country/**", "/countries").permitAll()
                         .antMatchers("/css/**").permitAll()
                         .antMatchers("/assets/**").permitAll()
                         .antMatchers("/js/**").permitAll()
 //                        .antMatchers(HttpMethod.POST,"/regi").permitAll()
-                        .anyRequest().permitAll()
+                        .anyRequest().authenticated()
                 )
                 .httpBasic();
-        
 
         return http.build();
     }

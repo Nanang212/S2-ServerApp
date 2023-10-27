@@ -8,6 +8,7 @@ import co.id.ms.mii.serverapp.services.EmployeeService;
 import co.id.ms.mii.serverapp.services.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,6 +18,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/user")
+@PreAuthorize("hasAnyRole('ADMIN')")
 public class UserController {
     private UserService userService;
     private EmployeeService employeeService;

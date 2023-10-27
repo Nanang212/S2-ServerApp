@@ -17,6 +17,7 @@ import java.util.List;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/employee")
+@PreAuthorize("hasAnyRole('ADMIN')")
 public class EmployeeController {
     private EmployeeService employeeService;
 
