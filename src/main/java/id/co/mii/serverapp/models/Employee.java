@@ -30,8 +30,11 @@ public class Employee {
   @Column(nullable = false, unique = true)
   private String email;
 
-  @Column(length = 15)
+  @Column(nullable = true, unique = true, length = 15)
   private String phone;
+
+  @Column(name = "uuid")
+  private String uuid;
 
   @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
   @PrimaryKeyJoinColumn

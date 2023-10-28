@@ -18,11 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController // json
 @AllArgsConstructor
 @RequestMapping("/region")
-@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class RegionController {
 
   private RegionService regionService;
 
+  @PreAuthorize("hasAnyAuthority('READ-ADMIN', 'READ-USER')")
   @GetMapping
   public List<Region> getAll() {
     return regionService.getAll();
@@ -31,16 +32,19 @@ public class RegionController {
   // http://localhost:9000/region/1    = path variable
   // http://localhost:9000/region?id=1 = path param
 
+  @PreAuthorize("hasAnyAuthority('READ-ADMIN', 'READ-USER')")
   @GetMapping("/{id}")
-  public Region getById(@PathVariable Integer id) {
-    return regionService.getById(id);
+  public Region findById(@PathVariable Integer id) {
+      return regionService.findById(id);
   }
 
-  @PostMapping
-  public Region create(@RequestBody Region region) {
-    return regionService.create(region);
-  }
+   @PreAuthorize("hasAuthority('CREATE-ADMIN')")
+   @PostMapping()
+   public Region create(@RequestBody Region region) {
+       return regionService.insertRegion(region);
+   }
 
+  @PreAuthorize("hasAuthority('UPDATE-ADMIN')")
   @PutMapping("/{id}")
   public Region update(@PathVariable Integer id, @RequestBody Region region) {
     return regionService.update(id, region);
@@ -49,26 +53,5 @@ public class RegionController {
   @DeleteMapping("/{id}")
   public Region delete(@PathVariable Integer id) {
     return regionService.delete(id);
-  }
-
-  // Native
-  @GetMapping("/native")
-  public List<Region> searchAllNameNative(
-    @RequestParam(name = "name") String name
-  ) {
-    return regionService.searchAllNameNative(name);
-  }
-
-  // JPQL
-  @GetMapping("/jpql")
-  public List<Region> searchAllNameJPQL(
-    @RequestParam(name = "name") String name
-  ) {
-    return regionService.searchAllNameJPQL(name);
-  }
-
-  @GetMapping("/jpql-all")
-  public List<String> getAllName() {
-    return regionService.getAllName();
   }
 }

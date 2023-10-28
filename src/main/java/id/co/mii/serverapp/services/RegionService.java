@@ -1,65 +1,53 @@
 package id.co.mii.serverapp.services;
 
-import id.co.mii.serverapp.models.Region;
-import id.co.mii.serverapp.repositories.RegionRepository;
 import java.util.List;
-import lombok.AllArgsConstructor;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
+import id.co.mii.serverapp.models.Region;
+import id.co.mii.serverapp.repositories.RegionRepository;
+import lombok.AllArgsConstructor;
+
 @Service
 @AllArgsConstructor
 public class RegionService {
+    private RegionRepository regionRepository;
 
-  private RegionRepository regionRepository;
-
-  public List<Region> getAll() {
-    return regionRepository.findAll();
-  }
-
-  public Region getById(Integer id) {
-    return regionRepository
-      .findById(id)
-      .orElseThrow(() ->
-        new ResponseStatusException(HttpStatus.NOT_FOUND, "Region not found!!!")
-      );
-  }
-
-  public Region create(Region region) {
-    if (regionRepository.findByName(region.getName()).isPresent()) {
-      throw new ResponseStatusException(
-        HttpStatus.CONFLICT,
-        "Name is already exists!!!"
-      );
+    public List<Region> getAll() {
+        return regionRepository.findAll();
     }
 
-    return regionRepository.save(region);
-  }
+    public Region findById(Integer id) {
+        return regionRepository
+                .findById(id)
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Region Not Found in id : " + id));
+    }
 
-  public Region update(Integer id, Region region) {
-    getById(id);
-    region.setId(id);
-    return regionRepository.save(region);
-  }
+    public Region insertRegion(Region region) {
+        if (regionRepository.existsByName(region.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama wilayah sudah digunakan");
+        }
 
-  public Region delete(Integer id) {
-    Region region = getById(id);
-    regionRepository.delete(region);
-    return region;
-  }
+        if (region.getName().isEmpty()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Nama wilayah harus diisi");
+        }
+        return regionRepository.save(region);
+    }
 
-  // Native
-  public List<Region> searchAllNameNative(String name) {
-    return regionRepository.searchAllNameNative("%" + name + "%");
-  }
+    public Region update(Integer id, Region region) {
+        if (regionRepository.existsByName(region.getName())) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Nama wilayah sudah digunakan");
+        }
+        findById(id);
+        region.setId(id);
+        return regionRepository.save(region);
+    }
 
-  // JPQL
-  public List<Region> searchAllNameJPQL(String name) {
-    return regionRepository.searchAllNameJPQL("%" + name + "%");
-  }
-
-  public List<String> getAllName() {
-    return regionRepository.getAllName();
-  }
+    public Region delete(Integer id) {
+        Region region = findById(id);
+        regionRepository.delete(region);
+        return region;
+    }
 }

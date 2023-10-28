@@ -1,0 +1,231 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500;1,600;1,700;1,800&display=swap");
+
+* {
+  font-family: "Poppins";
+}
+
+.wrapper {
+  max-width: 350px;
+  min-height: 500px;
+  margin: 80px auto;
+  padding: 40px 30px 30px 30px;
+  background-color: #ecf0f3;
+  border-radius: 15px;
+  box-shadow:
+    13px 13px 20px #cbced1,
+    -13px -13px 20px #fff;
+}
+
+.logo {
+  width: 80px;
+  margin: auto;
+}
+
+.logo img {
+  width: 100%;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  box-shadow:
+    0px 0px 3px #5f5f5f,
+    0px 0px 0px 5px #ecf0f3,
+    8px 8px 15px #a7aaa7,
+    -8px -8px 15px #fff;
+}
+
+.wrapper .name {
+  font-weight: 600;
+  font-size: 1.4rem;
+  letter-spacing: 1.3px;
+  padding-left: 10px;
+  color: #555;
+}
+
+.wrapper .form-field input {
+  width: 100%;
+  display: block;
+  border: none;
+  outline: none;
+  background: none;
+  font-size: 1.2rem;
+  color: #666;
+  padding: 10px 15px 10px 10px;
+  /* border: 1px solid red; */
+}
+
+.wrapper .form-field {
+  padding-left: 10px;
+  margin-bottom: 20px;
+  border-radius: 20px;
+  box-shadow:
+    inset 8px 8px 8px #cbced1,
+    inset -8px -8px 8px #fff;
+}
+
+.wrapper .form-field .fas {
+  color: #555;
+}
+
+.wrapper .btn {
+  box-shadow: none;
+  width: 100%;
+  height: 40px;
+  background-color: #03a9f4;
+  color: #fff;
+  border-radius: 25px;
+  box-shadow:
+    3px 3px 3px #b1b1b1,
+    -3px -3px 3px #fff;
+  letter-spacing: 1.3px;
+}
+
+.wrapper .btn:hover {
+  background-color: #039be5;
+}
+
+.wrapper a {
+  text-decoration: none;
+  font-size: 0.8rem;
+  color: #03a9f4;
+}
+
+.wrapper a:hover {
+  color: #039be5;
+}
+
+@media (max-width: 380px) {
+  .wrapper {
+    margin: 30px 20px;
+    padding: 40px 15px 15px 15px;
+  }
+}
+
+.dashboard-main-wrapper {
+  min-height: 100vh;
+  display: flex;
+}
+
+.dashboard-wrapper {
+  margin-left: 240px;
+  min-height: 100vh;
+  width: calc(100% - 240px);
+  padding: 30px;
+  padding-top: 40px;
+  box-sizing: border-box;
+  background-image: url(../images/bgin.jpg);
+}
+
+.dashboard-content {
+  padding: 30px;
+  box-sizing: border-box;
+  width: calc(100% - 240px);
+  margin-left: 240px;
+  z-index: 1;
+}
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  padding: 58px 0 0; /* Height of navbar */
+  background-image: url(../images/bg-img.jpg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  width: 240px;
+  z-index: 600;
+  margin-top: -40px;
+}
+
+#main-navbar {
+  position: fixed;
+  top: 0;
+  left: 240px;
+  width: calc(100% - 240px);
+  background-image: url(../images/bgin.jpg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  transition: top 0.3s;
+}
+
+.shrink #main-navbar {
+  top: 60px;
+}
+
+.icon {
+  font-size: 23px;
+}
+
+.icon-logout {
+  font-size: 25px;
+}
+
+.color-icon {
+  color: red;
+}
+
+.list-group-item .icon,
+.list-group-item h5 {
+  color: black;
+}
+
+.list-group-item {
+  background-color: transparent;
+  transition: background-color 0.3s;
+}
+
+.list-group-item:hover .icon,
+.list-group-item:hover h5 {
+  color: white;
+}
+
+/* Memberi warna saat di-hover untuk latar belakang */
+.list-group-hover:hover {
+  background-color: #000;
+}
+
+/* Memberi warna saat menu "Log Out" diklik */
+.list-group-item#logout-menu:active {
+  background-color: red;
+  color: white;
+}
+
+footer {
+  position: fixed;
+  background-image: url(../images/bgin.jpg);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  bottom: 0;
+  width: 80%;
+  z-index: 1;
+}
+
+/* game  */
+.rangka {
+  font-size: 16pt;
+  background-color: black;
+  border: solid red 3px;
+  color: white;
+  width: 20em;
+  height: 18em;
+  padding: auto, 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.player {
+  width: 8em;
+  border: solid red 1px;
+  text-align: center;
+  height: 18em;
+}
+
+.komputer {
+  width: 8em;
+  border: solid red 1px;
+  text-align: center;
+  height: 18em;
+}
+
+.icon-eyes{
+    font-size: 25px;
+    color: #7d7d7d;
+}

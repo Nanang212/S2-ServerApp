@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Success</title>
+  </head>
+  <body>
+    <h1>
+      Heloo <span th:text="${name}"></span> Form Success, Silakan login
+    </h1>
+    <div>
+        <a th:href="@{http://localhost:9001/auth/login}" type="button">Login</a>
+    </div>
+  </body>
+</html>

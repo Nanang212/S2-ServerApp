@@ -1,8 +1,9 @@
 package id.co.mii.serverapp.repositories;
 
-import id.co.mii.serverapp.models.Role;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.stereotype.Repository;
 
-@Repository
-public interface RoleRepository extends JpaRepository<Role, Integer> {}
+import id.co.mii.serverapp.models.Role;
+
+public interface RoleRepository extends JpaRepository<Role, Integer> {
+    Boolean existsByName(String name);
+}

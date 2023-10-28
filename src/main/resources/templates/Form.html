@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- Bootstrap -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" th:href="@{css/style.css}" />
+    <title>Form Register</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="logo">
+        <img th:src="@{/images/icon.svg}" alt="logoMcc81" />
+      </div>
+      <div class="text-center mt-4 name">MCC 81</div>
+      <form
+        class="p-3 mt-3"
+        th:object="${registrationRequest}"
+        th:action="@{/register/{id}(id=${id})}"
+        method="post"
+      >
+        <div
+          class="form-field d-flex align-items-center justify-content-between gap-2"
+        >
+          <div class="d-flex align-items-center">
+            <ion-icon name="people-outline" class="icon"></ion-icon>
+          </div>
+          <input
+            type="text"
+            name="username"
+            id="username"
+            placeholder="Username"
+          />
+        </div>
+
+        <div
+          class="form-field d-flex align-items-center justify-content-start gap-2 relative"
+        >
+          <div>
+            <ion-icon name="key-outline" class="icon"></ion-icon>
+          </div>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+          />
+          <ion-icon
+            name="eye-off-outline"
+            id="passwordToggleIcon"
+            class="icon-eyes me-3"
+            onclick="togglePasswordVisibility()"
+            onmouseover="changeCursor('pointer')"
+            onmouseout="changeCursor('default')"
+          ></ion-icon>
+        </div>
+        <div
+          class="form-field d-flex align-items-center justify-content-between gap-2"
+        >
+          <div class="d-flex align-items-center">
+            <ion-icon name="call-outline" class="icon"></ion-icon>
+          </div>
+          <input type="number" name="phone" id="phone" placeholder="Phone" />
+        </div>
+        <button type="submit" class="btn mt-3">Register</button>
+      </form>
+      <div class="text-center fs-6">
+        <a href="#">Forget password?</a> or <a th:href="@{/login}">Sign in</a>
+      </div>
+    </div>
+
+    <!-- JQuery -->
+    <script
+      src="https://code.jquery.com/jquery-3.7.1.js"
+      integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- Bootstrap -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Icon -->
+    <script
+      type="module"
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"
+    ></script>
+
+    <script>
+      function togglePasswordVisibility() {
+        const passwordInput = document.querySelector('input[name="password"]');
+        const passwordToggleIcon =
+          document.getElementById("passwordToggleIcon");
+
+        if (passwordInput.type === "password") {
+          passwordInput.type = "text";
+          passwordToggleIcon.setAttribute("name", "eye-outline");
+        } else {
+          passwordInput.type = "password";
+          passwordToggleIcon.setAttribute("name", "eye-off-outline");
+        }
+      }
+
+      function changeCursor(cursorStyle) {
+        const passwordToggleIcon =
+          document.getElementById("passwordToggleIcon");
+        passwordToggleIcon.style.cursor = cursorStyle;
+      }
+    </script>
+  </body>
+</html>
