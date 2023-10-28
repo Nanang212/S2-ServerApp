@@ -5,7 +5,9 @@ import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
+import id.co.mii.serverapp.models.dto.requests.PasswordRequest;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
+import id.co.mii.serverapp.models.dto.responses.RegistrationResponse;
 import id.co.mii.serverapp.repositories.EmployeRepo;
 import id.co.mii.serverapp.repositories.UserRepo;
 import id.co.mii.serverapp.services.base.BaseService;
@@ -23,6 +25,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @Service
@@ -32,6 +35,23 @@ public class EmployeeService extends BaseService<Employee> {
   private UserRepo userRepo;
   private PasswordEncoder passwordEncoder;
   private RoleService roleService;
+  private ModelMapper modelMapper;
+
+  public RegistrationResponse changePassword(PasswordRequest passwordRequest) {
+    Employee currentEmployee = getLoggedInEmployee();
+    String newPassword = passwordRequest.getNewPassword();
+    String oldPassword = passwordRequest.getOldPassword();
+    if (!passwordEncoder.matches(oldPassword, currentEmployee.getUser().getPassword())) {
+      throw new ResponseStatusException(HttpStatus.CONFLICT, "Bad Credential");
+    }
+    if (!passwordRequest.getNewPassword().equalsIgnoreCase(passwordRequest.getOldPassword())) {
+      currentEmployee.getUser().setPassword(passwordEncoder.encode(newPassword));
+      employeRepo.save(currentEmployee);
+    }
+    RegistrationResponse registrationResponse = modelMapper.map(currentEmployee, RegistrationResponse.class);
+    registrationResponse.setUsername(currentEmployee.getUser().getUsername());
+    return registrationResponse;
+  }
 
   public Employee getLoggedInEmployee() {
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
