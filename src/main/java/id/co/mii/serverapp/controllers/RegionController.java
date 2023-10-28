@@ -27,6 +27,7 @@ public class RegionController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('READ_USER','READ_ADMIN')")
     public List<Region> getAll() {
 
         return regionService.getAll();
