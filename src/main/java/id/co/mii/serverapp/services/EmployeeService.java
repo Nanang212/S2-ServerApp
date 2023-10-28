@@ -1,5 +1,6 @@
 package id.co.mii.serverapp.services;
 
+import id.co.mii.serverapp.models.AppUserDetails;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
@@ -13,6 +14,9 @@ import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.parameters.P;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -28,6 +32,17 @@ public class EmployeeService extends BaseService<Employee> {
   private UserRepo userRepo;
   private PasswordEncoder passwordEncoder;
   private RoleService roleService;
+
+  public Employee getLoggedInEmployee() {
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    AppUserDetails userDetails = (AppUserDetails) authentication.getPrincipal();
+    return findByUsername(userDetails.getUsername());
+  }
+
+  public Employee findByUsername(String username) {
+    return employeRepo.findByUserUsername(username)
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Employee not found"));
+  }
 
   public Employee update(Integer id, RegistrationRequest registrationRequest) {
     Employee updatedEmployee = getById(id);

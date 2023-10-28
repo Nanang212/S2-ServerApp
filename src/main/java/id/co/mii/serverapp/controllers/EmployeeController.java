@@ -35,9 +35,25 @@ public class EmployeeController {
             .body(employeeService.getById(id));
   }
 
+  @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
+  @GetMapping("/current")
+  public ResponseEntity<Employee> getLoggedInEmployee() {
+    return ResponseEntity
+            .status(HttpStatus.OK)
+            .body(employeeService.getLoggedInEmployee());
+  }
+
   @PreAuthorize("hasAuthority('UPDATE_ADMIN')")
   @PutMapping("/{id}")
   public ResponseEntity<Employee> update(@PathVariable Integer id, @RequestBody RegistrationRequest registrationRequest) {
+    return ResponseEntity
+            .status(HttpStatus.CREATED)
+            .body(employeeService.update(id, registrationRequest));
+  }
+
+  @PreAuthorize("hasAnyAuthority('UPDATE_ADMIN', 'UPDATE_USER')")
+  @PutMapping("/profile/{id}")
+  public ResponseEntity<Employee> editProfile(@PathVariable Integer id, @RequestBody RegistrationRequest registrationRequest) {
     return ResponseEntity
             .status(HttpStatus.CREATED)
             .body(employeeService.update(id, registrationRequest));
