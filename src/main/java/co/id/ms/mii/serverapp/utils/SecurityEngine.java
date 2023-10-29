@@ -48,16 +48,26 @@ public class SecurityEngine  {
         http.csrf(AbstractHttpConfigurer::disable)
                 .cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                        .antMatchers(HttpMethod.POST, "/registration", "/login","/signup").permitAll()
-                        .antMatchers(HttpMethod.PUT,"/register").permitAll()
-                        .antMatchers(HttpMethod.GET,"/verify","/profile").permitAll()
-                        .antMatchers("/region/**", "/regions").permitAll()
-                        .antMatchers("/country/**", "/countries").permitAll()
-                        .antMatchers("/css/**").permitAll()
-                        .antMatchers("/assets/**").permitAll()
-                        .antMatchers("/js/**").permitAll()
+//                        .antMatchers(HttpMethod.POST, "/registration", "/login","/signup","/regis").permitAll()
+//                        .antMatchers(HttpMethod.PUT,"/register").permitAll()
+//                        .antMatchers(HttpMethod.GET,"/verify","/profile").permitAll()
+//                        .antMatchers("/region/**", "/regions").permitAll()
+//                        .antMatchers("/country/**", "/countries").permitAll()
+//                        .antMatchers("/css/**").permitAll()
+//                        .antMatchers("/assets/**").permitAll()
+//                        .antMatchers("/js/**").permitAll()
+                                .antMatchers(
+                                        "/user/**",
+                                        "/profile/**",
+                                        "/role/**",
+                                        "/employee/**",
+                                        "/country/**",
+                                        "/countries/**",
+                                        "/region/**",
+                                        "/regions/**"
+                                ).authenticated()
 //                        .antMatchers(HttpMethod.POST,"/regi").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .httpBasic();
 
