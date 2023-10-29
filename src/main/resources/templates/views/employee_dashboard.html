@@ -331,7 +331,7 @@
                             >
                               <img
                                 className='w-10 h-10 rounded-full'
-                                src={`https://api.dicebear.com/7.x/adventurer/svg?seed=${employee.id}`}
+                                src={`https:/.dicebear.com/7.x/adventurer/svg?seed=${employee.id}`}
                                 alt={employee.name}
                               />
                               <div className='pl-3'>
@@ -421,7 +421,7 @@
         }, [])
 
         const getEmployees = async () => {
-          const res = await axios.get('/api/v1/employees')
+          const res = await axios.get('/v1/employees')
           return res.data
         }
 
@@ -429,7 +429,7 @@
           setIsLoading(true)
 
           try {
-            const res = await axios.post(`/api/v1/employee-registration`, request)
+            const res = await axios.post(`/v1/employee-registration`, request)
             setEmployees((prev) => [res.data, ...prev])
 
             return res.data
@@ -446,7 +446,7 @@
           setIsLoading(true)
 
           try {
-            const res = await axios.delete(`/api/v1/employee/${employeeId}`)
+            const res = await axios.delete(`/v1/employee/${employeeId}`)
             setEmployees((prev) => prev.filter((employee) => employee.id !== employeeId))
 
             return res.data
@@ -473,7 +473,7 @@
         const [employee, setEmployee] = React.useState(null)
 
         const getEmployee = async () => {
-          const res = await axios.get('/api/v1/employee')
+          const res = await axios.get('/v1/employee')
           return res.data
         }
 

@@ -3,6 +3,7 @@ package id.co.mii.serverapp.controllers;
 import id.co.mii.serverapp.models.Employee;
 import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
 import id.co.mii.serverapp.models.dto.requests.NewEmployeeRequest;
+import id.co.mii.serverapp.models.dto.requests.PasswordRequest;
 import id.co.mii.serverapp.models.dto.requests.VerifyRequest;
 import id.co.mii.serverapp.services.EmployeeService;
 import lombok.AllArgsConstructor;
@@ -29,7 +30,7 @@ public class EmployeeController {
     private final EmployeeService employeeService;
 
     @PostMapping(
-        value = {"/employee", "/employee-registration"},
+        value = {"/employee", "/registration"},
         consumes = MediaType.APPLICATION_JSON_VALUE,
         produces = MediaType.APPLICATION_JSON_VALUE
     )
@@ -89,7 +90,7 @@ public class EmployeeController {
     }
 
     @GetMapping(
-        value = "/employee",
+        value = "/employee/session",
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Employee getEmployeeBySession() {
@@ -105,11 +106,29 @@ public class EmployeeController {
     }
 
     @GetMapping(
-        value = "/employees",
+        value = {"/employee", "/employees"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<Employee> getAll() {
         return employeeService.getAll();
+    }
+
+    @PutMapping(
+        value = "/employee",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Employee update(@RequestBody EmployeeRequest request) {
+        return employeeService.update(request);
+    }
+
+    @PutMapping(
+        value = "/employee/password",
+        consumes = MediaType.APPLICATION_JSON_VALUE,
+        produces = MediaType.APPLICATION_JSON_VALUE
+    )
+    public Employee update(@RequestBody PasswordRequest request) {
+        return employeeService.update(request);
     }
 
     @PutMapping(
