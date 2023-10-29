@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
@@ -25,6 +26,13 @@ public class ErrorUtil {
     return ResponseEntity
             .status(HttpStatus.FORBIDDEN)
             .body(new ErrorResponse("Forbidden", exception.getMessage(), HttpStatus.FORBIDDEN.value()));
+  }
+
+  @ExceptionHandler(BadCredentialsException.class)
+  public ResponseEntity<ErrorResponse> error(BadCredentialsException exception) {
+    return ResponseEntity
+            .status(HttpStatus.INTERNAL_SERVER_ERROR)
+            .body(new ErrorResponse(HttpStatus.UNAUTHORIZED.getReasonPhrase(), exception.getMessage(), HttpStatus.UNAUTHORIZED.value()));
   }
 
   @ExceptionHandler(Exception.class)

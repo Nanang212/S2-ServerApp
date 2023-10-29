@@ -40,14 +40,20 @@ public class AuthService {
   private EmailService emailService;
 
   public RegistrationResponse registration(RegistrationRequest registrationRequest) {
-    if (userRepo.existsByUsername(registrationRequest.getUsername())) {
-      throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already used !!!");
+    if (!StringUtils.isEmptyOrNull(registrationRequest.getUsername())) {
+      if (userRepo.existsByUsername(registrationRequest.getUsername())) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "Username already used !!!");
+      }
     }
-    if (employeRepo.existsByEmail(registrationRequest.getEmail())) {
-      throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already used !!!");
+    if (!StringUtils.isEmptyOrNull(registrationRequest.getEmail())) {
+      if (employeRepo.existsByEmail(registrationRequest.getEmail())) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "Email already used !!!");
+      }
     }
-    if (employeRepo.existsByPhone(registrationRequest.getPhone())) {
-      throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number already used !!!");
+    if (!StringUtils.isEmptyOrNull(registrationRequest.getPhone())) {
+      if (employeRepo.existsByPhone(registrationRequest.getPhone())) {
+        throw new ResponseStatusException(HttpStatus.CONFLICT, "Phone number already used !!!");
+      }
     }
     Employee employee = modelMapper.map(registrationRequest, Employee.class);
     User user = modelMapper.map(registrationRequest, User.class);
@@ -73,6 +79,7 @@ public class AuthService {
     EmailRequest emailRequest = new EmailRequest();
     Map<String, Object> properties = new HashMap<>();
     properties.put("token", user.getToken());
+    properties.put("employeeName", employee.getName());
     emailRequest.setTo(registrationRequest.getEmail());
     emailRequest.setSubject("Verification email");
     emailRequest.setBody("emails/test.html");
