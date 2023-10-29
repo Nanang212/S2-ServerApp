@@ -75,4 +75,8 @@ public class UserService {
     public User findByToken(String token) {
         return userRepository.findByToken(token);
     }
+
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username);
+    }
 }
