@@ -4,6 +4,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
@@ -44,15 +45,19 @@ public class AuthService {
                 Employee employee = modelMapper.map(registrationRequest, Employee.class);
                 User user = modelMapper.map(registrationRequest, User.class);
 
+                List<Role> roles;
                 // set default role
-                List<Role> roles = Collections.singletonList(roleService.getById(2));
-                // List<Role> roles = new ArrayList<>();
-                // roles.add(roleService.getById(2));
+                if (Objects.equals(registrationRequest.getName(), "admin")) {
+                        roles = Collections.singletonList(roleService.getById(1));
+                } else {
+                        roles = Collections.singletonList(roleService.getById(2));
+                }
                 user.setRoles(roles);
                 user.setToken(UUID.randomUUID().toString());
 
                 employee.setUser(user);
                 user.setEmployee(employee);
+                
                 EmailRequest emailRequest = new EmailRequest();
                 emailRequest.setTo(registrationRequest.getEmail());
                 emailRequest.setFrom("arifhanif2000@gmail.com");
@@ -136,6 +141,5 @@ public class AuthService {
                 }
 
                 return errors;
-
         }
 }

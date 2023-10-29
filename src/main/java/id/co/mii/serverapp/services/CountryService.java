@@ -89,28 +89,28 @@ public class CountryService {
         getById(id);
         country.setId(id);
         
-        Optional<Region> regionExist = regionRepository.findByName(country.getName());
-        Country countryExist = countryRepository.findByName(country.getName());
+        // Optional<Region> regionExist = regionRepository.findByName(country.getName());
+        // Country countryExist = countryRepository.findByName(country.getName());
 
-        if(countryExist != null){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country with the same name already exists!");
-        }
+        // if(countryExist != null){
+        //     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Country with the same name already exists!");
+        // }
 
-        if(regionExist.isPresent()){
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name of the country is the same as the name of the region!");
-        }
+        // if(regionExist.isPresent()){
+        //     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name of the country is the same as the name of the region!");
+        // }
 
-        if (country.getCode().length() != 2) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The Length of code field must be 2 characters");
-        }
+        // if (country.getCode().length() != 2) {
+        //     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The Length of code field must be 2 characters");
+        // }
 
-        if (countryRepository.findByCode(country.getCode()) != null) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The Code of the country has already exists!");
-        }
+        // if (countryRepository.findByCode(country.getCode()) != null) {
+        //     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The Code of the country has already exists!");
+        // }
 
-        if (country.getName().isEmpty()) {
-            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name field required!");
-        }
+        // if (country.getName().isEmpty()) {
+        //     throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "The name field required!");
+        // }
 
         return countryRepository.save(country);
     }

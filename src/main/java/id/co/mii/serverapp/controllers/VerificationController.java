@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.RegistrationRequest;
 import id.co.mii.serverapp.services.AuthService;
@@ -57,6 +56,5 @@ public class VerificationController {
             mv.setViewName("404");
             return mv;
         }
-
     }
 }

@@ -44,7 +44,7 @@ public class SecurityConfig {
                         .antMatchers(HttpMethod.GET, "/images/**")
                         .permitAll()
                         .anyRequest()
-                        .authenticated())
+                        .permitAll())
                 .csrf()
                 .disable()
                 .cors()

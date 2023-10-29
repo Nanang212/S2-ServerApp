@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import id.co.mii.serverapp.models.Region;
 import id.co.mii.serverapp.services.RegionService;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -27,6 +26,7 @@ public class RegionController {
     }
 
     @GetMapping
+    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
     public List<Region> getAll() {
 
         return regionService.getAll();

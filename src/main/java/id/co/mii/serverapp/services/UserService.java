@@ -2,7 +2,6 @@ package id.co.mii.serverapp.services;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -74,5 +73,9 @@ public class UserService {
 
     public User findByToken(String token) {
         return userRepository.findByToken(token);
+    }
+
+    public User findByUsername(String username){
+        return userRepository.findByUsername(username);
     }
 }

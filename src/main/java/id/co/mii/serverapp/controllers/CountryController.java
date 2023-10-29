@@ -3,6 +3,7 @@ package id.co.mii.serverapp.controllers;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -11,13 +12,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import id.co.mii.serverapp.models.Country;
 import id.co.mii.serverapp.models.dto.requests.CountryRequest;
 import id.co.mii.serverapp.services.CountryService;
 
 @RestController
 @RequestMapping("/country")
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class CountryController {
     
     private CountryService countryService;
