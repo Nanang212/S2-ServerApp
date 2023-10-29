@@ -21,7 +21,7 @@ import lombok.AllArgsConstructor;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/profile")
-@PreAuthorize("hasAnyRole('ADMIN', USER)")
+@PreAuthorize("hasAnyRole('ADMIN', 'USER')")
 public class EmployeeProfileController {
     private final EmployeeProfileService employeeProfileService;
 
