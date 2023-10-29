@@ -21,7 +21,6 @@ import lombok.AllArgsConstructor;
 public class RegistrationController {
 
     private EmployeeService employeeService;
-    private AuthService authService;
 
     @GetMapping("/register")
     public String createView(RegistrationRequest registrationRequest,
@@ -41,17 +40,4 @@ public class RegistrationController {
         employeeService.update(id, registrationRequest);
         return "Form-Succes";
     }
-
-    @GetMapping("/adduser")
-    public String registerView() {
-        return "register";
-    }
-
-    @PostMapping("/adduser")
-    public String registration(
-            @ModelAttribute RegistrationRequest registrationRequest) {
-        authService.registration(registrationRequest);
-        return "EmailRegistered";
-    }
-
 }

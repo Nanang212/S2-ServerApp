@@ -25,7 +25,7 @@ import lombok.AllArgsConstructor;
 public class CountryController {
     private CountryService countryService;
 
-    @PreAuthorize("hasAnyAuthority('READ_ADMIN', 'READ_USER')")
+
     @GetMapping
     public List<Country> getAll() {
         return countryService.getAll();

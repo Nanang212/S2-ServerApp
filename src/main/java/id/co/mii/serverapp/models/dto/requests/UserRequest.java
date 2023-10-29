@@ -1,6 +1,6 @@
 package id.co.mii.serverapp.models.dto.requests;
 
-import java.util.List;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,5 +10,8 @@ import lombok.Data;
 public class UserRequest {
     private String username;
     private String password;
-    private List<Integer> rolesId;
+    private String name;
+    private String email;
+    private String phone;
+    // private List<Integer> rolesId;
 }
