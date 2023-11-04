@@ -41,7 +41,7 @@ public class RoleController {
     }
 
     @GetMapping(
-        value = "/roles",
+        value = {"/role", "/roles"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<Role> getAll() {

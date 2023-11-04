@@ -36,7 +36,7 @@ public class CountryController {
     }
 
     @GetMapping(
-        value = "/countries",
+        value = {"country", "/countries"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<Country> getALl() {

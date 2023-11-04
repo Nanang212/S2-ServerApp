@@ -24,6 +24,6 @@ public class EmployeeRequest {
     @Size(min = 3, max = 16)
     private String phone;
     @NotNull
-    @Positive
-    private Integer userId;
+    @Size(min = 4, max = 32)
+    private String username;
 }

@@ -43,7 +43,7 @@ public class UserController {
     }
 
     @GetMapping(
-        value = "/users",
+        value = {"/user", "/users"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<User> getAll() {

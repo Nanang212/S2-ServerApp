@@ -6,6 +6,7 @@ import id.co.mii.serverapp.models.Role;
 import id.co.mii.serverapp.models.User;
 import id.co.mii.serverapp.models.dto.requests.EmployeeRequest;
 import id.co.mii.serverapp.models.dto.requests.NewEmployeeRequest;
+import id.co.mii.serverapp.models.dto.requests.PasswordRequest;
 import id.co.mii.serverapp.models.dto.requests.VerifyRequest;
 import id.co.mii.serverapp.repositories.EmployeeRepository;
 import id.co.mii.serverapp.repositories.RoleRepository;
@@ -146,12 +147,8 @@ public class EmployeeService {
 
         Employee employee = getById(employeeId);
 
-        return save(request, employee);
-    }
-
-    private Employee save(EmployeeRequest request, Employee employee) {
         User user = userRepository
-            .findById(request.getUserId())
+            .findById(employeeId)
             .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
 
         employee.setName(request.getName());
@@ -160,6 +157,51 @@ public class EmployeeService {
         employee.setUser(user);
 
         return employeeRepository.save(employee);
+    }
+
+    public Employee update(EmployeeRequest request) {
+        Set<ConstraintViolation<EmployeeRequest>> constraintViolations = validator.validate(request);
+        if (!constraintViolations.isEmpty()) {
+            throw new ConstraintViolationException(constraintViolations);
+        }
+
+        AppUserDetail userDetails = (AppUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        User user = userRepository
+            .findById(userDetails.getUser().getId())
+            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "User not found"));
+        user.setUsername(request.getUsername());
+
+        Employee employee = user.getEmployee();
+
+        employee.setName(request.getName());
+        employee.setEmail(request.getEmail());
+        employee.setPhone(request.getPhone());
+        employee.setUser(user);
+
+        return employeeRepository.save(employee);
+    }
+
+    public Employee update(PasswordRequest request) {
+        Set<ConstraintViolation<PasswordRequest>> constraintViolations = validator.validate(request);
+        if (!constraintViolations.isEmpty()) {
+            throw new ConstraintViolationException(constraintViolations);
+        }
+
+        if (!request.getNewPassword().equals(request.getConfirmationPassword()) && !request.getNewPassword().equals(request.getOldPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password doesn't match");
+        }
+
+        AppUserDetail userDetails = (AppUserDetail) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (!passwordEncoder.matches(request.getOldPassword(), userDetails.getPassword())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Password doesn't match");
+        }
+
+        User user = userDetails.getUser();
+        user.setPassword(passwordEncoder.encode(request.getNewPassword()));
+
+        return employeeRepository.save(user.getEmployee());
     }
 
     public Employee delete(Integer employeeId) {

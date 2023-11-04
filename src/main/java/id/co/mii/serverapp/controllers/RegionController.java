@@ -36,7 +36,7 @@ public class RegionController {
     }
 
     @GetMapping(
-        value = "/regions",
+        value = {"/region", "/regions"},
         produces = MediaType.APPLICATION_JSON_VALUE
     )
     public List<Region> getAll() {
